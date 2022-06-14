@@ -1,3 +1,7 @@
+# Lelang-Online
+
+Aplikasi e-commerce lelang online
+
 # Binar: Express.js
 
 Repository ini ditujukan sebagai boilerplate dalam membuat sebuah HTTP Server menggunakan Express.js
