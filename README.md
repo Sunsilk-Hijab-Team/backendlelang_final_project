@@ -26,3 +26,14 @@ Di dalam repository ini sudah terdapat beberapa script yang dapat digunakan dala
 - `yarn db:migrate` digunakan untuk menjalankan database migration
 - `yarn db:seed` digunakan untuk melakukan seeding
 - `yarn db:rollback` digunakan untuk membatalkan migrasi terakhir
+
+
+## Team Member
+
+
+- [@triyasniko](https://github.com/triyasniko)
+- [@JerrelAdriel](https://github.com/JerrelAdriel)
+- [@Fahrial07](https://github.com/Fahrial07)
+
+
+
