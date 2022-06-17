@@ -13,12 +13,17 @@
     "db:seed": "./node_modules/.bin/sequelize-cli db:seed:all"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
+    "jest": "^28.1.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.7.3",
     "sequelize": "^6.18.0",
-    "sequelize-cli": "^6.4.1"
+    "sequelize-cli": "^6.4.1",
+    "supertest": "^6.2.3",
+    "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

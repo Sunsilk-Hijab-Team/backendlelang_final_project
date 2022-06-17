@@ -11,37 +11,35 @@ appRouter.get("/", controllers.main.index);
  * TODO: Implement your own API
  *       implementations
  */
-apiRouter.get("/api/v1/posts", controllers.api.v1.post.list);
-apiRouter.post("/api/v1/posts", controllers.api.v1.post.create);
-apiRouter.put(
-  "/api/v1/posts/:id",
-  controllers.api.v1.post.setPost,
-  controllers.api.v1.post.update
-);
-apiRouter.get(
-  "/api/v1/posts/:id",
-  controllers.api.v1.post.setPost,
-  controllers.api.v1.post.show
-);
-apiRouter.delete(
-  "/api/v1/posts/:id",
-  controllers.api.v1.post.setPost,
-  controllers.api.v1.post.destroy
-);
+// apiRouter.get("/api/v1/posts", controllers.api.v1.post.list);
+// apiRouter.post("/api/v1/posts", controllers.api.v1.post.create);
+// apiRouter.put(
+//   "/api/v1/posts/:id",
+//   controllers.api.v1.post.setPost,
+//   controllers.api.v1.post.update
+// );
+// apiRouter.get(
+//   "/api/v1/posts/:id",
+//   controllers.api.v1.post.setPost,
+//   controllers.api.v1.post.show
+// );
+// apiRouter.delete(
+//   "/api/v1/posts/:id",
+//   controllers.api.v1.post.setPost,
+//   controllers.api.v1.post.destroy
+// );
 
-/**
- * TODO: Delete this, this is just a demonstration of
- *       error handler
- */
-apiRouter.get("/api/v1/errors", () => {
-  throw new Error(
-    "The Industrial Revolution and its consequences have been a disaster for the human race."
-  );
-});
+// apiRouter.get("/api/v1/errors", () => {
+//   throw new Error(
+//     "The Industrial Revolution and its consequences have been a disaster for the human race."
+//   );
+// });
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);
 
+appRouter.get("/documentation.json", (req, res) => res.send(swaggerDocument));
+appRouter.use("/documentation", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 /**
  * TODO: Delete this, this is just a demonstration of
  *       error handler
