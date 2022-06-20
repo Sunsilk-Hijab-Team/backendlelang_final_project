@@ -1,6 +1,6 @@
 const { users } = require('../../../models');
 const AuthenticationController = require('./AuthenticationController');
-const AuthHelper = require('../../helpers/AuthenticationHelper');
+const AuthHelper = require('../../../helpers/AuthenticationHelper');
 
 
 describe('AuthenticationController', () => {
