@@ -1,14 +1,13 @@
 const { users } = require('../../../models');
 const AuthenticationController = require('./AuthenticationController');
-const AuthHelper = require('../../../helpers/AuthenticationHelper');
+const AuthHelper = require('../../helpers/AuthenticationHelper');
 
-beforeAll(async () => {
-    const password = await AuthHelper.encryptPassword('12345678');
-});
 
 describe('AuthenticationController', () => {
 
-     describe('#handleRegister', () => {
+
+    describe('#handleRegister', () => {
+
 
         it('Should return 201 code', async () => {
 
@@ -16,7 +15,7 @@ describe('AuthenticationController', () => {
                 id: 1,
                 full_name: 'Muhammad Agung',
                 email: 'muhammadagung@gmail.com',
-                password,
+                password: await AuthHelper.encryptPassword('12345678')
                 };
 
             const mockRequest = { body: user }
@@ -43,7 +42,7 @@ describe('AuthenticationController', () => {
             const user = {
                 full_name: 'Muhammad Agung ke 2',
                 email: 'muhammadagung@gmail.com',
-                password: '12345678',
+                password: await AuthHelper.encryptPassword('12345678')
             }
 
             const mockRequest = { body: user }
