@@ -85,9 +85,9 @@ describe('AuthenticationController', () => {
 
             const mockNext = jest.fn()
 
-            const authenticationcontroller = new AuthenticationController()
+            const authenticationController = new AuthenticationController()
 
-            await authenticationcontroller.handleLogin(mockRequest, mockResponse, mockNext)
+            await authenticationController.handleLogin(mockRequest, mockResponse, mockNext)
 
             expect(mockResponse.status).toBeCalledWith(201);
             expect(mockResponse.json).toBeCalledWith({
@@ -113,9 +113,9 @@ describe('AuthenticationController', () => {
 
             const mockNext = jest.fn()
 
-            const authenticationcontroller = new AuthenticationController();
+            const authenticationController = new AuthenticationController();
 
-            await authenticationcontroller.handleLogin(mockRequest, mockResponse, mockNext)
+            await authenticationController.handleLogin(mockRequest, mockResponse, mockNext)
 
             expect(mockResponse.status).toHaveBeenCalled(401);
             expect(mockResponse.json).toHaveBeenCalledWith({
@@ -125,6 +125,87 @@ describe('AuthenticationController', () => {
         })
 
     });
+
+    describe('#handeUpdate', () => {
+
+        it('Shoult return 200 code and message', async () => {
+            const userUpdate = {
+                full_name: 'Muhammad Agung Hercules',
+                image_url: 'https://www.cloud.com/image_profile.png',
+                kota: 'Bandung',
+                alamat: 'Lorem ipsum dolor sit amet',
+                phone: '085788888888',
+            }
+
+            const mockRequest = {
+                params: {
+                    id: 1
+                },
+
+                body: userUpdate
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const authenticationController = new AuthenticationController();
+
+            await authenticationController.handleUpdate(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(200);
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'User updated successfully',
+            })
+
+        });
+
+    });
+
+    describe('#handleWhoami', () => {
+
+        it('Should return 200 code and return user data', async () => {
+            const user = {
+                id: 1,
+                full_name: 'Muhammad Agung Hercules',
+                email: 'muhammadagung@gmail.com',
+                image_url: 'https://www.cloud.com/image_profile.png',
+                phone: '085788888888',
+                address: 'Lorem ipsum dolor sit amet',
+            };
+
+            const mockRequest = {
+                user: {
+                    id: user.id
+                }
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const authenticationController = new AuthenticationController();
+
+            await authenticationController.handleWhoami(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(200);
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                data: expect.objectContaining({
+                    user
+                })
+            })
+
+        })
+
+    })
+
 
 
 });
