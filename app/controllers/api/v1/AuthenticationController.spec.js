@@ -5,9 +5,7 @@ const AuthHelper = require('../../helpers/AuthenticationHelper');
 
 describe('AuthenticationController', () => {
 
-
     describe('#handleRegister', () => {
-
 
         it('Should return 201 code', async () => {
 
