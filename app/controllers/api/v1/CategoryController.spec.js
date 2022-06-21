@@ -1,5 +1,13 @@
 const CategoryController = require('./CategoryController');
 
+beforeAll(() => {
+
+})
+
+afterAll(() => {
+
+})
+
 describe('CategoryController', () => {
 
     describe('#handleAdd', () => {
@@ -71,7 +79,12 @@ describe('CategoryController', () => {
                 name: 'Jam Tangan',
             }
 
-            const mockRequest = { body: category }
+            const mockRequest = {
+                params: {
+                    id: category.id,
+                },
+                body: category
+             }
 
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
@@ -91,6 +104,115 @@ describe('CategoryController', () => {
             });
 
         });
+
+         it('Should return 422 code ( Invalid params id ) and message', async () => {
+
+             const category = {
+                id: 1,
+                name: 'Jam Tangan',
+            }
+
+            const mockRequest = {
+                id: {
+
+                },
+                body: category
+             }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const categoryController = new CategoryController();
+
+            await categoryController.handleUpdate(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(422)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'ERROR',
+                message: 'Invalid params id',
+            });
+
+         })
+
+    });
+
+    describe('#handleDelete', () => {
+
+        it('Shoult return 200 code and message', async () => {
+            const category = {
+                id: 1,
+                name: 'Jam Tangan',
+            }
+
+            const mockRequest = {
+                params: {
+                    id: category.id,
+                }
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const categoryController = new CategoryController();
+
+            await categoryController.handleDelete(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(200)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'Category deleted successfully',
+            })
+
+        });
+
+    });
+
+    describe('#handleGetAll', () => {
+
+        it('Should return 200 code and message', async () => {
+
+            const Category = {
+                id: 1,
+                name: 'Jam Tangan',
+                slug: 'jam-tangan',
+            }
+
+            const mockRequest = {
+                body: Category
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const categoryController = new CategoryController();
+
+            await categoryController.handleGetAll(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(200)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'Categorys retrieved successfully',
+            })
+
+        })
+
+        it('Should return 204 code and message', async () => {
+
+
+
+        })
 
     });
 

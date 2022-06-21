@@ -2,6 +2,14 @@ const { users } = require('../../../models');
 const AuthenticationController = require('./AuthenticationController');
 const AuthHelper = require('../../../helpers/AuthenticationHelper');
 
+beforeAll(() => {
+
+})
+
+afterAll(() => {
+
+})
+
 describe('AuthenticationController', () => {
 
     describe('#handleRegister', () => {
@@ -138,7 +146,7 @@ describe('AuthenticationController', () => {
 
             const mockRequest = {
                 params: {
-                    id: 1
+                    id: userUpdate.id
                 },
 
                 body: userUpdate
@@ -158,6 +166,40 @@ describe('AuthenticationController', () => {
             expect(mockResponse.json).toBeCalledWith({
                 status: 'SUCCESS',
                 message: 'User updated successfully',
+            })
+
+        });
+
+        it('Should return 422 code ( Invalid params id )and message', async () => {
+
+            const userUpdate = {
+                full_name: 'Muhammad Agung Hercules',
+                image_url: 'https://www.cloud.com/image_profile.png',
+                kota: 'Bandung',
+                alamat: 'Lorem ipsum dolor sit amet',
+                phone: '085788888888',
+            }
+
+            const mockRequest = {
+                params: {  },
+                body: userUpdate
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const authenticationController = new AuthenticationController();
+
+            await authenticationController.handleUpdate(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(422);
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'ERROR',
+                message: 'Invalid params id',
             })
 
         });
