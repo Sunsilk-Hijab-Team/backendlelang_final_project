@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1655720304689" clover="3.2.0">
-  <project timestamp="1655720304689" name="All files">
-    <metrics statements="300" coveredstatements="282" conditionals="21" coveredconditionals="19" methods="17" coveredmethods="15" elements="338" coveredelements="316" complexity="0" loc="300" ncloc="300" packages="4" files="12" classes="12"/>
+<coverage generated="1655873148413" clover="3.2.0">
+  <project timestamp="1655873148413" name="All files">
+    <metrics statements="301" coveredstatements="283" conditionals="21" coveredconditionals="19" methods="17" coveredmethods="15" elements="339" coveredelements="317" complexity="0" loc="301" ncloc="301" packages="4" files="13" classes="13"/>
     <package name="app.controllers.api.v1">
-      <metrics statements="17" coveredstatements="12" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="1"/>
+      <metrics statements="18" coveredstatements="13" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="1"/>
       <file name="ApplicationController.js" path="D:\A-BINAR-KM\FinalProject\backendlelang_final_project\app\controllers\api\v1\ApplicationController.js">
         <metrics statements="11" coveredstatements="6" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
@@ -26,6 +26,10 @@
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
+      </file>
+      <file name="CategoryController.js" path="D:\A-BINAR-KM\FinalProject\backendlelang_final_project\app\controllers\api\v1\CategoryController.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
       </file>
     </package>
     <package name="app.helpers">
