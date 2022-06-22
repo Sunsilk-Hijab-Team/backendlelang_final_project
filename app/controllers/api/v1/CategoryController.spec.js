@@ -1,10 +1,10 @@
 const CategoryController = require('./CategoryController');
 
-beforeAll(() => {
+beforeAll( async () => {
 
 })
 
-afterAll(() => {
+afterAll( async () => {
 
 })
 
@@ -210,7 +210,28 @@ describe('CategoryController', () => {
 
         it('Should return 204 code and message', async () => {
 
-            
+            const mockRequest = {
+                body: {
+
+                }
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const categoryController = new CategoryController();
+
+            await categoryController.handleGetAll(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(204)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'No categorys found',
+            })
 
         })
 
