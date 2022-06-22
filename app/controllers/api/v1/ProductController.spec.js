@@ -100,7 +100,7 @@ describe('ProductController', () => {
         it('Should return 422 code ( Invalid params id ) and message', async () => {
 
             const product = {
-                 name: 'Jam Tangan Rolex',
+                name: 'Jam Tangan Rolex',
                 description: 'Lorem ipsum dolor sit amet',
                 base_price: '100000000',
                 user_id: 1,
@@ -112,7 +112,7 @@ describe('ProductController', () => {
             }
 
             const mockRequest = {
-                id: {
+                params: {
 
                 },
 
@@ -140,6 +140,246 @@ describe('ProductController', () => {
         });
 
     });
+
+    describe('#handleDelete', () => {
+
+        it('Should return 200 code and message', async () => {
+
+                const product = {
+                    id: 1,
+                }
+
+                const mockRequest = {
+                    params: {
+                        id: product.id
+                    }
+                }
+
+                const mockResponse = {
+                    status: jest.fn().mockReturnThis(),
+                    json: jest.fn().mockReturnThis()
+                }
+
+                const mockNext = jest.fn()
+
+                const productController = new ProductController();
+
+                await productController.handleDelete(mockRequest, mockResponse, mockNext)
+
+                expect(mockResponse.status).toBeCalledWith(200)
+                expect(mockResponse.json).toBeCalledWith({
+                    status: 'SUCCESS',
+                    message: 'Product deleted successfully',
+                })
+        });
+
+        it('Should return 422 code ( Invalid params id ) and message', async () => {
+
+            const mockRequest = {
+                params: {
+
+                }
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
+
+            const mockNext = jest.fn()
+
+            const productController = new ProductController();
+
+            await productController.handleDelete(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(422)
+            expect(mockResponse.josn).toBeCalledWith({
+                status: 'ERROR',
+                message: 'Invalid params id',
+            });
+        })
+
+    });
+
+    describe('#handleGetAll', () => {
+
+        it('Should return 200 code and message', async () => {
+
+            const product =  {
+                id: 1,
+                name: 'Jam Tangan Rolex',
+                description: 'Lorem ipsum dolor sit amet',
+                base_price: '100000000',
+                user_id: 1,
+                status: 'Terjual',
+                category_id: 1,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                deletedAt: null
+            }
+
+            const mockRequest = {   }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
+
+            const mockNext = jest.fn()
+
+            const productController = new ProductController();
+
+            await productController.handleGetAll(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(200)
+
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'Product retrieved successfully',
+                data: {
+                    product
+                }
+            })
+
+        });
+
+        it('Should return 204 code and messages', () => {
+
+            const mockRequest = {   }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
+
+            const mockNext = jest.fn()
+
+            const productController = new ProductController();
+
+            productController.handleGetAll(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(204)
+
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'No data found',
+                data: {
+
+                }
+            })
+        })
+
+    });
+
+
+    describe();('#handleGetById', () => {
+
+        it('Should return 200 code and message', async () => {
+            const product =  {
+                id: 1,
+                name: 'Jam Tangan Rolex',
+                description: 'Lorem ipsum dolor sit amet',
+                base_price: '100000000',
+                user_id: 1,
+                status: 'Terjual',
+                category_id: 1,
+                createdAt: new Date(),
+                updatedAt: new Date(),
+                deletedAt: null
+            }
+
+            const mockRequest = {
+                params: {
+                    id: product.id
+                }
+             }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
+
+            const mockNext= json.fn();
+
+            const productController = new ProductController();
+
+            await productController.handleGetById(mockRequest, mockResponse, mockNext);
+
+            expect(mockResponse.status).toBeCalledWith(200)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'Product retrieved successfully',
+                data: {
+                    product
+                }
+            });
+        })
+
+        it('Should return 204 code and message', async () => {
+
+            const product = {
+                id: 2,
+            }
+
+            const mockRequest = {
+                params: {
+                    id: product.id
+                }
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
+
+            const mockNext = jest.fn()
+
+            const productController = new ProductController();
+
+            await productController.handleGetById(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(204)
+
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'No data found',
+                data: {
+
+                }
+            })
+
+        })
+
+        it('Should return 422 code ( Invalid params id ) and message', async () => {
+
+                const mockRequest = {
+                    params: {
+
+                    }
+                 }
+
+                const mockResponse = {
+                    status: jest.fn().mockReturnThis(),
+                    json: jest.fn().mockReturnThis()
+                }
+
+                const mockNext = jest.fn()
+
+                const productController = new ProductController();
+
+                await productController.handleGetById(mockRequest, mockResponse, mockNext)
+
+                expect(mockResponse.status).toBeCalledWith(422)
+
+                expect(mockResponse.json).toBeCalledWith({
+                    status: 'ERROR',
+                    message: 'Invalid params id',
+                })
+
+            })
+
+    });
+
 
 
 

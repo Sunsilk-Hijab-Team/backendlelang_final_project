@@ -185,9 +185,7 @@ describe('CategoryController', () => {
                 slug: 'jam-tangan',
             }
 
-            const mockRequest = {
-                body: Category
-            }
+            const mockRequest = {    }
 
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
@@ -204,17 +202,16 @@ describe('CategoryController', () => {
             expect(mockResponse.json).toBeCalledWith({
                 status: 'SUCCESS',
                 message: 'Categorys retrieved successfully',
+                data: {
+                    categories: Category
+                }
             })
 
         })
 
         it('Should return 204 code and message', async () => {
 
-            const mockRequest = {
-                body: {
-
-                }
-            }
+            const mockRequest = {   }
 
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
@@ -231,6 +228,9 @@ describe('CategoryController', () => {
             expect(mockResponse.json).toBeCalledWith({
                 status: 'SUCCESS',
                 message: 'No categorys found',
+                data: {
+                    categories: []
+                }
             })
 
         })
