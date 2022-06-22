@@ -33,8 +33,8 @@ describe('AuthenticationController', () => {
 
             await authenticationController.handleRegister(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(201)
-            expect(mockResponse.json).toBeCalledWith(
+            expect(mockResponse.status).toHaveBeenCalledWith(201)
+            expect(mockResponse.json).toHaveBeenCalledWith(
                 expect.objectContaining({
                     accessToken: expect.any(String),
                 })
@@ -63,8 +63,8 @@ describe('AuthenticationController', () => {
 
             await authenticationController.handleRegister(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(409)
-            expect(mockResponse.json).toBeCalledWith({
+            expect(mockResponse.status).toHaveBeenCalledWith(409)
+            expect(mockResponse.json).toHaveBeenCalledWith({
                 status: 'error',
                 message: 'This email already exists',
             });
@@ -96,8 +96,8 @@ describe('AuthenticationController', () => {
 
             await authenticationController.handleLogin(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(201);
-            expect(mockResponse.json).toBeCalledWith({
+            expect(mockResponse.status).toHaveBeenCalledWith(201);
+            expect(mockResponse.json).toHaveBeenCalledWith({
                 status: 'SUCCESS',
                 accessToken: expect.any(String),
             });
@@ -162,8 +162,8 @@ describe('AuthenticationController', () => {
 
             await authenticationController.handleUpdate(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(200);
-            expect(mockResponse.json).toBeCalledWith({
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+            expect(mockResponse.json).toHaveBeenCalledWith({
                 status: 'SUCCESS',
                 message: 'User updated successfully',
             })
@@ -196,8 +196,8 @@ describe('AuthenticationController', () => {
 
             await authenticationController.handleUpdate(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(422);
-            expect(mockResponse.json).toBeCalledWith({
+            expect(mockResponse.status).toHaveBeenCalledWith(422);
+            expect(mockResponse.json).toHaveBeenCalledWith({
                 status: 'ERROR',
                 message: 'Invalid params id',
             })
@@ -235,8 +235,8 @@ describe('AuthenticationController', () => {
 
             await authenticationController.handleWhoami(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(200);
-            expect(mockResponse.json).toBeCalledWith({
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+            expect(mockResponse.json).toHaveBeenCalledWith({
                 status: 'SUCCESS',
                 data: expect.objectContaining({
                     user
