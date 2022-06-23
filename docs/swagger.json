@@ -1,0 +1,2391 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Open Api Aplikasi Lelang",
+      "version": "1.0.0",
+      "title": "Lelang App Open Api"
+    },
+    "servers": [
+      {
+        "description": "SwaggerHub API Auto Mocking",
+        "url": "https://virtserver.swaggerhub.com/alifahrialanwar/LelangApiStore/1.0.0"
+      },
+      {
+        "description": "Api Hub",
+        "url": "https://localhost:8000"
+      },
+      {
+        "url": "https://localhost:8000"
+      }
+    ],
+    "paths": {
+      "/api/v1/auth/register": {
+        "post": {
+          "description": "Register new user",
+          "summary": "Create new account",
+          "tags": [
+            "Authentication"
+          ],
+          "requestBody": {
+            "description": "Add new account user",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Muhammad Agung"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "muhammadagung@gmail.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": 12345678
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Register Success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "CREATED"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleRegister"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Register Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/auth/login": {
+        "post": {
+          "description": "Login User for roles buyer or seller",
+          "summary": "Login user",
+          "tags": [
+            "Authentication"
+          ],
+          "requestBody": {
+            "description": "Login user",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "muhammadagung@gmail.com",
+                      "format": "email"
+                    },
+                    "password": {
+                      "type": "string",
+                      "example": 12345678
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login susccess",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "SUCCESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleLogin"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Login Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/auth/user/update/{id}": {
+        "put": {
+          "description": "Update user profile",
+          "summary": "Update user data",
+          "tags": [
+            "Authentication"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Muhammad Agung"
+                    },
+                    "image": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "kota": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "alamat": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "no_hadphone": {
+                      "type": "integer",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Update user data is succsess",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "UPDATED SUCCESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleProfileUpdate"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Update Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/auth/whoami": {
+        "get": {
+          "description": "Retrive current user info",
+          "summary": "Who Am I",
+          "tags": [
+            "Authentication"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A successful response",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/exampleWhoAmI"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/category/add": {
+        "post": {
+          "description": "Add category product form seller",
+          "summary": "Add Category Product ( Seller )",
+          "tags": [
+            "Category"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "description": "Add category",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Jam Tangan"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "CREATED SUCCESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleAddCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Created Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/category/update/{id}": {
+        "put": {
+          "description": "Update category product",
+          "summary": "Update category product",
+          "tags": [
+            "Category"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "UPDATE SUCCEESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleUpdateCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Updated Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/category/delete/{id}": {
+        "delete": {
+          "description": "Delete category product",
+          "summary": "Delete category product",
+          "tags": [
+            "Category"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Deleted has been success !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "DELETED HAS BEEN SUUCCESS !"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Bad request !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/category/list": {
+        "get": {
+          "description": "Get all category",
+          "summary": "Return all cateegory data",
+          "tags": [
+            "Category"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A successful response",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/exampleListCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No Content !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/add": {
+        "post": {
+          "description": "Add product to seller",
+          "summary": "Add product for Seller",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "description": "Add product to seller",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": "Jam Tangan Rolex (Gold Edition)"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Jam tangan ini baru digunakan selama 4 bulan, dan hasil dari penyitaan koruptor :)"
+                    },
+                    "base_price": {
+                      "type": "string",
+                      "example": 85000000
+                    },
+                    "category": {
+                      "type": "string",
+                      "example": "Jam Tangan"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "CREATED SUCCESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleAddProduct"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Created Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/{id}/images": {
+        "post": {
+          "description": "Add images product to seller",
+          "summary": "Add images product for Seller",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Add images product to seller",
+            "content": {
+              "aplication/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "image": {
+                      "type": "string",
+                      "example": "https://www.cloud.com/product-jam-tangan.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "CREATED SUCCESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleAddProductImage"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Created Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/update/{id}": {
+        "put": {
+          "description": "Update product for Seller",
+          "summary": "Update Product for Seller",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "base_price": {
+                      "type": "string",
+                      "example": null
+                    },
+                    "category": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Update success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "UPDATE SUCCEESS"
+                      },
+                      "data": {}
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Updated Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/delete/{id}": {
+        "delete": {
+          "description": "Delete product",
+          "summary": "Delete product",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Deleted has been success !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "DELETED HAS BEEN SUUCCESS !"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Bad request !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Not found !y"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/all": {
+        "get": {
+          "description": "Get all product",
+          "summary": "Return all product data",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A successful response",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/exampleListProduct"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No Content !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/status/{id}": {
+        "put": {
+          "description": "Update product status to sell",
+          "summary": "Update product status",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Update success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "UPDATE SUCCEESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/examleUpdateStatusProduct"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Updated Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/orderByCategory/{slug}": {
+        "get": {
+          "description": "Get all product",
+          "summary": "Return all product data",
+          "tags": [
+            "Product"
+          ],
+          "parameters": [
+            {
+              "name": "slug",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Update success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "A success response"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleOrderById"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "Not Content !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/order": {
+        "get": {
+          "description": "Get order data for seller",
+          "summary": "Get order data",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A successful response",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/exampleOrder"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "Not Content !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/order/{id}": {
+        "get": {
+          "description": "Get order by id",
+          "summary": "Get order by id",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A success response",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/exampleOrder"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "Not Content !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/order/product/{id}": {
+        "put": {
+          "description": "Update status order",
+          "summary": "Update status order",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Update success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "UPDATE SUCCEESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleUpdateOrderStatus"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Updated Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/status/product/{id}": {
+        "put": {
+          "description": "Update status product to sell",
+          "summary": "Update status product to sell",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Update success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "UPDATE SUCCESS"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/exampleUpdateProductStatus"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Updated Failed !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/buyer/product/all": {
+        "get": {
+          "description": "Get all data product",
+          "summary": "Get all data product",
+          "tags": [
+            "Product"
+          ],
+          "responses": {
+            "200": {
+              "description": "Show all data product",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_200_list_product"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No content"
+            }
+          }
+        }
+      },
+      "/api/v1/buyer/product/{id}": {
+        "get": {
+          "description": "Get all data product by id",
+          "summary": "Get all data product by id",
+          "tags": [
+            "Product"
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Show all data product by id",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_200_list_product"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No content"
+            },
+            "404": {
+              "description": "Data doesn't exist",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_404"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/buyer/order/buy": {
+        "post": {
+          "description": "Order product",
+          "summary": "Order product",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bid_price": {
+                      "type": "integer",
+                      "example": 200000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Order Success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_201_order_buy"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_400"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/buyer/order/price-appeal/{id}": {
+        "put": {
+          "description": "Update price",
+          "summary": "Update price",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bid_price": {
+                      "type": "integer",
+                      "example": 230000
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Update price success",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_201_order_price_appeal"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad request",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_400"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/buyer/order": {
+        "get": {
+          "description": "Get all data order",
+          "summary": "Get all data order",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Show all data order",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_200_list_order"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No content"
+            }
+          }
+        }
+      },
+      "/api/v1/buyer/order/product/{id}": {
+        "get": {
+          "description": "Get data order by id",
+          "summary": "Get data order by id",
+          "tags": [
+            "Order"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Show data order by id",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_200_list_order"
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No content"
+            },
+            "404": {
+              "description": "Data doesn't exist",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/example_respon_404"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "exampleRegister": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Muhammad Agung"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "example": "muhammadagung@gmail.com"
+            },
+            "password": {
+              "type": "string",
+              "example": "$2b$10$qHrKhkN6N3yphrmgvnMS5uf4FlJR/Il4DSqMt0F1GE7CGNnAHUF2G"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exampleLogin": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Muhammad Agung"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "example": "muhammadagung@gmail.com"
+            },
+            "token": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2NzgiLCJyb2xlIjoic3VwZXJhZG1pbiIsImlhdCI6MTY1MjYzMzQ1OH0.oAGiqA2PeWF0c1nNkbf7UHZ5gPF8YeXyeGpvTba1yoU"
+            }
+          }
+        },
+        "exampleWhoAmI": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Muhammad Agung"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "example": "muhammadagung@gmail.com"
+            },
+            "kota": {
+              "type": "string",
+              "example": "Bekasi"
+            },
+            "alamat": {
+              "type": "string",
+              "example": "Lorem ipsum dolor sit amet"
+            },
+            "image_url": {
+              "type": "string",
+              "example": "https://www.cloudimages.com/whoami.jpg"
+            },
+            "no_handphone": {
+              "type": "integer",
+              "example": "085 XXX XXX XXX"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exampleProfileUpdate": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Muhammad Agung"
+            },
+            "image_url": {
+              "type": "string",
+              "example": "https://www.cloudimages.com/whoami-update.jpg"
+            },
+            "kota": {
+              "type": "string",
+              "example": "Bekasi"
+            },
+            "alamat": {
+              "type": "string",
+              "example": "Lorem ipsum dolor sit amet"
+            },
+            "no_hnadphone": {
+              "type": "integer",
+              "example": "085 XXX XXX XXX"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exampleAddCategory": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Jam Tangan"
+            },
+            "slug": {
+              "example": "jam-tangan"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exampleUpdateCategory": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "example": "mainan-anak"
+            },
+            "name": {
+              "type": "string",
+              "example": "Mainan Anak"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "exampleListCategory": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "slug": {
+              "type": "string",
+              "example": "jam-tangan"
+            },
+            "name": {
+              "type": "string",
+              "example": "Jam Tangan"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "exampleAddProduct": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Jam Tangan Rolex (Gold Edition)"
+            },
+            "description": {
+              "type": "string",
+              "example": "Jam tangan ini baru digunakan selama 4 bulan, hasil dari penyitaan koruptor :)"
+            },
+            "base_price": {
+              "type": "string",
+              "example": 85000000
+            },
+            "user_id": {
+              "type": "integer",
+              "example": 1
+            },
+            "category": {
+              "type": "integer",
+              "example": 1
+            },
+            "status": {
+              "type": "string",
+              "example": "belum terjual"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "date-time"
+            },
+            "udpatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "exampleListProduct": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Jam Tangan Rolex (Gold Edition)"
+            },
+            "description": {
+              "type": "string",
+              "example": "Jam tangan ini baru digunakan selama 4 bulan, hasil dari penyitaan koruptor :)"
+            },
+            "base_price": {
+              "type": "string",
+              "example": 85000000
+            },
+            "user_id": {
+              "type": "integer",
+              "example": 1
+            },
+            "category": {
+              "type": "integer",
+              "example": 1
+            },
+            "status": {
+              "type": "string",
+              "example": "belum terjual"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "date-time"
+            },
+            "udpatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "exampleAddProductImage": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "image_url": {
+              "type": "string",
+              "example": "https://www.cloud.com/product-jam-tangan.jpg"
+            },
+            "product_id": {
+              "type": "integer",
+              "example": 1
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "examleUpdateStatusProduct": {
+          "type": "object",
+          "properties": {
+            "exampleListProduct": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Jam Tangan Rolex (Gold Edition)"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Jam tangan ini baru digunakan selama 4 bulan, hasil dari penyitaan koruptor :)"
+                },
+                "base_price": {
+                  "type": "string",
+                  "example": 85000000
+                },
+                "user_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "category": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "status": {
+                  "type": "string",
+                  "example": "terjual"
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "example": null
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "date-time"
+                },
+                "udpatedAt": {
+                  "type": "string",
+                  "example": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "exampleOrderById": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Jam Tangan"
+            },
+            "slug": {
+              "type": "string",
+              "example": "jam-tangan"
+            },
+            "product": {
+              "$ref": "#/components/schemas/exampleListProduct"
+            }
+          }
+        },
+        "exampleBuyer": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 2
+            },
+            "name": {
+              "type": "string",
+              "example": "Muhammad Dimas"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "example": "muhammaddimas@gmail.com"
+            },
+            "kota": {
+              "type": "string",
+              "example": "Pamulang"
+            },
+            "alamat": {
+              "type": "string",
+              "example": "Lorem ipsum dolor sit amet"
+            },
+            "image_url": {
+              "type": "string",
+              "example": "https://www.cloudimages.com/dimas-xx-weed.jpg"
+            },
+            "no_handphone": {
+              "type": "integer",
+              "example": "085 XXX XXX XXX"
+            }
+          }
+        },
+        "exampleOrder": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "product": {
+              "$ref": "#/components/schemas/exampleListProduct"
+            },
+            "buyer": {
+              "$ref": "#/components/schemas/exampleBuyer"
+            },
+            "bid_price": {
+              "type": "string",
+              "example": 800000000
+            },
+            "status": {
+              "type": "string",
+              "example": "Menunggu Konfirmasi"
+            },
+            "seller_id": {
+              "type": "integer",
+              "example": 1
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "exampleUpdateOrderStatus": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "product": {
+              "$ref": "#/components/schemas/exampleListProduct"
+            },
+            "buyer": {
+              "$ref": "#/components/schemas/exampleBuyer"
+            },
+            "bid_price": {
+              "type": "string",
+              "example": 800000000
+            },
+            "status": {
+              "type": "string",
+              "example": "Terima"
+            },
+            "buyer_id": {
+              "type": "integer",
+              "example": 2
+            },
+            "seller_id": {
+              "type": "integer",
+              "example": 1
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "exampleUpdateProductStatus": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "example": "Jam Tangan Rolex (Gold Edition)"
+            },
+            "description": {
+              "type": "string",
+              "example": "Jam tangan ini baru digunakan selama 4 bulan, hasil dari penyitaan koruptor :)"
+            },
+            "base_price": {
+              "type": "string",
+              "example": 85000000
+            },
+            "user_id": {
+              "type": "integer",
+              "example": 1
+            },
+            "category": {
+              "type": "integer",
+              "example": 1
+            },
+            "status": {
+              "type": "string",
+              "example": "terjual"
+            },
+            "deletedAt": {
+              "type": "string",
+              "example": null
+            },
+            "createdAt": {
+              "type": "string",
+              "example": "date-time"
+            },
+            "udpatedAt": {
+              "type": "string",
+              "example": "date-time"
+            }
+          }
+        },
+        "code200": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "SUCCESS"
+            }
+          }
+        },
+        "code201": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "example": "Dada has been created !"
+            }
+          }
+        },
+        "example_respon_200_list_product": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "OK"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Jam Tangan Casio"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Jam tangan ini didesain sederhana dengan materi resin yang ringan. Tampilan feminin yang simpel dapat digunakan sehari-hari."
+                },
+                "base_price": {
+                  "type": "integer",
+                  "example": 250000
+                },
+                "user_id": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "image_url": {
+                      "type": "string",
+                      "example": "profil.jpg"
+                    },
+                    "address": {
+                      "type": "string",
+                      "example": "Jakarta"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "string",
+                  "example": "available"
+                },
+                "categories_id": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "aksesoris"
+                    }
+                  }
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "example": null
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "example_respon_201_order_buy": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "Order success"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "product_id": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jam Casio"
+                    },
+                    "base_price": {
+                      "type": "integer",
+                      "example": 250000
+                    }
+                  }
+                },
+                "buyer_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "bid_price": {
+                  "type": "integer",
+                  "example": 200000
+                },
+                "status": {
+                  "type": "string",
+                  "example": "menunggu"
+                },
+                "seller_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "example_respon_201_order_price_appeal": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "Update bid success"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "product_id": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jam Casio"
+                    },
+                    "base_price": {
+                      "type": "integer",
+                      "example": 250000
+                    }
+                  }
+                },
+                "buyer_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "bid_price": {
+                  "type": "integer",
+                  "example": 230000
+                },
+                "status": {
+                  "type": "string",
+                  "example": "menunggu"
+                },
+                "seller_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "example_respon_200_list_order": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "OK"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "product_id": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Jam Casio"
+                    },
+                    "base_price": {
+                      "type": "integer",
+                      "example": 250000
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                },
+                "buyer_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "bid_price": {
+                  "type": "integer",
+                  "example": 200000
+                },
+                "status": {
+                  "type": "string",
+                  "example": "menunggu"
+                },
+                "seller_id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "deletedAt": {
+                  "type": "string",
+                  "example": null
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "example_respon_400": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "Error"
+            },
+            "message": {
+              "type": "string",
+              "example": "Bad Request"
+            }
+          }
+        },
+        "example_respon_404": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string",
+              "example": "Error"
+            },
+            "message": {
+              "type": "string",
+              "example": "Data not found"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }

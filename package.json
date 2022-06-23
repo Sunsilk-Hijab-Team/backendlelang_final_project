@@ -4,7 +4,7 @@
   "main": "app/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "bin/www",
+    "start": "nodemon bin/www",
     "test": "jest",
     "develop": "nodemon -q bin/www",
     "db:create": "./node_modules/.bin/sequelize-cli db:create",
@@ -24,7 +24,8 @@
     "sequelize": "^6.18.0",
     "sequelize-cli": "^6.4.1",
     "supertest": "^6.2.3",
-    "swagger-ui-express": "^4.4.0"
+    "swagger-ui-express": "^4.4.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "jest": "^28.1.1",
