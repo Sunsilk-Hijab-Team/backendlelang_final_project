@@ -14,13 +14,16 @@ describe('POST /v1/auth/login', () => {
         expect(res.statusCode).toBe(200);
         expect(res.body).toEqual(
           expect.objectContaining({
-            accessToken: expect.any(String),
+            status: expect.any(String),
+            data: expect.objectContaining({
+              token: expect.any(String)
+            }),
           })
         );
       });
   });
 
-  it("should response with 404 as status code", async () => {
+  it("should response with 400 as status code", async () => {
     const email = "salah@binar.com";
     const password = "salah";
 
@@ -32,33 +35,7 @@ describe('POST /v1/auth/login', () => {
         expect(res.statusCode).toBe(404);
         expect(res.body).toEqual(
           expect.objectContaining({
-            error: {
-              details: expect.any(Object),
-              message: expect.any(String),
-              name: expect.any(String),
-            },
-          })
-        );
-      });
-  });
-
-  it("should response with 401 as status code", async () => {
-    const email = "usertidakada@binar.com";
-    const password = "usertidakada";
-
-    return request(app)
-      .post("/v1/auth/login")
-      .set("Content-Type", "application/json")
-      .send({ email, password })
-      .then((res) => {
-        expect(res.statusCode).toBe(401);
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            error: {
-              details: expect.any(Object),
-              message: expect.any(String),
-              name: expect.any(String),
-            },
+            message: expect.any(String)
           })
         );
       });

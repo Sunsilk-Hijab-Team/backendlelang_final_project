@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  description: Open Api Aplikasi Lelang
+  description: "Open Api Aplikasi Lelang"
   version: "1.0.0"
-  title: Lelang App Open Api
+  title: "Lelang App Open Api"
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking

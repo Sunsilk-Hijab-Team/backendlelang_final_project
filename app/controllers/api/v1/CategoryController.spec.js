@@ -161,7 +161,6 @@ describe('CategoryController', () => {
                 id: 1,
                 name: 'Jam Tangan',
             }
-
             const mockRequest = {
                 params: {
                     id: category.id,
@@ -225,6 +224,7 @@ describe('CategoryController', () => {
 
         it('Should return 204 code and message', async () => {
 
+<<<<<<< HEAD
             const mockRequest = {   }
 
             const mockResponse = {
@@ -246,6 +246,9 @@ describe('CategoryController', () => {
                     categories: []
                 }
             })
+=======
+
+>>>>>>> triyasniko
 
         })
 

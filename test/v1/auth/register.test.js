@@ -1,5 +1,14 @@
 const request = require('supertest');
 const app = require('../../../app');
+const { Users } = require("../app/models");
+
+afterAll(async () => {
+  await User.destroy({
+    where: {
+      email: "mawang@gmail.com",
+    },
+  });
+});
 
 describe('POST /v1/auth/register', () => {
   it("should response with 201 as status code", async () => {
@@ -13,15 +22,11 @@ describe('POST /v1/auth/register', () => {
       .send({ name, email, password })
       .then((res) => {
         expect(res.statusCode).toBe(201);
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            accessToken: expect.any(String),
-          })
-        );
+        expect(res.body).toBeDefined();
       });
   });
 
-  it("should response with 422 as status code", async () => {
+  it("should response with 400 as status code", async () => {
     const name = "gagal";
     const email = "gagal@binar.co.id";
     const password = "123456";
@@ -31,15 +36,8 @@ describe('POST /v1/auth/register', () => {
       .set("Content-Type", "application/json")
       .send({ name, email, password })
       .then((res) => {
-        expect(res.statusCode).toBe(422);
-        expect(res.body).toEqual(
-          expect.objectContaining({
-            error: {
-              name: expect.any(String),
-              message: expect.any(String),
-            },
-          })
-        );
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBeDefined();
       });
   });
 });

@@ -1,8 +1,13 @@
 const express = require("express");
 const controllers = require("../app/controllers");
+const YAML = require('yamljs');
 
 const appRouter = express.Router();
 const apiRouter = express.Router();
+
+const swaggerUI=require("swagger-ui-express");
+// const swaggerDocument=YAML.load("../docs/swagger.yaml");
+const swaggerDocument=require("../docs/swagger.json");
 
 /** Mount GET / handler */
 appRouter.get("/", controllers.main.index);
@@ -38,8 +43,9 @@ appRouter.get("/", controllers.main.index);
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);
 
-appRouter.get("/documentation.json", (req, res) => res.send(swaggerDocument));
-appRouter.use("/documentation", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+appRouter.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+appRouter.get("/docs", (req, res) => res.send(swaggerDocument));
+
 /**
  * TODO: Delete this, this is just a demonstration of
  *       error handler
