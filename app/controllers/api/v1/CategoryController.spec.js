@@ -1,5 +1,5 @@
 const CategoryController = require('./CategoryController');
-const { users, sequelize } = require('../../../models');
+const { users, sequelize, categories } = require('../../../models');
 const { queryInterface } = sequelize;
 
 beforeAll( async () => {
@@ -27,13 +27,18 @@ describe('CategoryController', () => {
 
         it('Should return 201 code and message', async () => {
 
-            const category = {
+            const category = new categories ({
                 id: 1,
                 name: 'Jam Tangan',
                 slug: 'jam-tangan'
-            }
+            })
 
-            const mockRequest = { body: category }
+            const mockRequest = {
+                body: {
+                    name: category.name,
+                    slug: category.slug
+                }
+            }
 
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
@@ -42,7 +47,13 @@ describe('CategoryController', () => {
 
             const mockNext = jest.fn()
 
-            const categoryController = new CategoryController();
+            const mockModel = {
+                create: jest.fn().mockReturnValue(category)
+            }
+
+            const categoryController = new CategoryController({
+                categoryModel: mockModel
+            });
 
             await categoryController.handleAdd(mockRequest, mockResponse, mockNext)
 
@@ -127,8 +138,8 @@ describe('CategoryController', () => {
             }
 
             const mockRequest = {
-                id: {
-
+                params: {
+                    id: null
                 },
                 body: category
              }
@@ -224,7 +235,6 @@ describe('CategoryController', () => {
 
         it('Should return 204 code and message', async () => {
 
-<<<<<<< HEAD
             const mockRequest = {   }
 
             const mockResponse = {
@@ -242,13 +252,7 @@ describe('CategoryController', () => {
             expect(mockResponse.json).toBeCalledWith({
                 status: 'SUCCESS',
                 message: 'No categorys found',
-                data: {
-                    categories: []
-                }
             })
-=======
-
->>>>>>> triyasniko
 
         })
 
