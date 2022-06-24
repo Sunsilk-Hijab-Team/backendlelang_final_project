@@ -276,7 +276,7 @@ describe('ProductController', () => {
     });
 
 
-    describe();('#handleGetById', () => {
+    describe('#handleGetById', () => {
 
         it('Should return 200 code and message', async () => {
             const product =  {

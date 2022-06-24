@@ -1,13 +1,15 @@
-const { users } = require('../../../models');
 const AuthenticationController = require('./AuthenticationController');
-const AuthHelper = require('../../../helpers/AuthenticationHelper');
+const authHelper = require('../../../helpers/AuthenticationHelper');
+const { users, sequelize } = require('../../../models');
+const { queryInterface } = sequelize;
+
 
 beforeAll(() => {
 
 })
 
-afterAll(() => {
-
+afterAll( async () => {
+    await queryInterface.bulkDelete('users', null, {});
 })
 
 describe('AuthenticationController', () => {
@@ -16,29 +18,43 @@ describe('AuthenticationController', () => {
 
         it('Should return 201 code', async () => {
 
-            const user = {
-                id: 1,
-                full_name: 'Muhammad Agung',
-                email: 'muhammadagung@gmail.com',
-                password: await AuthHelper.encryptPassword('12345678')
-                };
+            const user = new users({
+                    id: 1,
+                    full_name: 'Muhammad Agung',
+                    email: 'muhammadagung@gmail.com',
+                    password: await authHelper.encryptedPassword('12345678')
+                });
 
-            const mockRequest = { body: user }
+            const mockModel = {
+                create: jest.fn().mockReturnValue()
+            }
+
+            const mockRequest = {
+                body: {
+                    email: 'muhammadagung@gmail.com',
+                    full_name: 'Muhammad Agung',
+                    password: await authHelper.encryptedPassword('12345678')
+                }
+             }
+
             const mockResponse =  {
                 status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
                 }
+
             const mockNext = jest.fn()
 
-            const authenticationController = new AuthenticationController();
+            const authenticationController = new AuthenticationController({
+                userModel: mockModel,
+            });
 
             await authenticationController.handleRegister(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toHaveBeenCalledWith(201)
-            expect(mockResponse.json).toHaveBeenCalledWith(
-                expect.objectContaining({
-                    accessToken: expect.any(String),
-                })
-            );
+            expect(mockModel.create).toHaveBeenCalledWith({
+                ...mockRequest.body
+                });
+            expect(mockResponse.status).toHaveBeenCalled(201)
+            expect(mockResponse.json).toHaveBeenCalledWith(user)
 
         });
 
@@ -47,7 +63,7 @@ describe('AuthenticationController', () => {
             const user = {
                 full_name: 'Muhammad Agung ke 2',
                 email: 'muhammadagung@gmail.com',
-                password: await AuthHelper.encryptPassword('12345678')
+                password: await authHelper.encryptedPassword('12345678')
             }
 
             const mockRequest = { body: user }

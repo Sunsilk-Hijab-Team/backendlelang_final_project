@@ -8,8 +8,8 @@ const morgan = require("morgan");
 const path = require("path");
 const router = require("../config/routes");
 
-const swaggerUI = require("swagger-ui-express");
-const swaggerDocument = require("../docs/swagger.json");
+// const swaggerUI = require("swagger-ui-express");
+// const swaggerDocument = require("../docs/swagger.json");
 
 const publicDir = path.join(__dirname, "../public");
 const viewsDir = path.join(__dirname, "./views");

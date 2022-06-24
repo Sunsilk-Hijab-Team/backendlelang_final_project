@@ -1,11 +1,24 @@
 const CategoryController = require('./CategoryController');
+const { users, sequelize } = require('../../../models');
+const { queryInterface } = sequelize;
 
 beforeAll( async () => {
-
+    await queryInterface.bulkInsert('categories', [
+        {
+            name: 'Jam Tangan',
+            slug: 'jam-tangan',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: null
+        }
+    ], {});
 })
 
 afterAll( async () => {
-
+    await queryInterface.bulkDelete('categories', null, {
+        truncate: true,
+        restartIdentity: true,
+    });
 })
 
 describe('CategoryController', () => {
@@ -17,6 +30,7 @@ describe('CategoryController', () => {
             const category = {
                 id: 1,
                 name: 'Jam Tangan',
+                slug: 'jam-tangan'
             }
 
             const mockRequest = { body: category }

@@ -11,7 +11,7 @@ afterAll( async () => {
 
 })
 
-describe('OrderController', async () => {
+describe('OrderController', () => {
 
     describe('#handleGetAll', () => {
         it('should return status code 200 and return a order object', async () => {
@@ -157,10 +157,50 @@ describe('OrderController', async () => {
 
     describe('#handleOrderConfirmastion', () => {
 
+        it('should return status code 200 and return a order object', async () => {
+
+            const orders = {
+                id: 1,
+                status: 'Terima'
+            }
+
+            const mockRequest = {
+                params: {
+                    id: order.id
+                },
+                body: orders
+            }
+
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
+
+            const mockNext = jest.fn()
+
+            const orderController = new OrderController()
+
+            await orderController.handleOrderConfirmation(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(200)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'success',
+                message: 'Order has been confirmed',
+                data: [
+                    1
+                ]
+            })
+
+        })
+
     });
 
     describe('#handleProductUpdateStatus', () => {
 
+        it('should return status code 200 and return a order object', async () => {
+
+
+        })
 
     })
 
