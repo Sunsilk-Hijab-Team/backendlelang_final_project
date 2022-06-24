@@ -38,8 +38,8 @@ appRouter.get("/", controllers.main.index);
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);
 
-appRouter.get("/documentation.json", (req, res) => res.send(swaggerDocument));
-appRouter.use("/documentation", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// appRouter.get("/documentation.json", (req, res) => res.send(swaggerDocument));
+// appRouter.use("/documentation", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 /**
  * TODO: Delete this, this is just a demonstration of
  *       error handler
