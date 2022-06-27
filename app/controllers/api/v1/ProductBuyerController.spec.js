@@ -1,11 +1,12 @@
 const ProductBuyerController = require('./ProductBuyerController');
+const { products } = require('../../../models')
 
 describe('ProductBuyerController', () => {
 
     describe('#handleGetAll', () => {
         it('Should return 200 code and data', async () => {
             
-            const product ={
+            const product = new products({
                 id: 1,
                 name: 'Jam Tangan Casio',
                 description: 'Jam tangan ini didesain sederhana dengan materi resin yang ringan. Tampilan feminin yang simpel dapat digunakan sehari-hari.',
@@ -13,9 +14,11 @@ describe('ProductBuyerController', () => {
                 user_id: 1,
                 status: 'available',
                 category_id: 1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                deletedAt: null
+                deletedAt: null,
+            })
+
+            const mockProductModel = {
+                findAll : jest.fn().mockReturnValue(product),
             }
             
             const mockRequest = {};
@@ -25,12 +28,15 @@ describe('ProductBuyerController', () => {
                 json: jest.fn().mockReturnThis()
             }
 
+            const mockNext = jest.fn()
+
             const productBuyerController = new ProductBuyerController();
 
-            await productBuyerController.handleGetAll(mockRequest, mockResponse)
+            await productBuyerController.handleGetAll(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeCalledWith({
+            expect(mockProductModel.findAll).toHaveBeenCalled();
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+            expect(mockResponse.json).toHaveBeenCalledWith({
                 status: 'Success',
                 data: {
                     product
@@ -46,9 +52,11 @@ describe('ProductBuyerController', () => {
                 message: jest.fn().mockReturnThis()
             }
 
+            const mockNext = jest.fn()
+
             const productBuyerController = new ProductBuyerController();
 
-            await productBuyerController.handleGetAll(mockRequest, mockResponse)
+            await productBuyerController.handleGetAll(mockRequest, mockResponse, mockNext)
 
             expect(mockResponse.status).toBeCalledWith(204)
             expect(mockResponse.message).toBeCalledWith({
@@ -59,7 +67,7 @@ describe('ProductBuyerController', () => {
     describe('#handleGetById', () => {
         it('Should return 200 code and data', async () => {
             
-            const product ={
+            const product = new products({
                 id: 1,
                 name: 'Jam Tangan Casio',
                 description: 'Jam tangan ini didesain sederhana dengan materi resin yang ringan. Tampilan feminin yang simpel dapat digunakan sehari-hari.',
@@ -67,9 +75,11 @@ describe('ProductBuyerController', () => {
                 user_id: 1,
                 status: 'available',
                 category_id: 1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                deletedAt: null
+                deletedAt: null,
+            })
+
+            const mockProductModel = {
+                findByPk: jest.fn().mockReturnValue(product)
             }
             
             const mockRequest = {
@@ -83,10 +93,13 @@ describe('ProductBuyerController', () => {
                 json: jest.fn().mockReturnThis()
             }
 
+            const mockNext = jest.fn()
+
             const productBuyerController = new ProductBuyerController();
 
-            await productBuyerController.handleGetById(mockRequest, mockResponse)
+            await productBuyerController.handleGetById(mockRequest, mockResponse, mockNext)
 
+            expect(mockProductModel.findByPk).toHaveBeenCalledWith(mockRequest.params.id)
             expect(mockResponse.status).toBeCalledWith(200)
             expect(mockResponse.json).toBeCalledWith({
                 status: 'Success',
@@ -109,9 +122,11 @@ describe('ProductBuyerController', () => {
                 json: jest.fn().mockReturnThis()
             }
 
+            const mockNext = jest.fn()
+
             const productBuyerController = new ProductBuyerController();
 
-            await productBuyerController.handleGetById(mockRequest, mockResponse)
+            await productBuyerController.handleGetById(mockRequest, mockResponse, mockNext)
 
             expect(mockResponse.status).toBeCalledWith(422)
             expect(mockResponse.json).toBeCalledWith({
