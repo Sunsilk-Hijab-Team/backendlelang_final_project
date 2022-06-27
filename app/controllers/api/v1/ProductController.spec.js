@@ -1,15 +1,14 @@
 const ProductController = require('./ProductController');
 const { products, users, categories } = require('../../../models');
+const { users, sequelize, produtcs } = require('../../../models');
+const { queryInterface } = sequelize;
 
-const productModel = products;
-const userModel = users;
-const categoryModel = categories;
+
 beforeAll( async () => {
-
 })
 
 afterAll( async () => {
-
+    await queryInterface.bulkDelete('products', null, {});
 })
 
 describe('ProductController', () => {

@@ -1,14 +1,14 @@
 const OrderController = require('./OrderController');
-const {orders} = require('../../../models');
+const { orders, sequelize } = require('../../../models');
+const { queryInterface } = sequelize;
 
-const orderModel = orders;
 
 beforeAll( async () => {
 
 })
 
 afterAll( async () => {
-
+     await queryInterface.bulkDelete('orders', null, {});
 })
 
 describe('OrderController', () => {
