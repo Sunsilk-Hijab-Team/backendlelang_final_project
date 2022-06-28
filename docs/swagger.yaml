@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  description: "Open Api Aplikasi Lelang"
+  description: Open Api Aplikasi Lelang
   version: "1.0.0"
-  title: "Lelang App Open Api"
+  title: Lelang App Open Api
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
@@ -18,13 +18,13 @@ paths:
       tags:
       - Authentication
       requestBody:
-        description: Add new account user
+        description: Register new user
         content:
-          aplication/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
-                name:
+                full_name:
                   type: string
                   example: Muhammad Agung
                 email:
@@ -36,7 +36,7 @@ paths:
                   example: 12345678
       responses:
         201:
-          description: Register Success
+          description: Register Success, and login
           content:
             aplication/json:
               schema:
@@ -47,6 +47,16 @@ paths:
                     example: CREATED
                   data:
                     $ref: "#/components/schemas/exampleRegister"
+        409:
+          description: Register Failed becuse email already exists !
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: Email already exists !
         400:
           description: Bad request
           content:
@@ -122,19 +132,19 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                full_name:
                   type: string
                   example: Muhammad Agung
                 image:
                   type: string
                   example: null
-                kota:
+                city:
                   type: string
                   example: null
-                alamat:
+                address:
                   type: string
                   example: null
-                no_hadphone:
+                phone:
                   type: integer
                   example: null
       responses:
@@ -150,6 +160,16 @@ paths:
                     example: UPDATED SUCCESS
                   data:
                     $ref: "#/components/schemas/exampleProfileUpdate"
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
         400:
           description: Bad request
           content:
@@ -255,7 +275,17 @@ paths:
                     example: UPDATE SUCCEESS
                   data:
                     $ref: "#/components/schemas/exampleUpdateCategory"
-        404:
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
+        400:
           description: Bad request
           content:
             aplication/json:
@@ -291,7 +321,17 @@ paths:
                   message:
                     type: string
                     example: DELETED HAS BEEN SUUCCESS !
-        404:
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
+        400:
           description: Bad request !
           content:
             aplication/json:
@@ -330,6 +370,58 @@ paths:
                   message:
                     type: string
                     example: Data not found !
+                  data:
+                    example: { }
+
+  /api/v1/seller/category/getById/{id}:
+    get:
+      description: Get category by id
+      summary: Return category by id
+      tags:
+      - Category
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Update success
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: A success response
+                  data:
+                    $ref: '#/components/schemas/exampleGetCategoryById'
+        204:
+          description: Not Content !
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Data not found !
+                  data:
+                    example: { }
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
 
   /api/v1/seller/product/add:
     post:
@@ -342,7 +434,7 @@ paths:
       requestBody:
         description: Add product to seller
         content:
-          aplication/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -399,13 +491,14 @@ paths:
       requestBody:
         description: Add images product to seller
         content:
-          aplication/json:
+          multipart/form-data:
             schema:
               type: object
               properties:
-                image:
+                image_url:
                   type: string
-                  example: 'https://www.cloud.com/product-jam-tangan.jpg'
+                  format: binary
+
       responses:
         201:
           description:  success
@@ -473,7 +566,20 @@ paths:
                   message:
                     type: string
                     example: UPDATE SUCCEESS
-                  data: {}
+                  data:
+                    $ref: '#/components/schemas/exampleUpdateProduct'
+
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
+
         400:
           description: Bad request
           content:
@@ -510,7 +616,19 @@ paths:
                   message:
                     type: string
                     example: DELETED HAS BEEN SUUCCESS !
-        404:
+
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
+
+        400:
           description: Bad request !
           content:
             aplication/json:
@@ -519,7 +637,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: Not found !y
+                    example: Not found !
 
   /api/v1/seller/product/all:
     get:
@@ -586,6 +704,18 @@ paths:
                     example: UPDATE SUCCEESS
                   data:
                     $ref: '#/components/schemas/examleUpdateStatusProduct'
+
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
+
         400:
           description: Bad request
           content:
@@ -596,6 +726,36 @@ paths:
                   message:
                     type: string
                     example: Updated Failed !
+
+  /api/v1/seller/product/sell:
+    get:
+      description: Get product to seller by status sell
+      summary: Return all product where status of sell
+      tags:
+      - Product
+      responses:
+        200:
+          description: SUCCESS
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: string
+                    example: A success response and return product
+                  data:
+                     $ref: '#/components/schemas/exampleGetProductStatusSell'
+        204:
+          description: Success but data not found / no content
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: string
+                    example: Data not found !
 
   /api/v1/seller/product/orderByCategory/{slug}:
     get:
@@ -697,6 +857,17 @@ paths:
                     type: string
                     example: Data not found !
 
+        409:
+          description: Invalid params id
+          content:
+            aplication/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid params id
+
   /api/v1/seller/order/product/{id}:
     put:
       description: Update status order
@@ -733,43 +904,9 @@ paths:
                     example: UPDATE SUCCEESS
                   data:
                     $ref: '#/components/schemas/exampleUpdateOrderStatus'
-        400:
-          description: Bad request
-          content:
-            aplication/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Updated Failed !
 
-  /api/v1/seller/status/product/{id}:
-    put:
-      description: Update status product to sell
-      summary: Update status product to sell
-      tags:
-      - Order
-      security:
-      - bearerAuth: []
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                status:
-                  type: string
-                  example: null
-      responses:
-        200:
-          description: Update success
+        409:
+          description: Invalid params id
           content:
             aplication/json:
               schema:
@@ -777,9 +914,8 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: UPDATE SUCCESS
-                  data:
-                    $ref: '#/components/schemas/exampleUpdateProductStatus'
+                    example: Invalid params id
+
         400:
           description: Bad request
           content:
@@ -974,15 +1110,10 @@ components:
         password:
           type: string
           example: $2b$10$qHrKhkN6N3yphrmgvnMS5uf4FlJR/Il4DSqMt0F1GE7CGNnAHUF2G
-        deletedAt:
+        token:
           type: string
-          example: null
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzdXBlcmFkbWluQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiMTIzNDU2NzgiLCJyb2xlIjoic3VwZXJhZG1pbiIsImlhdCI6MTY1MjYzMzQ1OH0.oAGiqA2PeWF0c1nNkbf7UHZ5gPF8YeXyeGpvTba1yoU
+
     exampleLogin:
       type: object
       properties:
@@ -1006,23 +1137,23 @@ components:
         id:
           type: integer
           example: 1
-        name:
+        full_name:
           type: string
           example: Muhammad Agung
         email:
           type: string
           format: email
           example: muhammadagung@gmail.com
-        kota:
+        city:
           type: string
           example: Bekasi
-        alamat:
+        address:
           type: string
           example: Lorem ipsum dolor sit amet
         image_url:
           type: string
           example: https://www.cloudimages.com/whoami.jpg
-        no_handphone:
+        phone:
           type: integer
           example: 085 XXX XXX XXX
         deletedAt:
@@ -1041,19 +1172,19 @@ components:
         id:
           type: integer
           example: 1
-        name:
+        full_name:
           type: string
           example: Muhammad Agung
         image_url:
           type: string
           example: https://www.cloudimages.com/whoami-update.jpg
-        kota:
+        city:
           type: string
           example: Bekasi
-        alamat:
+        address:
           type: string
           example: Lorem ipsum dolor sit amet
-        no_hnadphone:
+        phone:
           type: integer
           example: 085 XXX XXX XXX
         updatedAt:
@@ -1070,6 +1201,29 @@ components:
           type: string
           example: Jam Tangan
         slug:
+          type: string
+          example: jam-tangan
+        deletedAt:
+          type: string
+          example: null
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    exampleGetCategoryById:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Jam Tangan
+        slug:
+          type: string
           example: jam-tangan
         deletedAt:
           type: string
@@ -1092,7 +1246,7 @@ components:
           example: Mainan Anak
         updatedAt:
           type: string
-          example: date-time
+          format: date-time
 
     exampleListCategory:
       type: object
@@ -1139,16 +1293,50 @@ components:
           example: 1
         status:
           type: string
-          example: belum terjual
+          example: tersedia
         deletedAt:
           type: string
           example: null
         createdAt:
           type: string
-          example: date-time
+          format: date-time
         udpatedAt:
           type: string
-          example: date-time
+          format: date-time
+
+    exampleUpdateProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Jam Tangan Rolex (Gold Edition)
+        description:
+          type: string
+          example: Jam tangan ini baru digunakan selama 4 bulan
+        base_price:
+          type: string
+          example: 80000000
+        user_id:
+          type: integer
+          example: 1
+        category:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: tersedia
+        deletedAt:
+          type: string
+          example: null
+        createdAt:
+          type: string
+          format: date-time
+        udpatedAt:
+          type: string
+          format: date-time
 
     exampleListProduct:
       type: object
@@ -1173,16 +1361,16 @@ components:
           example: 1
         status:
           type: string
-          example: belum terjual
+          example: tersedia
         deletedAt:
           type: string
           example: null
         createdAt:
           type: string
-          example: date-time
+          format: date-time
         udpatedAt:
           type: string
-          example: date-time
+          format: date-time
 
     exampleAddProductImage:
       type: object
@@ -1201,10 +1389,47 @@ components:
           example: null
         createdAt:
           type: string
-          example: date-time
+          format: date-time
         updatedAt:
           type: string
-          example: date-time
+          format: date-time
+
+    exampleGetProductStatusSell:
+      type: object
+      properties:
+        exampleListProduct:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: Jam Tangan Rolex (Gold Edition)
+            description:
+              type: string
+              example: Jam tangan ini baru digunakan selama 4 bulan, hasil dari penyitaan koruptor :)
+            base_price:
+              type: string
+              example: 85000000
+            user_id:
+              type: integer
+              example: 1
+            category:
+              type: integer
+              example: 1
+            status:
+              type: string
+              example: terjual
+            deletedAt:
+              type: string
+              example: null
+            createdAt:
+              type: string
+              format: date-time
+            udpatedAt:
+              type: string
+              format: date-time
 
     examleUpdateStatusProduct:
       type: object
@@ -1238,10 +1463,10 @@ components:
               example: null
             createdAt:
               type: string
-              example: date-time
+              format: date-time
             udpatedAt:
               type: string
-              example: date-time
+              format: date-time
 
     exampleOrderById:
       type: object
@@ -1264,25 +1489,59 @@ components:
         id:
           type: integer
           example: 2
-        name:
+        full_name:
           type: string
           example: Muhammad Dimas
         email:
           type: string
           format: email
           example: muhammaddimas@gmail.com
-        kota:
+        city:
           type: string
           example: Pamulang
-        alamat:
+        address:
           type: string
           example: Lorem ipsum dolor sit amet
         image_url:
           type: string
           example: https://www.cloudimages.com/dimas-xx-weed.jpg
-        no_handphone:
+        phone:
           type: integer
           example: 085 XXX XXX XXX
+
+    exampleListProductOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Jam Tangan Rolex (Gold Edition)
+        description:
+          type: string
+          example: Jam tangan ini baru digunakan selama 4 bulan, hasil dari penyitaan koruptor :)
+        base_price:
+          type: string
+          example: 85000000
+        user_id:
+          type: integer
+          example: 1
+        category:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: terjual
+        deletedAt:
+          type: string
+          example: null
+        createdAt:
+          type: string
+          format: date-time
+        udpatedAt:
+          type: string
+          format: date-time
 
     exampleOrder:
       type: object
@@ -1308,10 +1567,10 @@ components:
           example: null
         createdAt:
           type: string
-          example: date-time
+          format: date-time
         updatedAt:
           type: string
-          example: date-time
+          format: date-time
 
     exampleUpdateOrderStatus:
       type: object
@@ -1320,7 +1579,7 @@ components:
           type: integer
           example: 1
         product:
-          $ref: '#/components/schemas/exampleListProduct'
+          $ref: '#/components/schemas/exampleListProductOrder'
         buyer:
           $ref: '#/components/schemas/exampleBuyer'
         bid_price:
@@ -1340,10 +1599,10 @@ components:
           example: null
         createdAt:
           type: string
-          example: date-time
+          format: date-time
         updatedAt:
           type: string
-          example: date-time
+          format: date-time
 
     exampleUpdateProductStatus:
       type: object
@@ -1374,10 +1633,10 @@ components:
           example: null
         createdAt:
           type: string
-          example: date-time
+          format: date-time
         udpatedAt:
           type: string
-          example: date-time
+          format: date-time
 
     code200:
       type: object
@@ -1385,6 +1644,7 @@ components:
         message:
           type: string
           example: SUCCESS
+
     code201:
       type: object
       properties:

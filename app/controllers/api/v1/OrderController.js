@@ -1,4 +1,4 @@
 const ApplicationController = require('./ApplicationController');
-class CategoryController extends ApplicationController{
+class OrderController extends ApplicationController{
 
 }

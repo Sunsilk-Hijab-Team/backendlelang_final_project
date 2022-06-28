@@ -1,11 +1,24 @@
 const CategoryController = require('./CategoryController');
+const { users, sequelize, categories } = require('../../../models');
+const { queryInterface } = sequelize;
 
-beforeAll(() => {
-
+beforeAll( async () => {
+    await queryInterface.bulkInsert('categories', [
+        {
+            name: 'Jam Tangan',
+            slug: 'jam-tangan',
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: null
+        }
+    ], {});
 })
 
-afterAll(() => {
-
+afterAll( async () => {
+    await queryInterface.bulkDelete('categories', null, {
+        truncate: true,
+        restartIdentity: true,
+    });
 })
 
 describe('CategoryController', () => {
@@ -14,12 +27,18 @@ describe('CategoryController', () => {
 
         it('Should return 201 code and message', async () => {
 
-            const category = {
+            const category = new categories ({
                 id: 1,
                 name: 'Jam Tangan',
-            }
+                slug: 'jam-tangan'
+            })
 
-            const mockRequest = { body: category }
+            const mockRequest = {
+                body: {
+                    name: category.name,
+                    slug: category.slug
+                }
+            }
 
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
@@ -28,7 +47,13 @@ describe('CategoryController', () => {
 
             const mockNext = jest.fn()
 
-            const categoryController = new CategoryController();
+            const mockModel = {
+                create: jest.fn().mockReturnValue(category)
+            }
+
+            const categoryController = new CategoryController({
+                categoryModel: mockModel
+            });
 
             await categoryController.handleAdd(mockRequest, mockResponse, mockNext)
 
@@ -113,8 +138,8 @@ describe('CategoryController', () => {
             }
 
             const mockRequest = {
-                id: {
-
+                params: {
+                    id: null
                 },
                 body: category
              }
@@ -184,9 +209,7 @@ describe('CategoryController', () => {
                 slug: 'jam-tangan',
             }
 
-            const mockRequest = {
-                body: Category
-            }
+            const mockRequest = {    }
 
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
@@ -203,13 +226,33 @@ describe('CategoryController', () => {
             expect(mockResponse.json).toBeCalledWith({
                 status: 'SUCCESS',
                 message: 'Categorys retrieved successfully',
+                data: {
+                    categories: Category
+                }
             })
 
         })
 
         it('Should return 204 code and message', async () => {
 
+            const mockRequest = {   }
 
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis(),
+            }
+
+            const mockNext = jest.fn()
+
+            const categoryController = new CategoryController();
+
+            await categoryController.handleGetAll(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(204)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'SUCCESS',
+                message: 'No categorys found',
+            })
 
         })
 
