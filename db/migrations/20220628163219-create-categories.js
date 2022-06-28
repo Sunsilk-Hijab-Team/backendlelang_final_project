@@ -1,8 +1,7 @@
 'use strict';
-// const {Categories}=require('../../app/models');
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Products', {
+    await queryInterface.createTable('Categories', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,22 +11,7 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      base_price: {
-        type: Sequelize.INTEGER
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'Users',
-            key: 'id',
-          }
-        },
-      },
-      status: {
+      slug: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -45,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Products');
+    await queryInterface.dropTable('Categories');
   }
 };
