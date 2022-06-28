@@ -476,7 +476,7 @@
           }
         }
       },
-      "/api/v1/seller/category/list": {
+      "/api/v1/seller/category/all": {
         "get": {
           "description": "Get all category",
           "summary": "Return all cateegory data",
@@ -498,6 +498,53 @@
                     "properties": {
                       "data": {
                         "$ref": "#/components/schemas/exampleListCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "204": {
+              "description": "No Content !",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "example": "Data not found !"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/seller/product/all": {
+        "get": {
+          "description": "Get all product",
+          "summary": "Return all product data",
+          "tags": [
+            "Product"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A successful response",
+              "content": {
+                "aplication/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "$ref": "#/components/schemas/exampleListProduct"
                       }
                     }
                   }
@@ -823,53 +870,6 @@
           }
         }
       },
-      "/api/v1/seller/product/all": {
-        "get": {
-          "description": "Get all product",
-          "summary": "Return all product data",
-          "tags": [
-            "Product"
-          ],
-          "security": [
-            {
-              "bearerAuth": []
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "A successful response",
-              "content": {
-                "aplication/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "data": {
-                        "$ref": "#/components/schemas/exampleListProduct"
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "204": {
-              "description": "No Content !",
-              "content": {
-                "aplication/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "message": {
-                        "type": "string",
-                        "example": "Data not found !"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "/api/v1/seller/product/status/{id}": {
         "put": {
           "description": "Update product status to sell",
@@ -1002,7 +1002,7 @@
           }
         }
       },
-      "/api/v1/seller/order": {
+      "/api/v1/seller/order/all": {
         "get": {
           "description": "Get order data for seller",
           "summary": "Get order data",
@@ -1182,7 +1182,7 @@
           }
         }
       },
-      "/api/v1/seller/status/product/{id}": {
+      "/api/v1/seller/order/product/status/{id}": {
         "put": {
           "description": "Update status product to sell",
           "summary": "Update status product to sell",

@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../../../app');
 
 describe('POST /v1/auth/login', () => {
-  it("should response with 201 as status code", async () => {
+  it("should response with 200 as status code", async () => {
     const email = "mawang@binar.com";
     const password = "rahasia";
 
@@ -16,6 +16,7 @@ describe('POST /v1/auth/login', () => {
           expect.objectContaining({
             status: expect.any(String),
             data: expect.objectContaining({
+              email : expect.toEqual("mawang@binar.com"),
               token: expect.any(String)
             }),
           })
