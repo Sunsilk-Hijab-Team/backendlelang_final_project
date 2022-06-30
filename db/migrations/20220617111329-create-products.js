@@ -28,14 +28,12 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING
-========
         references:{
           model: {
             tableName: 'categories',
             key: 'id',
           }
         },
->>>>>>>> 5e85b00ade482cde90f1ad4c3db5ad40c9eb0cab:db/migrations/20220617111329-create-products.js
       },
       createdAt: {
         allowNull: false,

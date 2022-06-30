@@ -40,9 +40,12 @@ function verifyToken(token) {
 
 function createToken(user)
 {
+    console.log(user, process.env.JWT_SIGNATURE_KEY, '--');
     return new Promise((resolve, reject) => {
         jwt.sign(user, process.env.JWT_SIGNATURE_KEY || 'sunsilkhijabteam', (err, token) => {
+
             if(err){
+                console.log(err);
                 reject(err);
             } else {
                 resolve(token);
