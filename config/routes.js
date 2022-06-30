@@ -8,10 +8,14 @@ const apiRouter = express.Router();
 const swaggerUI=require("swagger-ui-express");
 // const swaggerDocument=YAML.load("../docs/swagger.yaml");
 const swaggerDocument=require("../docs/swagger.json");
+// call auth controller
+const authController = require("../app/controllers/authController");
+// instance authcontroller
+const authController = new authController();
 
 /** Mount GET / handler */
 appRouter.get("/", controllers.main.index);
-
+appRouter.post("/api/v1/auth/login", authController.handleLogin);
 /**
  * TODO: Implement your own API
  *       implementations

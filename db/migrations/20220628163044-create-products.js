@@ -10,12 +10,12 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'Users',
-            key: 'id',
-          }
-        }
+        // references:{
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       categories_id: {
         type: Sequelize.INTEGER,
