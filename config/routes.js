@@ -27,14 +27,14 @@ const {
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
 appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
-appRouter.put("/api/v1/auth/update/:id", authenticationController.handleUpdate);
-appRouter.get("/api/v1/auth/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
+appRouter.put("/api/v1/auth/update/:id", authorization.checkToken, authenticationController.handleUpdate);
+appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 
-appRouter.post("/api/v1/category/add", categoryController.handleAdd);
-appRouter.put("/api/v1/category/update/:id", categoryController.handleUpdate);
-appRouter.get("/api/v1/category/list", categoryController.handleList);
-appRouter.get("/api/v1/category/getById/:id", categoryController.handleGetById);
-appRouter.get("/api/v1/category/delete/:id", categoryController.handleDelete);
+appRouter.post("/api/v1/seller/category/add", categoryController.handleAdd);
+appRouter.put("/api/v1/seller/category/update/:id", categoryController.handleUpdate);
+appRouter.get("/api/v1/seller/category/delete/:id", categoryController.handleDelete);
+appRouter.get("/api/v1/seller/category/all", categoryController.handleList);
+appRouter.get("/api/v1/seller/category/getById/:id", categoryController.handleGetById);
 
 
 /** Mount GET / handler */

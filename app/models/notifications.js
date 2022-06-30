@@ -17,10 +17,15 @@ module.exports = (sequelize, DataTypes) => {
     order_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
     receiver_id: DataTypes.INTEGER,
-    transaction_date: DataTypes.DATE
+    transaction_date: DataTypes.DATE,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'notifications',
+    timestamps: true,
+    paranoid: true
   });
   return notifications;
 };

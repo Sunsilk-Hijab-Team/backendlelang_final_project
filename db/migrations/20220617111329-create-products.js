@@ -29,6 +29,9 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      published:{
+        type: Sequelize.BOOLEAN
+      },
       categories_id: {
         type: Sequelize.INTEGER,
         references:{
@@ -47,7 +50,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       }
     });

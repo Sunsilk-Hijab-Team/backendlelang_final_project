@@ -18,10 +18,15 @@ module.exports = (sequelize, DataTypes) => {
     buyer_id: DataTypes.INTEGER,
     bid_price: DataTypes.INTEGER,
     status: DataTypes.STRING,
-    seller_id: DataTypes.INTEGER
+    seller_id: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'orders',
+    timestamps: true,
+    paranoid: true
   });
   return orders;
 };

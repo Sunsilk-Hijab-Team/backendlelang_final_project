@@ -15,10 +15,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   categories.init({
     name: DataTypes.STRING,
-    slug: DataTypes.STRING
+    slug: DataTypes.STRING,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'categories',
+    timestamps: true,
+    paranoid: true
   });
   return categories;
 };

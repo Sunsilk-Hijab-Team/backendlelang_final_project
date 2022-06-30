@@ -19,10 +19,16 @@ module.exports = (sequelize, DataTypes) => {
     base_price: DataTypes.INTEGER,
     user_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
-    categories_id: DataTypes.INTEGER
+    published: DataTypes.BOOLEAN,
+    categories_id: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'products',
+    timestamps: true,
+    paranoid: true
   });
   return products;
 };
