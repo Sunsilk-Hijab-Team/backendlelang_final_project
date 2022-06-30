@@ -8,7 +8,7 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const router = require("../config/routes");
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 
 const publicDir = path.join(__dirname, "../public");

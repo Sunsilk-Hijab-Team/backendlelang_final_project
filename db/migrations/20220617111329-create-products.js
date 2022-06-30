@@ -27,7 +27,7 @@ module.exports = {
         // }
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
         references:{
           model: {
             tableName: 'categories',
