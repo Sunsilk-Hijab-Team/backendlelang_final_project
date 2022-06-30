@@ -7,19 +7,19 @@ class AuthenticationController extends ApplicationController{
 
 
      // authorize process
-    handleAuthorize = async (req, res, next) => {
-        try{
-            const token=req.headers.authorization.split(" ")[1];
-            const decodedToken=authHelper.verifyToken(token);
-            const user=await userModel.findOne({where:{id:decodedToken.id}});
-            req.user=user;
-            next();
-        }catch{
-            res.status(401).json({
-                message:"Unauthorized"
-            })
-        }
-    }
+    // handleAuthorize = async (req, res, next) => {
+    //     try{
+    //         const token=req.headers.authorization.split(" ")[1];
+    //         const decodedToken=authHelper.verifyToken(token);
+    //         const user=await userModel.findOne({where:{id:decodedToken.id}});
+    //         req.user=user;
+    //         next();
+    //     }catch{
+    //         res.status(401).json({
+    //             message:"Unauthorized"
+    //         })
+    //     }
+    // }
 
     handleRegister = async (req, res, next) => {
         try {
@@ -106,7 +106,10 @@ class AuthenticationController extends ApplicationController{
                 email,
                 password,
             }
+
             const token = await authHelper.createToken(payload);
+
+            console.log(req.headers, '---');
 
             res.status(200).json({
                 status: 'success',
@@ -155,9 +158,9 @@ class AuthenticationController extends ApplicationController{
         }
     }
 
-    // handleGetCurrentUser = async (req, res, next) => {
-    //     const user = await userModel.findByPk(req.user.id)
-    // }
+    handleGetCurrentUser = async (req, res, next) => {
+        const user = await userModel.findByPk(id)
+    }
 
 }
 

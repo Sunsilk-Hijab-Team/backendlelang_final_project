@@ -2,16 +2,14 @@ const express = require("express");
 const controllers = require("../app/controllers");
 const YAML = require('yamljs');
 
-
 const appRouter = express.Router();
 const apiRouter = express.Router();
-
-
 
 const swaggerUI=require("swagger-ui-express");
 // const swaggerDocument=YAML.load("../docs/swagger.yaml");
 const swaggerDocument=require("../docs/swagger.json");
 
+const authorization = require("../app/middlewares/authorization");
 
 const {
   ApplicationController,
@@ -30,7 +28,7 @@ const {
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
 appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
 appRouter.put("/api/v1/auth/update/:id", authenticationController.handleUpdate);
-// appRouter.get("/api/v1/auth/whoami", authenticationController.handleGetCurrentUser);
+appRouter.get("/api/v1/auth/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 
 appRouter.post("/api/v1/category/add", categoryController.handleAdd);
 appRouter.put("/api/v1/category/update/:id", categoryController.handleUpdate);
