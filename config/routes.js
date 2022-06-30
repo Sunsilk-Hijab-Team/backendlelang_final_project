@@ -15,13 +15,13 @@ const {
   ApplicationController,
   AuthenticationController,
   CategoryController,
-  // ProductController,
+  ProductController,
   // OrderController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
  const categoryController = new CategoryController();
-//  const productController = new ProductController();
+ const productController = new ProductController();
 //  const orderController = new OrderController();
 
 
@@ -35,6 +35,8 @@ appRouter.put("/api/v1/seller/category/update/:id", authorization.checkToken, ca
 appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken, categoryController.handleDelete);
 appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);
 appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, categoryController.handleGetById);
+
+appRouter.post("/api/v1/seller/product/add", authorization.checkToken, productController.handleAdd);
 
 
 /** Mount GET / handler */

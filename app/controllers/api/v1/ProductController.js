@@ -8,7 +8,7 @@ class ProductController extends ApplicationController{
 
         const name = req.body.name;
         const description = req.body.description;
-        const price = req.body.base_pric;
+        const price = req.body.base_price;
         const status = req.body.status;
         const category = req.body.categories_id;
 
@@ -25,14 +25,11 @@ class ProductController extends ApplicationController{
             categories_id: category
         });
 
-        const image = await images.create({
-            image_url: images,
-            product_id: product_id
-        });
-
-
-
 
     }
 
+}
+
+module.exports = {
+    ProductController
 }
