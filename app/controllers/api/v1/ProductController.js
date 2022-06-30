@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 const { product, images } = require('../../../models');
-const { create } = require('./post');
+
 
 class ProductController extends ApplicationController{
 
