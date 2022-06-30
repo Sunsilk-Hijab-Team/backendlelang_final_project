@@ -1,3 +1,4 @@
+
 /**
  * @file Bootstrap express.js server
  * @author Fikri Rahmat Nurhidayat
@@ -7,16 +8,19 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const router = require("../config/routes");
+const bodyParser = require('body-parser')
 
-<<<<<<< HEAD
 // const swaggerUI = require("swagger-ui-express");
 // const swaggerDocument = require("../docs/swagger.json");
-=======
->>>>>>> triyasniko
 
 const publicDir = path.join(__dirname, "../public");
 const viewsDir = path.join(__dirname, "./views");
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 /** Install request logger */
 app.use(morgan("dev"));

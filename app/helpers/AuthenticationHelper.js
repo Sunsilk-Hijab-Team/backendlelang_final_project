@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const SALT = process.env.SALT || 10;
 
 function encryptedPassword(password)
 {
@@ -13,6 +15,20 @@ function encryptedPassword(password)
     });
 }
 
+function createToken(user)
+{
+    return new Promise((resolve, reject) => {
+        jwt.sign(user, process.env.JWT_SIGNATURE_KEY || 'sunsilkhijabteam', (err, token) => {
+            if(err){
+                reject(err);
+            } else {
+                resolve(token);
+            }
+        });
+    });
+}
+
 module.exports = {
-    encryptedPassword
+    encryptedPassword,
+    createToken
 }
