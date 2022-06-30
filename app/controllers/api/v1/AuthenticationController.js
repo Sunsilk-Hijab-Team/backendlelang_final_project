@@ -31,22 +31,16 @@ class AuthenticationController extends ApplicationController{
             const city = req.body.city;
             const address = req.body.address;
             const img = req.body.image_url;
-            // console.log({name, email, password, phone, address, img});
 
-            let existingUser = await users.findOne({ where: { email, }, });
+            let existingUser = await users.findOne({ where: { email: email } });
 
-            // console.log(existingUser);
 
-            console.log('ini cek');
-            if (existingUser != null) {
+            if (existingUser) {
                 res.status(409).json({
                     message: 'Email already exists'
                  });
                 return;
             }
-
-
-            console.log('masukin');
             const user = await users.create({
                 full_name: name,
                 email: email,
@@ -55,19 +49,19 @@ class AuthenticationController extends ApplicationController{
                 city: city,
                 address: address,
                 image_url: img,
-                deletedAt: new Date()
-            }).catch(err => {
-                console.log(err);
             })
+            // .catch(err => {
+            //     console.log(err);
+            // })
 
-
-            console.log('token');
-
-            const token = await authHelper.createToken(user);
-
-            console.log(token);
-
-            console.log('oke');
+            const payload = {
+                full_name: name,
+                email: email,
+                password: password,
+                phone: phone,
+                city: city,
+            }
+            const token = await authHelper.createToken(payload);
 
             res.status(201).json({
                 status: 'success',
@@ -76,6 +70,7 @@ class AuthenticationController extends ApplicationController{
             })
 
         } catch (error) {
+            console.log(error);
              res.status(500).json({
                 message: 'Something went wrong - Ini register routes'
             });
@@ -84,26 +79,43 @@ class AuthenticationController extends ApplicationController{
 
     handleLogin = async (req, res, next) => {
         try{
-            const email= req.body.email.toLowerCase();
+            const email = req.body.email.toLowerCase();
             const password = req.body.password;
-            // console.log({email, password});
-            const user = await userModel.findOne({ where: { email } });
-            const isPasswordValid = await authHelper.comparePassword(password, user.password);
 
-            if((!isPasswordValid)||(!user)) {
+            const user = await users.findOne({ where: { email } });
+
+            if (!user) {
                 res.status(401).json({
-                    message: 'Invalid email or password'
+                    message: 'Email is incorrect'
                 });
                 return;
             }
 
-            const token = await authHelper.createToken(user);
+            const isPasswordValid = await authHelper.comparePassword(password, user.password);
+
+            if((!isPasswordValid)) {
+                res.status(401).json({
+                    message: 'Password is incorrect'
+                });
+                return;
+            }
+
+            const payload = {
+                id: user.id,
+                full_name: user.full_name,
+                email,
+                password,
+            }
+            const token = await authHelper.createToken(payload);
+
             res.status(200).json({
                 status: 'success',
+                user,
                 token
             })
 
         }catch(error){
+            console.log(error);
             res.status(500).json({
                 message: 'Something went wrong'
             });

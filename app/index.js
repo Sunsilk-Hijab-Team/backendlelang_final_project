@@ -10,6 +10,8 @@ const path = require("path");
 const router = require("../config/routes");
 const bodyParser = require('body-parser')
 
+require("dotenv").config();
+
 // const swaggerUI = require("swagger-ui-express");
 // const swaggerDocument = require("../docs/swagger.json");
 
