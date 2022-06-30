@@ -15,7 +15,9 @@ module.exports = {
             tableName: 'products',
             key: 'id',
           }
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       buyer_id: {
         type: Sequelize.INTEGER,
@@ -24,7 +26,9 @@ module.exports = {
             tableName: 'users',
             key: 'id',
           }
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       bid_price: {
         type: Sequelize.INTEGER
@@ -39,7 +43,9 @@ module.exports = {
             tableName: 'users',
             key: 'id',
           }
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

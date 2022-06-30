@@ -1,6 +1,7 @@
 const ApplicationController = require('./ApplicationController');
 const Slug = require('../../../helpers/slug');
 const { categories } = require('../../../models');
+const { emptyQuery } = require('pg-protocol/dist/messages');
 class CategoryController extends ApplicationController{
 
     handleAdd = async (req, res, next) => {
@@ -46,7 +47,8 @@ class CategoryController extends ApplicationController{
             const updateCategory = await categories.update({
                 name: name,
                 slug: slug,
-                where :{
+            },{
+                    where :{
                     id: req.params.id
                 }
             })
@@ -66,19 +68,25 @@ class CategoryController extends ApplicationController{
 
     handleList = async (req, res, next) => {
         try {
-                const categories = await categories.findAll();
-                if(categories == null){
-                    res.status(204).json({
-                        message: 'No content'
-                    });
-                    return
-                }
-                res.status(200).json({
+            const category = await categories.findAll();
+
+            if(!category){
+                res.status(204).json({
                     status: 'success',
-                    categories
+                    message: 'No content',
+                    categories: category
                 })
+                return;
+            }
+
+            res.status(200).json({
+                status: 'success',
+                categories: category
+            })
+
         } catch (error) {
             res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong'
             })
         }
@@ -87,9 +95,9 @@ class CategoryController extends ApplicationController{
     handleGetById = async (req, res, next) => {
         try {
 
-            const category = await categories.findOne(req.params.id);
+            const category = await categories.findByPk(req.params.id);
 
-            if(req.params.id == null){
+            if(!category){
                 res.status(409).json({
                     message: 'Invalid params id'
                 });
@@ -98,10 +106,12 @@ class CategoryController extends ApplicationController{
 
             res.status(200).json({
                 status: 'success',
-                data: category
+                category
             });
+
         } catch (error) {
             res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong'
             })
         }
@@ -114,12 +124,15 @@ class CategoryController extends ApplicationController{
                     id: req.params.id
                 }
             });
+
             res.status(200).json({
                 status: 'success',
                 category
             });
+
         } catch (error) {
             res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong'
             })
         }

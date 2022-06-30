@@ -25,6 +25,8 @@ module.exports = {
             key: 'id',
           }
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       status: {
         type: Sequelize.STRING
@@ -40,6 +42,8 @@ module.exports = {
             key: 'id',
           }
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

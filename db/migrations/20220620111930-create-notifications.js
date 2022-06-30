@@ -15,7 +15,9 @@ module.exports = {
             tableName: 'orders',
             key: 'id',
           }
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       status: {
         type: Sequelize.STRING
@@ -27,7 +29,9 @@ module.exports = {
             tableName: 'users',
             key: 'id',
           }
-        }
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       transaction_date: {
         type: Sequelize.DATE
