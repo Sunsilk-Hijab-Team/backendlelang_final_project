@@ -30,11 +30,11 @@ appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
 appRouter.put("/api/v1/auth/update/:id", authorization.checkToken, authenticationController.handleUpdate);
 appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 
-appRouter.post("/api/v1/seller/category/add", categoryController.handleAdd);
-appRouter.put("/api/v1/seller/category/update/:id", categoryController.handleUpdate);
-appRouter.get("/api/v1/seller/category/delete/:id", categoryController.handleDelete);
-appRouter.get("/api/v1/seller/category/all", categoryController.handleList);
-appRouter.get("/api/v1/seller/category/getById/:id", categoryController.handleGetById);
+appRouter.post("/api/v1/seller/category/add", authorization.checkToken, categoryController.handleAdd);
+appRouter.put("/api/v1/seller/category/update/:id", authorization.checkToken, categoryController.handleUpdate);
+appRouter.get("/api/v1/seller/category/delete/:id", authorization.checkToken, categoryController.handleDelete);
+appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);
+appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, categoryController.handleGetById);
 
 
 /** Mount GET / handler */

@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const SALT = process.env.SALT || 10;
+const { users } = require('../models');
 
 function encryptedPassword(password)
 {

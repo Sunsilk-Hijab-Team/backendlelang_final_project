@@ -1,7 +1,8 @@
 const ApplicationController = require("./ApplicationController");
-const { users } = require('../../../models/index');
 const authHelper = require('../../../helpers/AuthenticationHelper');
+const authorization = require("../../../middlewares/authorization");
 const jwt = require("jsonwebtoken");
+const { users } = require('../../../models/index');
 
 const userModel = users;
 class AuthenticationController extends ApplicationController{
@@ -59,10 +60,10 @@ class AuthenticationController extends ApplicationController{
                 full_name: name,
                 email: email,
                 password: password,
-                phone: phone,
-                city: user.city,
-                address: user.address,
-                image_url: user.image_url,
+                phone: null,
+                city: null,
+                address: null,
+                image_url: null,
 
             }
             const token = await authHelper.createToken(payload);
@@ -182,7 +183,7 @@ class AuthenticationController extends ApplicationController{
 
             res.status(200).json({
                 status: 'success',
-                user
+                user,
             })
         } catch (error) {
             res.status(500).json({
