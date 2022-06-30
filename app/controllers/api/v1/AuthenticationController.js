@@ -136,17 +136,13 @@ class AuthenticationController extends ApplicationController{
     handleUpdate = async (req, res, next) => {
         try {
             const name = req.body.full_name;
-            const email = req.body.email.toLowerCase();
-            const password = authHelper.encryptedPassword(req.body.password);
             const phone = req.body.phone;
             const city = req.body.city;
             const address = req.body.address;
             const img = req.body.image_url;
 
-            const updatedUser = await userModel.update({
-                email: email,
+            const userUpdate = await userModel.update({
                 full_name: name,
-                password: password,
                 phone:  phone,
                 city: city,
                 address: address,
@@ -157,7 +153,7 @@ class AuthenticationController extends ApplicationController{
 
             res.status(200).json({
                 status: 'success',
-                user: updatedUser,
+                userUpdate
             })
         } catch (error) {
             res.status(500).json({
