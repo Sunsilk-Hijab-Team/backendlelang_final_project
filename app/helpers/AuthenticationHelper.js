@@ -38,6 +38,19 @@ function verifyToken(token) {
     return jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
 }
 
+function createToken(user)
+{
+    return new Promise((resolve, reject) => {
+        jwt.sign(user, process.env.JWT_SIGNATURE_KEY || 'sunsilkhijabteam', (err, token) => {
+            if(err){
+                reject(err);
+            } else {
+                resolve(token);
+            }
+        });
+    });
+}
+
 module.exports = {
     encryptedPassword, comparePassword, createToken, verifyToken
 }

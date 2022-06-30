@@ -6,8 +6,13 @@
 const post = require("./post");
 const AuthenticationController = require("./AuthenticationController");
 const CategoryController = require("./CategoryController");
+const ProductController = require('./ProductController');
+const OrderController = require("./OrderController");
 
 module.exports = {
   post,
-  AuthenticationController
+  AuthenticationController,
+  CategoryController,
+  ProductController,
+  OrderController
 };
