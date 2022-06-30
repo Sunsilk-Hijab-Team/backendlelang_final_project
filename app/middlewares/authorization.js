@@ -8,12 +8,10 @@ module.exports = {
 
             const checkToken = req.headers.authorization;
             const token = checkToken.split("Bearer ")[1];
-
-            const payload = await jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
-
-            req.user = await users.findByPk({ where: { id: payload.id } });
-
+            const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
+            req.user = await users.findByPk(payload.user.id);
             next();
+
         } catch (error) {
             res.status(401).json({
                 status: "Error",

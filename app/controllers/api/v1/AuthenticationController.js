@@ -1,10 +1,10 @@
 const ApplicationController = require("./ApplicationController");
 const { users } = require('../../../models/index');
 const authHelper = require('../../../helpers/AuthenticationHelper');
+const jwt = require("jsonwebtoken");
 
 const userModel = users;
 class AuthenticationController extends ApplicationController{
-
 
      // authorize process
     // handleAuthorize = async (req, res, next) => {
@@ -27,10 +27,11 @@ class AuthenticationController extends ApplicationController{
             const name = req.body.full_name;
             const email = req.body.email.toLowerCase();
             const password = await authHelper.encryptedPassword(req.body.password);
-            const phone = req.body.phone;
-            const city = req.body.city;
-            const address = req.body.address;
-            const img = req.body.image_url;
+
+            // const phone = req.body.phone;
+            // const city = req.body.city;
+            // const address = req.body.address;
+            // const img = req.body.image_url;
 
             let existingUser = await users.findOne({ where: { email: email } });
 
@@ -45,10 +46,10 @@ class AuthenticationController extends ApplicationController{
                 full_name: name,
                 email: email,
                 password: password,
-                phone: phone,
-                city: city,
-                address: address,
-                image_url: img,
+                // phone: phone,
+                // city: city,
+                // address: address,
+                // image_url: img,
             })
             // .catch(err => {
             //     console.log(err);
@@ -59,7 +60,10 @@ class AuthenticationController extends ApplicationController{
                 email: email,
                 password: password,
                 phone: phone,
-                city: city,
+                city: user.city,
+                address: user.address,
+                image_url: user.image_url,
+
             }
             const token = await authHelper.createToken(payload);
 
@@ -105,6 +109,9 @@ class AuthenticationController extends ApplicationController{
                 full_name: user.full_name,
                 email,
                 password,
+                city: user.city,
+                address: user.address,
+                image_url: user.image_url,
             }
 
             const token = await authHelper.createToken(payload);
@@ -159,7 +166,30 @@ class AuthenticationController extends ApplicationController{
     }
 
     handleGetCurrentUser = async (req, res, next) => {
-        const user = await userModel.findByPk(id)
+
+        try {
+            const checkToken = req.headers.authorization;
+            const token = checkToken.split("Bearer ")[1];
+            const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
+            const user = await users.findByPk(payload.user.id);
+
+            if(!user) {
+                res.status(401).json({
+                    message: 'User not found'
+                });
+                return;
+            }
+
+            res.status(200).json({
+                status: 'success',
+                user
+            })
+        } catch (error) {
+            res.status(500).json({
+                message: 'Something went wrong'
+            });
+        }
+
     }
 
 }
