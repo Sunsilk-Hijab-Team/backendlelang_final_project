@@ -133,6 +133,29 @@ class AuthenticationController extends ApplicationController{
             });
         }
     }
+    // handle who am i
+    handleWhoAmI = async (req, res, next) => {
+        try{
+            const user = await userModel.findOne({ where: { id: req.user.id, }, });
+            res.status(200).json({
+                status: 'success',
+                user
+            })
+        }catch(error){
+            res.status(500).json({
+                message: 'Something went wrong'
+            });
+        }
+    }
+    // handle logout
+    handleLogout = async (req, res, next) => {
+        // empty session user
+        req.session.user = null;
+        res.status(200).json({
+            status: 'success',
+            message: 'Logout success'
+        })
+    }
 
 }
 
