@@ -21,10 +21,14 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.INTEGER,
     city: DataTypes.STRING,
     address: DataTypes.STRING,
-    image_url: DataTypes.STRING
+    image_url: DataTypes.STRING,
+    deletedAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    createdAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'users',
+    paranoid: true
   });
   return users;
 };

@@ -31,12 +31,12 @@ module.exports = {
       },
       categories_id: {
         type: Sequelize.INTEGER,
-        // references:{
-        //   model: {
-        //     tableName: 'categories',
-        //     key: 'id',
-        //   }
-        // },
+        references:{
+          model: {
+            tableName: 'categories',
+            key: 'id',
+          }
+        },
       },
       createdAt: {
         allowNull: false,

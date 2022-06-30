@@ -16,18 +16,27 @@ const swaggerDocument=require("../docs/swagger.json");
 const {
   ApplicationController,
   AuthenticationController,
-  // CategoryController,
+  CategoryController,
   // ProductController,
   // OrderController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
-//  const categoryController = new CategoryController();
+ const categoryController = new CategoryController();
 //  const productController = new ProductController();
 //  const orderController = new OrderController();
 
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
+appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
+appRouter.put("/api/v1/auth/update/:id", authenticationController.handleUpdate);
+// appRouter.get("/api/v1/auth/whoami", authenticationController.handleGetCurrentUser);
+
+appRouter.post("/api/v1/category/add", categoryController.handleAdd);
+appRouter.put("/api/v1/category/update/:id", categoryController.handleUpdate);
+appRouter.get("/api/v1/category/list", categoryController.handleList);
+appRouter.get("/api/v1/category/getById/:id", categoryController.handleGetById);
+appRouter.get("/api/v1/category/delete/:id", categoryController.handleDelete);
 
 
 /** Mount GET / handler */
