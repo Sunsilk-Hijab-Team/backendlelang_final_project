@@ -2,9 +2,8 @@ const ApplicationController = require("./ApplicationController");
 const authHelper = require('../../../helpers/AuthenticationHelper');
 const authorization = require("../../../middlewares/authorization");
 const jwt = require("jsonwebtoken");
-const { users } = require('../../../models/index');
-const { or } = require("sequelize/types");
-const userModel = users;
+const { Users } = require('../../../models/index');
+const userModel = Users;
 class AuthenticationController extends ApplicationController{
 
      // authorize process
@@ -34,7 +33,7 @@ class AuthenticationController extends ApplicationController{
             // const address = req.body.address;
             // const img = req.body.image_url;
 
-            let existingUser = await users.findOne({ where: { email: email } });
+            let existingUser = await Users.findOne({ where: { email: email } });
 
 
             if (existingUser) {
@@ -43,7 +42,7 @@ class AuthenticationController extends ApplicationController{
                  });
                 return;
             }
-            const user = await users.create({
+            const user = await Users.create({
                 full_name: name,
                 email: email,
                 password: password,
@@ -87,7 +86,7 @@ class AuthenticationController extends ApplicationController{
             const email = req.body.email.toLowerCase();
             const password = req.body.password;
 
-            const user = await users.findOne({ where: { email } });
+            const user = await Users.findOne({ where: { email } });
 
             if (!user) {
                 res.status(401).json({
@@ -170,7 +169,7 @@ class AuthenticationController extends ApplicationController{
             // const token = checkToken.split("Bearer ")[1];
             // const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
 
-            const user = await users.findByPk(req.user.id);
+            const user = await Users.findByPk(req.user.id);
 
             if(!user) {
                 res.status(401).json({

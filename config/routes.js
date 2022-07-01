@@ -16,13 +16,13 @@ const {
   AuthenticationController,
   CategoryController,
   ProductController,
-  // OrderController,
+  OrderController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
  const categoryController = new CategoryController();
  const productController = new ProductController();
-//  const orderController = new OrderController();
+const orderController = new OrderController();
 
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
@@ -39,10 +39,14 @@ appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, c
 appRouter.post("/api/v1/seller/product/add", authorization.checkToken, productController.handleAdd);
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
-appRouter.update("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
+appRouter.put("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
+appRouter.get("/api/v1/seller/product/:id", authorization.checkToken, productController.hadleGetById);
+appRouter.put("/api/v1/seller/status/:id", authorization.checkToken, productController.handleUpdateStatus);
+appRouter.get("/api/v1/seller/productSell", authorization.checkToken, productController.handleGetStatusSell);
+appRouter.get("/api/v1/seller/productByCategory", authorization.checkToken, productController.handleGetByCategory);
 
-
-
+appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAll);
+appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
 
 
 /** Mount GET / handler */

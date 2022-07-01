@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 const Slug = require('../../../helpers/slug');
-const { categories } = require('../../../models');
+const { Categories } = require('../../../models');
 class CategoryController extends ApplicationController{
 
     handleAdd = async (req, res, next) => {
@@ -8,7 +8,7 @@ class CategoryController extends ApplicationController{
             const name = req.body.name
             const slug = Slug.generateSlug(name)
 
-            const existingCategory = await categories.findOne({ where: { slug: slug } })
+            const existingCategory = await Categories.findOne({ where: { slug: slug } })
 
             if(existingCategory){
                 res.status(409).json({
@@ -17,7 +17,7 @@ class CategoryController extends ApplicationController{
                 return;
             }
 
-            const category = await categories.create({
+            const category = await Categories.create({
                 name: name,
                 slug: slug
             })
@@ -43,7 +43,7 @@ class CategoryController extends ApplicationController{
             const name = req.body.name
             const slug = Slug.generateSlug(name)
 
-            const updateCategory = await categories.update({
+            const updateCategory = await Categories.update({
                 name: name,
                 slug: slug,
             },{
@@ -67,7 +67,7 @@ class CategoryController extends ApplicationController{
 
     handleList = async (req, res, next) => {
         try {
-            const category = await categories.findAll();
+            const category = await Categories.findAll();
 
             if(!category){
                 res.status(204).json({
@@ -93,7 +93,7 @@ class CategoryController extends ApplicationController{
 
     handleGetById = async (req, res, next) => {
         try {
-            const category = await categories.findByPk(req.params.id);
+            const category = await Categories.findByPk(req.params.id);
 
             if(!category){
                 res.status(409).json({
@@ -117,7 +117,7 @@ class CategoryController extends ApplicationController{
 
     handleDelete = async (req, res, next) => {
         try {
-            const category = await categories.destroy({
+            const category = await Categories.destroy({
                 where: {
                     id: req.params.id
                 }

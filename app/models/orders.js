@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class orders extends Model {
+  class Orders extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,28 +11,32 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // have a relation many to one with users as buyer
-      orders.belongsTo(models.users, {
-        foreignKey: 'buyer_id',
-        as: 'users'
-      });
+
+      // Orders.belongsTo(models.Users, {
+      //   foreignKey: 'buyer_id',
+      //   as: 'users'
+      // });
       // have a relation many to one with users as seller
-      orders.belongsTo(models.users, {
-        foreignKey: 'seller_id',
-        as: 'users'
-      });
+
+      // Orders.belongsTo(models.Users, {
+      //   foreignKey: 'seller_id',
+      //   as: 'users'
+      // });
       // have a relation many to one with products
-      orders.belongsTo(models.products, {
-        foreignKey: 'product_id',
-        as: 'products'
-      });
+
+      // Orders.belongsTo(models.Products, {
+      //   foreignKey: 'product_id',
+      //   as: 'products'
+      // });
       // have a relation one to many with notifications
-      orders.hasMany(models.notifications, {
-        foreignKey: 'order_id',
-        as: 'notifications'
-      });
+
+      // Orders.hasMany(models.Notifications, {
+      //   foreignKey: 'order_id',
+      //   as: 'notifications'
+      // });
     }
   }
-  orders.init({
+  Orders.init({
     product_id: DataTypes.INTEGER,
     buyer_id: DataTypes.INTEGER,
     bid_price: DataTypes.INTEGER,
@@ -43,9 +47,9 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'orders',
+    modelName: 'Orders',
     timestamps: true,
     paranoid: true
   });
-  return orders;
+  return Orders;
 };

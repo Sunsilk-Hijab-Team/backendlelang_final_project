@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { users } = require("../models/index");
+const { Users } = require("../models/index");
 
 module.exports = {
 
@@ -9,7 +9,7 @@ module.exports = {
             const checkToken = req.headers.authorization;
             const token = checkToken.split("Bearer ")[1];
             const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
-            req.user = await users.findByPk(payload.user.id);
+            req.user = await Users.findByPk(payload.user.id);
 
             next();
 

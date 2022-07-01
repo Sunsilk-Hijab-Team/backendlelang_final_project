@@ -9,7 +9,6 @@ const ProductController = require('./ProductController');
 const OrderController = require("./OrderController");
 
 module.exports = {
-  post,
   AuthenticationController,
   CategoryController,
   ProductController,
