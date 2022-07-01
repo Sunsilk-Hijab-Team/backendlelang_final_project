@@ -39,6 +39,10 @@ appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, c
 appRouter.post("/api/v1/seller/product/add", authorization.checkToken, productController.handleAdd);
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
+appRouter.update("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
+
+
+
 
 
 /** Mount GET / handler */

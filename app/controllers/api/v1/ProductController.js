@@ -128,7 +128,13 @@ class ProductController extends ApplicationController{
         }
     }
 
-    
+    handleUpdate = async (req, res, next) => {
+        try {
+
+        } catch (error) {
+
+        }
+    }
 
 }
 
