@@ -13,12 +13,22 @@ module.exports = (sequelize, DataTypes) => {
       // have a relation many to one with users as buyer
       orders.belongsTo(models.users, {
         foreignKey: 'buyer_id',
-        as: 'buyer'
+        as: 'users'
       });
       // have a relation many to one with users as seller
       orders.belongsTo(models.users, {
         foreignKey: 'seller_id',
-        as: 'seller'
+        as: 'users'
+      });
+      // have a relation many to one with products
+      orders.belongsTo(models.products, {
+        foreignKey: 'product_id',
+        as: 'products'
+      });
+      // have a relation one to many with notifications
+      orders.hasMany(models.notifications, {
+        foreignKey: 'order_id',
+        as: 'notifications'
       });
     }
   }
@@ -27,7 +37,10 @@ module.exports = (sequelize, DataTypes) => {
     buyer_id: DataTypes.INTEGER,
     bid_price: DataTypes.INTEGER,
     status: DataTypes.STRING,
-    seller_id: DataTypes.INTEGER
+    seller_id: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'orders',

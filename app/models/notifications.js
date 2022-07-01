@@ -10,14 +10,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // have a relation many to one with users
+      notifications.belongsTo(models.users, {
+        foreignKey: 'receiver_id',
+        as: 'users'
+      });
+      // have a relation many to one with orders
+      notifications.belongsTo(models.orders, {
+        foreignKey: 'order_id',
+        as: 'orders'
+      });
     }
   }
   notifications.init({
     order_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
     receiver_id: DataTypes.INTEGER,
-    transaction_date: DataTypes.DATE
+    transaction_date: DataTypes.DATE,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'notifications',

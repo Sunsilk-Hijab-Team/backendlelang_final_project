@@ -4,8 +4,16 @@ module.exports = {
     await queryInterface.createTable('Products', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.STRING
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      description:{
+        type: Sequelize.STRING
+      },
+      base_price:{
         type: Sequelize.INTEGER
       },
       user_id: {
@@ -17,6 +25,12 @@ module.exports = {
         //   }
         // }
       },
+      status:{
+        type: Sequelize.STRING
+      },
+      published:{
+        type: Sequelize.BOOLEAN
+      },
       categories_id: {
         type: Sequelize.INTEGER,
         // references:{
@@ -26,21 +40,14 @@ module.exports = {
         //   }
         // }
       },
-      name: {
-        type: Sequelize.STRING,
-        references:{
-          model: {
-            tableName: 'categories',
-            key: 'id',
-          }
-        },
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        type: Sequelize.DATE
+      },
+      deletedAt: {
         type: Sequelize.DATE
       }
     });

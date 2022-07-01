@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       // have a relation one to many with orders as buyer
       Products.hasMany(models.orders, {
-        foreignKey: 'buyer_id',
+        foreignKey: 'product_id',
         as: 'orders'
       });
       // have a relation one to many with orders as seller
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'seller_id',
         as: 'orders'
       });
-      // have a relation one to many with categories
+      // have a relation many to one with categories
       Products.belongsTo(models.categories, {
         foreignKey: 'categories_id',
         as: 'categories'
@@ -39,7 +39,10 @@ module.exports = (sequelize, DataTypes) => {
   Products.init({
     user_id: DataTypes.INTEGER,
     categories_id: DataTypes.INTEGER,
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Product',

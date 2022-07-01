@@ -10,21 +10,21 @@ module.exports = {
       },
       product_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'Products',
-            key: 'id',
-          }
-        }
+        // references:{
+        //   model: {
+        //     tableName: 'Products',
+        //     key: 'id',
+        //   }
+        // }
       },
       buyer_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'Users',
-            key: 'id',
-          }
-        }
+        // references:{
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       bid_price: {
         type: Sequelize.INTEGER
@@ -50,7 +50,6 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: false,
         type: Sequelize.DATE
       }
     });
