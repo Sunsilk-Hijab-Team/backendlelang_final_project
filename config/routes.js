@@ -2,7 +2,6 @@ const express = require("express");
 const controllers = require("../app/controllers");
 const YAML = require('yamljs');
 
-
 const appRouter = express.Router();
 const apiRouter = express.Router();
 
@@ -10,30 +9,36 @@ const swaggerUI=require("swagger-ui-express");
 // const swaggerDocument=YAML.load("../docs/swagger.yaml");
 const swaggerDocument=require("../docs/swagger.json");
 
+const authorization = require("../app/middlewares/authorization");
+
 const {
   ApplicationController,
   AuthenticationController,
   CategoryController,
-  // ProductController,
+  ProductController,
   // OrderController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
  const categoryController = new CategoryController();
-//  const productController = new ProductController();
+ const productController = new ProductController();
 //  const orderController = new OrderController();
 
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
 appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
-appRouter.put("/api/v1/auth/update/:id", authenticationController.handleUpdate);
-// appRouter.get("/api/v1/auth/whoami", authenticationController.handleGetCurrentUser);
+appRouter.put("/api/v1/auth/update", authorization.checkToken, authenticationController.handleUpdate);
+appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 
-appRouter.post("/api/v1/category/add", categoryController.handleAdd);
-appRouter.put("/api/v1/category/update/:id", categoryController.handleUpdate);
-appRouter.get("/api/v1/category/list", categoryController.handleList);
-appRouter.get("/api/v1/category/getById/:id", categoryController.handleGetById);
-appRouter.get("/api/v1/category/delete/:id", categoryController.handleDelete);
+appRouter.post("/api/v1/seller/category/add", authorization.checkToken, categoryController.handleAdd);
+appRouter.put("/api/v1/seller/category/update/:id", authorization.checkToken, categoryController.handleUpdate);
+appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken, categoryController.handleDelete);
+appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);
+appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, categoryController.handleGetById);
+
+appRouter.post("/api/v1/seller/product/add", authorization.checkToken, productController.handleAdd);
+appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
+appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
 
 
 /** Mount GET / handler */

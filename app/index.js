@@ -10,6 +10,7 @@ const path = require("path");
 const router = require("../config/routes");
 const bodyParser = require('body-parser');
 
+require("dotenv").config();
 
 const publicDir = path.join(__dirname, "../public");
 const viewsDir = path.join(__dirname, "./views");

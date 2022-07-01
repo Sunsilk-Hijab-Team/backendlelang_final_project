@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'notifications',
+    timestamps: true,
+    paranoid: true
   });
   return notifications;
 };
