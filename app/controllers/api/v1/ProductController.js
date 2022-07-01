@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 const { Products } = require('../../../models');
-const { Images } = require('../../../models');
+const { Images, Users } = require('../../../models');
 const { Categories } = require('../../../models');
 const generateId = require('../../../helpers/productId');
 class ProductController extends ApplicationController{
@@ -48,7 +48,7 @@ class ProductController extends ApplicationController{
             ]);
 
             res.status(201).json({
-                status: 'created',
+                status: 'Created Success',
                 product: {
                     product,
                     image
@@ -71,25 +71,31 @@ class ProductController extends ApplicationController{
                 },
                 order_by: [
                     ['createdAt', 'DESC']
-                ]
-            });
+                ],
+                include: [
+                        {
+                            model: Categories, as: 'categories',
+                        },
+                        {
+                            model: Users, as: 'users'
+                        },
+                        {
+                            model: Images, as: 'images'
+                        }
+                    ]
+                });
 
-            // const image = await Images.findByPk();
-
-            if(!product){
+            if(product == ""){
                 res.status(204).json({
-                    status: 'success',
+                    status: 'Success',
                     message: 'No content'
                 });
                 return;
             }
 
             res.status(200).json({
-                status: 'success',
-                product: {
-                    product,
-                    //image
-                }
+                status: 'Success',
+                product
             })
 
         } catch (error) {
@@ -104,7 +110,8 @@ class ProductController extends ApplicationController{
         try {
             const product = await Products.destroy({
                 where: {
-                    id: req.params.id
+                    id: req.params.id,
+                    user_id: req.user.id
                 }
             });
 
@@ -149,12 +156,13 @@ class ProductController extends ApplicationController{
                 categories_id: category,
                 }, {
                     where: {
-                        id: req.params.id
+                        id: req.params.id,
+                        user_id: req.user.id
                     }
                 });
 
             res.status(200).json({
-                status: 'success',
+                status: 'Update Success',
                 product
             })
 
@@ -168,28 +176,31 @@ class ProductController extends ApplicationController{
 
     hadleGetById = async (req, res, next) => {
         try {
-            const product = await Products.findByPk(req.params.id);
-
-            const image = await Images.findAll({
-                where: {
-                    product_id: req.params.id
-                }
+            const product = await Products.findByPk(req.params.id,{
+                include: [
+                    {
+                        model: Categories, as: 'categories',
+                    },
+                    {
+                        model: Users, as: 'users'
+                    },
+                    {
+                        model: Images, as: 'images'
+                    }
+                ]
             });
 
-            if(!product){
+            if(product == ""){
                 res.status(409).json({
-                    status: 'success',
+                    status: 'Error',
                     message: 'Invalid params id'
                 });
                 return;
             }
 
             res.status(200).json({
-                status: 'success',
-                product: {
-                    product,
-                    image
-                }
+                status: 'Success',
+                product
             })
 
         } catch (error) {
@@ -215,14 +226,14 @@ class ProductController extends ApplicationController{
 
             if(!product){
                 res.status(409).json({
-                    status: 'success',
+                    status: 'Error',
                     message: 'Invalid params id'
                 });
                 return;
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Updated Success',
                 product
             })
 
@@ -244,19 +255,30 @@ class ProductController extends ApplicationController{
                 },
                 order_by: [
                     ['createdAt', 'DESC']
+                ],
+                include: [
+                    {
+                        model: Categories, as: 'categories',
+                    },
+                    {
+                        model: Users, as: 'users'
+                    },
+                    {
+                        model: Images, as: 'images'
+                    }
                 ]
             });
 
-            if(!product){
+            if(product == ""){
                 res.status(204).json({
-                    status: 'success',
+                    status: 'Success',
                     message: 'No content'
                 });
                 return;
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 product: {
                     product
                 }
@@ -272,24 +294,36 @@ class ProductController extends ApplicationController{
 
     handleGetByCategory = async (req, res, next) => {
         try {
-            const category = await Categories.findOne({
+            const categories = await Categories.findOne({
                 where: {
                     slug: req.query.slug
-                }
+                },
+                include: [
+                    {
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Users, as: 'users'
+                            },
+                            {
+                                model: Images, as: 'images'
+                            }
+                        ]
+                    }
+                ]
             })
 
-            const product = await Products.findAll({
-                where: {
-                    categories_id: category.id,
-                }
-            });
+            if(categories == null){
+                res.status(409).json({
+                    status: 'Error',
+                    message: 'Invalid params category'
+                });
+                return;
+            }
 
             res.status(200).json({
                 status: 'success',
-                data: {
-                    category,
-                    product
-                }
+                categories
             });
 
         } catch (error) {

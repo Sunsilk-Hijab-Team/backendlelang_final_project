@@ -1,25 +1,9 @@
 const ApplicationController = require("./ApplicationController");
 const authHelper = require('../../../helpers/AuthenticationHelper');
-const authorization = require("../../../middlewares/authorization");
 const jwt = require("jsonwebtoken");
 const { Users } = require('../../../models/index');
 const userModel = Users;
 class AuthenticationController extends ApplicationController{
-
-     // authorize process
-    // handleAuthorize = async (req, res, next) => {
-    //     try{
-    //         const token=req.headers.authorization.split(" ")[1];
-    //         const decodedToken=authHelper.verifyToken(token);
-    //         const user=await userModel.findOne({where:{id:decodedToken.id}});
-    //         req.user=user;
-    //         next();
-    //     }catch{
-    //         res.status(401).json({
-    //             message:"Unauthorized"
-    //         })
-    //     }
-    // }
 
     handleRegister = async (req, res, next) => {
         try {
@@ -68,7 +52,7 @@ class AuthenticationController extends ApplicationController{
             const token = await authHelper.createToken(payload);
 
             res.status(201).json({
-                status: 'success',
+                status: 'Success',
                 user,
                 token
             })
@@ -119,7 +103,7 @@ class AuthenticationController extends ApplicationController{
             console.log(req.headers, '---');
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 user,
                 token
             })
@@ -151,7 +135,7 @@ class AuthenticationController extends ApplicationController{
             });
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 userUpdate
             })
 

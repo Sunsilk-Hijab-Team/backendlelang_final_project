@@ -19,6 +19,13 @@ const publicDir = path.join(__dirname, "../public");
 const viewsDir = path.join(__dirname, "./views");
 const app = express();
 
+//cloudinar uploaded image config
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  secure: true
+});
+// console.log(cloudinary.config());
+
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // parse application/json
