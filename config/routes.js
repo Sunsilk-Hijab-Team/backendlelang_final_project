@@ -46,35 +46,10 @@ appRouter.update("/api/v1/seller/product/update/:id", authorization.checkToken, 
 
 
 /** Mount GET / handler */
-appRouter.get("/", controllers.main.index);
-
-/**
- * TODO: Implement your own API
- *       implementations
- */
-// apiRouter.get("/api/v1/posts", controllers.api.v1.post.list);
-// apiRouter.post("/api/v1/posts", controllers.api.v1.post.create);
-// apiRouter.put(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.post.setPost,
-//   controllers.api.v1.post.update
-// );
-// apiRouter.get(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.post.setPost,
-//   controllers.api.v1.post.show
-// );
-// apiRouter.delete(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.post.setPost,
-//   controllers.api.v1.post.destroy
-// );
-
-// apiRouter.get("/api/v1/errors", () => {
-//   throw new Error(
-//     "The Industrial Revolution and its consequences have been a disaster for the human race."
-//   );
-// });
+// appRouter.get("/", controllers.main.index);
+// appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
+// appRouter.get("/api/v1/auth/logout", authenticationController.handleLogout);
+// appRouter.get("api/v1/seller/product/all", authenticationController.handleAuthorize(), ProductController.handleGetAll());
 
 
 apiRouter.use(controllers.api.main.onLost);
@@ -83,10 +58,6 @@ apiRouter.use(controllers.api.main.onError);
 appRouter.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 appRouter.get("/docs", (req, res) => res.send(swaggerDocument));
 
-/**
- * TODO: Delete this, this is just a demonstration of
- *       error handler
- */
 appRouter.get("/errors", () => {
   throw new Error(
     "The Industrial Revolution and its consequences have been a disaster for the human race."

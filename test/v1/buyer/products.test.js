@@ -28,6 +28,15 @@ describe("GET /v1/buyer/product/all", () => {
           expect(res.body.Products).toBeDefined();
         });
     });
+    // 204 no content
+    it("should return 204 no content", async () => {
+      return request(app)
+        .get("/v1/buyer/product/all")
+        .set("Authorization", `Bearer ${token}`)
+        .then((res) => {
+          expect(res.status).toBe(204);
+        });
+    });
 });
 // by id
 describe("GET /v1/buyer/product/:id", () => {

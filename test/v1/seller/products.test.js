@@ -29,6 +29,15 @@ describe("GET /v1/seller/product/all", () => {
           expect(res.body.Products).toBeDefined();
         });
     });
+    // 204 no content
+    it("should return 204 no content", async () => {
+      return request(app)
+        .get("/v1/seller/product/all")
+        .set("Authorization", `Bearer ${token}`)
+        .then((res) => {
+          expect(res.status).toBe(204);
+        });
+    });
 });
 
 describe("POST /v1/seller/product/add", () => {
@@ -65,7 +74,7 @@ describe("POST /v1/seller/product/add", () => {
       });
   });
 });
-describe("PUT /v1/seller/product/update/:id", () => {
+describe("PUT /v1/seller/product/update/{id}", () => {
   it("should response with 200 as status code", async () => {
     const name = "BMW i4 Updated";
     const description = "BMW i4";
@@ -82,8 +91,25 @@ describe("PUT /v1/seller/product/update/:id", () => {
         expect(res.body).toBeDefined();
       });
   });
+  // 400 bad request
+  it("should response with 400 as status code", async () => {
+    const name = "";
+    const description = "";
+    const base_price = "";
+    const category = "";
+
+    return request(app)
+      .put(`/v1/seller/product/update/${products.id}`)
+      .set("Content-Type", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ name, description, base_price, category })
+      .then((res) => {
+        expect(res.statusCode).toBe(400);
+        expect(res.body.error).toBeDefined();
+      });
+  });
 });
-describe("DELETE /v1/seller/product/delete/:id", () => {
+describe("DELETE /v1/seller/product/delete/{id}", () => {
   it("should response with 200 as status code", async () => {
     return request(app)
       .delete(`/v1/seller/product/delete/${products.id}`)
@@ -106,7 +132,7 @@ describe("DELETE /v1/seller/product/delete/:id", () => {
       });
   });
 });
-describe("PUT /v1/seller/product/status/:id", () => {
+describe("PUT /v1/seller/product/status/{id}", () => {
   // edit status
   const status ="sold";
   it("should response with 200 as status code", async () => {
@@ -133,7 +159,7 @@ describe("PUT /v1/seller/product/status/:id", () => {
       });
   });
 });
-describe("POST /v1/seller/product/:id/images", () => {
+describe("POST /v1/seller/product/{id}/images", () => {
   it("should response with 201 as status code", async () => {
     const image = "https://www.bmw.co.id/wp-content/uploads/2019/01/BMW-i4-2019-1.jpg";
     return request(app)
@@ -167,6 +193,17 @@ describe("GET /v1/seller/product/orderByCategory/{slug}", () => {
         .set("Authorization", `Bearer ${token}`)
         .then((res) => {
             expect(res.statusCode).toBe(200);
+            expect(res.body).toBeDefined();
+        });
+    });
+    // 204
+    it("should response with 204 as status code", async () => {
+        return request(app)
+        .get(`/v1/seller/product/orderByCategory/`)
+        .set("Content-Type", "application/json")
+        .set("Authorization", `Bearer ${token}`)
+        .then((res) => {
+            expect(res.statusCode).toBe(204);
             expect(res.body).toBeDefined();
         });
     });

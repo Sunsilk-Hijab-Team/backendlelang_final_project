@@ -3,7 +3,7 @@ const authHelper = require('../../../helpers/AuthenticationHelper');
 const authorization = require("../../../middlewares/authorization");
 const jwt = require("jsonwebtoken");
 const { users } = require('../../../models/index');
-
+const { or } = require("sequelize/types");
 const userModel = users;
 class AuthenticationController extends ApplicationController{
 
@@ -155,9 +155,10 @@ class AuthenticationController extends ApplicationController{
                 status: 'success',
                 userUpdate
             })
-        } catch (error) {
+
+        }catch(error){
             res.status(500).json({
-                message: 'Something went wrong - update users'
+                message: 'Something went wrong'
             });
         }
     }
@@ -165,10 +166,11 @@ class AuthenticationController extends ApplicationController{
     handleGetCurrentUser = async (req, res, next) => {
 
         try {
-            const checkToken = req.headers.authorization;
-            const token = checkToken.split("Bearer ")[1];
-            const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
-            const user = await users.findByPk(payload.user.id);
+            // const checkToken = req.headers.authorization;
+            // const token = checkToken.split("Bearer ")[1];
+            // const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
+
+            const user = await users.findByPk(req.user.id);
 
             if(!user) {
                 res.status(401).json({
@@ -186,7 +188,15 @@ class AuthenticationController extends ApplicationController{
                 message: 'Something went wrong'
             });
         }
-
+    }
+    // handle logout
+    handleLogout = async (req, res, next) => {
+        // empty session user
+        req.session.user = null;
+        res.status(200).json({
+            status: 'success',
+            message: 'Logout success'
+        })
     }
 
 }

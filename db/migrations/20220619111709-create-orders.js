@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('orders', {
+    await queryInterface.createTable('Orders', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,25 +10,21 @@ module.exports = {
       },
       product_id: {
         type: Sequelize.STRING,
-        references:{
-          model: {
-            tableName: 'products',
-            key: 'id',
-          }
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        // references:{
+        //   model: {
+        //     tableName: 'Products',
+        //     key: 'id',
+        //   }
+        // }
       },
       buyer_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'users',
-            key: 'id',
-          }
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        // references:{
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       bid_price: {
         type: Sequelize.INTEGER
@@ -38,14 +34,12 @@ module.exports = {
       },
       seller_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'users',
-            key: 'id',
-          }
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        // references:{
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       createdAt: {
         allowNull: false,
@@ -62,6 +56,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('orders');
+    await queryInterface.dropTable('Orders');
   }
 };

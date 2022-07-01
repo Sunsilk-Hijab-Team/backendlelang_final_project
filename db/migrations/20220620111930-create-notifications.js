@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('notifications', {
+    await queryInterface.createTable('Notifications', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -10,28 +10,24 @@ module.exports = {
       },
       order_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'orders',
-            key: 'id',
-          }
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        // references: {
+        //   model: {
+        //     tableName: 'Orders',
+        //     key: 'id',
+        //   }
+        // }
       },
       status: {
         type: Sequelize.STRING
       },
       receiver_id: {
         type: Sequelize.INTEGER,
-        references: {
-          model: {
-            tableName: 'users',
-            key: 'id',
-          }
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
+        // references: {
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       transaction_date: {
         type: Sequelize.DATE
@@ -51,6 +47,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('notifications');
+    await queryInterface.dropTable('Notifications');
   }
 };
