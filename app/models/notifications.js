@@ -1,24 +1,25 @@
 'use strict';
+// const {Users, Products}=require('../models');
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class notifications extends Model {
+  class Notifications extends Model {
 
     static associate(models) {
       // have a relation many to one with users
-      notifications.belongsTo(models.users, {
-        foreignKey: 'receiver_id',
-        as: 'users'
-      });
+      // Notifications.belongsTo(models.Users, {
+      //   foreignKey: 'receiver_id',
+      //   // as: 'users'
+      // });
       // have a relation many to one with orders
-      notifications.belongsTo(models.orders, {
-        foreignKey: 'order_id',
-        as: 'orders'
-      });
+      // Notifications.belongsTo(models.Orders, {
+      //   foreignKey: 'order_id',
+      //   // as: 'orders'
+      // });
     }
   }
-  notifications.init({
+  Notifications.init({
     order_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
     receiver_id: DataTypes.INTEGER,
@@ -28,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'notifications',
+    modelName: 'Notifications',
     timestamps: true,
     paranoid: true
   });
-  return notifications;
+  return Notifications;
 };

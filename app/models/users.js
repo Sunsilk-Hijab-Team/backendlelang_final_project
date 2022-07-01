@@ -1,33 +1,34 @@
 'use strict';
+// const {Products, Orders, Notifications}=require('../models');
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class users extends Model {
+  class Users extends Model {
     static associate(models) {
       // have a relation one to many with products
-      users.hasMany(models.products, {
-        foreignKey: 'user_id',
-        as: 'products'
-      });
+      // Users.hasMany(models.Products, {
+      //   foreignKey: 'user_id',
+      //   // as: 'products'
+      // });
       // have a relation one to many with orders as buyer
-      users.hasMany(models.orders, {
-        foreignKey: 'buyer_id',
-        as: 'orders'
-      });
+      // Users.hasMany(models.Orders, {
+      //   foreignKey: 'buyer_id',
+      //   // as: 'orders'
+      // });
       // have a relation one to many with orders as seller
-      users.hasMany(models.orders, {
-        foreignKey: 'seller_id',
-        as: 'orders'
-      });
+      // Users.hasMany(models.Orders, {
+      //   foreignKey: 'seller_id',
+      //   // as: 'orders'
+      // });
       // have a relation one to many with notification
-      users.hasMany(models.notification, {
-        foreignKey: 'receiver_id',
-        as: 'notifications'
-      });
+      // Users.hasMany(models.Notification, {
+      //   foreignKey: 'receiver_id',
+      //   // as: 'notifications'
+      // });
     }
   }
-  users.init({
+  Users.init({
     full_name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -40,9 +41,9 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'users',
+    modelName: 'Users',
     paranoid: true,
     timestamps: true
   });
-  return users;
+  return Users;
 };

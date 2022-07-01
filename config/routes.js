@@ -16,13 +16,13 @@ const {
   AuthenticationController,
   CategoryController,
   ProductController,
-  // OrderController,
+  OrderController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
  const categoryController = new CategoryController();
  const productController = new ProductController();
-//  const orderController = new OrderController();
+ const orderController = new OrderController();
 
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
@@ -41,6 +41,9 @@ appRouter.post("/api/v1/seller/product/add", authorization.checkToken, productCo
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
 
+appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAllOrder);
+appRouter.get("/api/v1/seller/order/getById/:id", authorization.checkToken, orderController.handleGetOrderById);
+appRouter.put("/api/v1/seller/order/update/:id", authorization.checkToken, orderController.handleUpdateStatusOrder);
 
 /** Mount GET / handler */
 // appRouter.get("/", controllers.main.index);
