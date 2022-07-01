@@ -29,6 +29,7 @@ appRouter.post("/api/v1/auth/register", authenticationController.handleRegister)
 appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
 appRouter.put("/api/v1/auth/update", authorization.checkToken, authenticationController.handleUpdate);
 appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
+appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
 
 appRouter.post("/api/v1/seller/category/add", authorization.checkToken, categoryController.handleAdd);
 appRouter.put("/api/v1/seller/category/update/:id", authorization.checkToken, categoryController.handleUpdate);

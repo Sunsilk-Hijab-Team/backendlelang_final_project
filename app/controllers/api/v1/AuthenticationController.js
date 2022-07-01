@@ -1,13 +1,8 @@
 const ApplicationController = require("./ApplicationController");
 const authHelper = require('../../../helpers/AuthenticationHelper');
-<<<<<<< HEAD
-const { or } = require("sequelize/types");
-
-=======
 const authorization = require("../../../middlewares/authorization");
 const jwt = require("jsonwebtoken");
 const { users } = require('../../../models/index');
->>>>>>> alifahrial
 
 const userModel = users;
 class AuthenticationController extends ApplicationController{
@@ -138,39 +133,6 @@ class AuthenticationController extends ApplicationController{
         }
     }
 
-<<<<<<< HEAD
-    // authorize process
-    handleAuthorize = async (req, res, next) => {
-        try{
-            const token=req.headers.authorization.split(" ")[1];
-            const decodedToken=authHelper.verifyToken(token);
-            const user=await userModel.findOne({where:{id:decodedToken.id}});
-            req.user=user;
-            next();
-        }catch{
-            res.status(401).json({
-                message:"Unauthorized"
-            })
-        }
-    }
-    // login process handle
-    handleLogin = async (req, res, next) => {
-        try{
-            const email= req.body.email.toLowerCase();
-            const password = req.body.password;
-            const user = await userModel.findOne({ where: { email } });
-            const isPasswordValid = await authHelper.comparePassword(password, user.password);
-            if((!isPasswordValid)||(!user)) {
-                res.status(401).json({
-                    message: 'Invalid email or password'
-                });
-                return;
-            }
-            const token = authHelper.createToken(user);
-            res.status(200).json({
-                status: 'success',
-                token
-=======
     handleUpdate = async (req, res, next) => {
         try {
             const name = req.body.full_name;
@@ -192,7 +154,6 @@ class AuthenticationController extends ApplicationController{
             res.status(200).json({
                 status: 'success',
                 userUpdate
->>>>>>> alifahrial
             })
 
         }catch(error){
@@ -201,17 +162,6 @@ class AuthenticationController extends ApplicationController{
             });
         }
     }
-<<<<<<< HEAD
-    // handle who am i
-    handleWhoAmI = async (req, res, next) => {
-        try{
-            const user = await userModel.findOne({ where: { id: req.user.id, }, });
-            res.status(200).json({
-                status: 'success',
-                user
-            })
-        }catch(error){
-=======
 
     handleGetCurrentUser = async (req, res, next) => {
 
@@ -233,12 +183,10 @@ class AuthenticationController extends ApplicationController{
                 user,
             })
         } catch (error) {
->>>>>>> alifahrial
             res.status(500).json({
                 message: 'Something went wrong'
             });
         }
-<<<<<<< HEAD
     }
     // handle logout
     handleLogout = async (req, res, next) => {
@@ -248,9 +196,6 @@ class AuthenticationController extends ApplicationController{
             status: 'success',
             message: 'Logout success'
         })
-=======
-
->>>>>>> alifahrial
     }
 
 }

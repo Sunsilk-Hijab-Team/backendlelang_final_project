@@ -1,12 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-<<<<<<< HEAD
-// const password="rahasia";
-=======
 const SALT = process.env.SALT || 10;
 const { users } = require('../models');
 
->>>>>>> alifahrial
 function encryptedPassword(password)
 {
     return new Promise((resolve, reject) => {
@@ -77,12 +73,8 @@ function verifyToken(token) {
 }
 
 module.exports = {
-<<<<<<< HEAD
-    encryptedPassword, comparePassword, createToken, verifyToken
-=======
     encryptedPassword,
     createToken,
     comparePassword,
     verifyToken
->>>>>>> alifahrial
 }

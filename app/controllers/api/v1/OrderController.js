@@ -14,5 +14,22 @@ class OrderController extends ApplicationController{
                     where: {
                         id: user_id
                     }
+                }],
+                order: [
+                    ['createdAt', 'DESC']
+                ]
+            });
+            res.status(200).json({
+                status: 'success',
+                data: order
+            });
+        }
+        catch(error){
+            res.status(500).json({
+                status: 'error',
+                message: error.message
+            });
+        }
+    }
 
 }
