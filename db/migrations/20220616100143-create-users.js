@@ -27,6 +27,9 @@ module.exports = {
       phone: {
         type: Sequelize.INTEGER
       },
+      city:{
+        type: Sequelize.STRING
+      },
       address: {
         type: Sequelize.STRING
       },
@@ -42,7 +45,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE
       }
     })
