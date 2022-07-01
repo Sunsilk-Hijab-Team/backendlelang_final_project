@@ -1,7 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 const Slug = require('../../../helpers/slug');
 const { categories } = require('../../../models');
-const { emptyQuery } = require('pg-protocol/dist/messages');
 class CategoryController extends ApplicationController{
 
     handleAdd = async (req, res, next) => {
@@ -21,9 +20,10 @@ class CategoryController extends ApplicationController{
             const category = await categories.create({
                 name: name,
                 slug: slug
-            }).catch(err => {
-                console.log(err);
-            });
+            })
+            // .catch(err => {
+            //     console.log(err);
+            // });
 
             res.status(201).json({
                 status: 'created',
@@ -39,7 +39,6 @@ class CategoryController extends ApplicationController{
     }
 
     handleUpdate = async (req, res, next) => {
-
         try {
             const name = req.body.name
             const slug = Slug.generateSlug(name)
@@ -48,7 +47,7 @@ class CategoryController extends ApplicationController{
                 name: name,
                 slug: slug,
             },{
-                    where :{
+                where :{
                     id: req.params.id
                 }
             })
@@ -94,7 +93,6 @@ class CategoryController extends ApplicationController{
 
     handleGetById = async (req, res, next) => {
         try {
-
             const category = await categories.findByPk(req.params.id);
 
             if(!category){
