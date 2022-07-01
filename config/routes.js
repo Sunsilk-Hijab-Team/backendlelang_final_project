@@ -1,5 +1,6 @@
 const express = require("express");
-const controllers = require("../app/controllers");
+const { ProductBuyerController } = require("../app/controllers/api/v1");
+const controllers = require("../app/controllers")
 const YAML = require('yamljs');
 
 const appRouter = express.Router();
@@ -9,6 +10,7 @@ const swaggerUI=require("swagger-ui-express");
 // const swaggerDocument=YAML.load("../docs/swagger.yaml");
 const swaggerDocument=require("../docs/swagger.json");
 
+const productBuyer = new ProductBuyerController();
 /** Mount GET / handler */
 appRouter.get("/", controllers.main.index);
 
@@ -23,11 +25,12 @@ appRouter.get("/", controllers.main.index);
 //   controllers.api.v1.post.setPost,
 //   controllers.api.v1.post.update
 // );
-// apiRouter.get(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.post.setPost,
-//   controllers.api.v1.post.show
-// );
+apiRouter.get(
+  '/api/v1/product/all', productBuyer.handleGetAll
+);
+apiRouter.get(
+  '/api/v1/buyer/product/:id', productBuyer.handleGetById
+)
 // apiRouter.delete(
 //   "/api/v1/posts/:id",
 //   controllers.api.v1.post.setPost,

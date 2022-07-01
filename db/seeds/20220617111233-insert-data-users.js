@@ -2,7 +2,7 @@
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const users = [
+    const Users = [
       {
         id: 1,
         full_name: 'user1',
@@ -64,10 +64,10 @@ module.exports = {
         updatedAt: new Date(),
       }
     ]
-    return queryInterface.bulkInsert('users', users);
+    return queryInterface.bulkInsert('Users', Users);
   },
 
   async down (queryInterface, Sequelize) {
-    return queryInterface.bulkDelete('users', null, {});
+    return queryInterface.bulkDelete('Users', null, {});
   }
 };

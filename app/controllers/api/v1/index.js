@@ -5,9 +5,11 @@
 
 const post = require("./post");
 const AuthenticationController = require("./AuthenticationController");
+const ProductBuyerController = require("./ProductBuyerController")
 const CategoryController = require("./CategoryController");
 
 module.exports = {
   post,
-  AuthenticationController
+  AuthenticationController,
+  ProductBuyerController
 };
