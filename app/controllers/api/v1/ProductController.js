@@ -342,7 +342,7 @@ class ProductController extends ApplicationController{
             const result = await Products.findAll({
                 where: {
                     name: {
-                        [Op.like]: `%${req.query.keyword}%`
+                        [Op.iLike]: `%${req.query.keyword}%`
                     }
                 },
                 include: [
