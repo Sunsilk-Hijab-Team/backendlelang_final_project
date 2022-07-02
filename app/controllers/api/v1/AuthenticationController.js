@@ -2,7 +2,10 @@ const ApplicationController = require("./ApplicationController");
 const authHelper = require('../../../helpers/AuthenticationHelper');
 const jwt = require("jsonwebtoken");
 const { Users } = require('../../../models/index');
+const cloudinary = require("../../../middlewares/cloudUpload");
+
 const userModel = Users;
+
 class AuthenticationController extends ApplicationController{
 
     handleRegister = async (req, res, next) => {
@@ -118,11 +121,25 @@ class AuthenticationController extends ApplicationController{
 
     handleUpdate = async (req, res, next) => {
         try {
+
+            //comfigure uploaded file to cloudinary
+            const fileBase64 = req.file.buffer.toString('base64');
+            const file = `data:${req.file.mimetype};base64,${fileBase64}`;
+            const url = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload(file, function(err, result){
+                    if(err){
+                        reject(err);
+                    } else {
+                        resolve(result.url);
+                    }
+                });
+            });
+
             const name = req.body.full_name;
             const phone = req.body.phone;
             const city = req.body.city;
             const address = req.body.address;
-            const img = req.body.image_url;
+            const img = url
 
             const userUpdate = await userModel.update({
                 full_name: name,
@@ -141,6 +158,7 @@ class AuthenticationController extends ApplicationController{
 
         }catch(error){
             res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong'
             });
         }

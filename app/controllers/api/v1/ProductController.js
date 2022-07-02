@@ -297,7 +297,10 @@ class ProductController extends ApplicationController{
         try {
             const categories = await Categories.findOne({
                 where: {
-                    slug: req.query.slug
+                    slug: {
+                        [Op.iLike]: `%${req.query.slug}%`
+                    },
+                    published: true
                 },
                 include: [
                     {
@@ -345,6 +348,7 @@ class ProductController extends ApplicationController{
                         [Op.iLike]: `%${req.query.keyword}%`
                     },
                     status: 'tersedia',
+                    published: true
                 },
                 include: [
                     {
