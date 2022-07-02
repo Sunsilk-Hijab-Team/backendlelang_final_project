@@ -45,6 +45,8 @@ appRouter.put("/api/v1/seller/status/:id", authorization.checkToken, productCont
 appRouter.get("/api/v1/seller/productSell", authorization.checkToken, productController.handleGetStatusSell);
 appRouter.get("/api/v1/seller/productByCategory", authorization.checkToken, productController.handleGetByCategory);
 
+appRouter.get("/api/v1/product/search", productController.handleSearch);
+
 appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAll);
 appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
 

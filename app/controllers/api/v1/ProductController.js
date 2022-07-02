@@ -3,6 +3,7 @@ const { Products } = require('../../../models');
 const { Images, Users } = require('../../../models');
 const { Categories } = require('../../../models');
 const generateId = require('../../../helpers/productId');
+const { Op } = require("sequelize");
 class ProductController extends ApplicationController{
 
     handleAdd = async (req, res, next) => {
@@ -332,6 +333,42 @@ class ProductController extends ApplicationController{
                 error: error.message,
                 message: 'Something went wrong'
             });
+
+        }
+    }
+
+    handleSearch = async (req, res, next) => {
+        try {
+            const result = await Products.findAll({
+                where: {
+                    name: {
+                        [Op.like]: `%${req.query.keyword}%`
+                    }
+                },
+                include: [
+                    {
+                        model: Categories, as: 'categories',
+                    },
+                    {
+                        model: Users, as: 'users'
+                    }
+                ]
+            });
+
+            if(result == ""){
+                res.status(204).json({
+                    status: 'Success',
+                    message: 'No content'
+                });
+                return
+            }
+
+            res.status(200).json({
+                status: "Success",
+                result
+            })
+
+        } catch (error) {
 
         }
     }
