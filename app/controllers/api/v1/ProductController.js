@@ -343,7 +343,8 @@ class ProductController extends ApplicationController{
                 where: {
                     name: {
                         [Op.iLike]: `%${req.query.keyword}%`
-                    }
+                    },
+                    status: 'tersedia',
                 },
                 include: [
                     {
