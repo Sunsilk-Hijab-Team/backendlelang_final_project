@@ -32,7 +32,7 @@ function comparePassword(password, hash){
 function createToken(user) {
     return jwt.sign({
         id: user.id
-    }, 
+    },
     process.env.JWT_SIGNATURE_KEY
     );
 }
