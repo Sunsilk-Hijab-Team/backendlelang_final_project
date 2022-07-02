@@ -350,6 +350,9 @@ class ProductController extends ApplicationController{
                         model: Categories, as: 'categories',
                     },
                     {
+                        model: Images, as: 'images'
+                    },
+                    {
                         model: Users, as: 'users'
                     }
                 ]
