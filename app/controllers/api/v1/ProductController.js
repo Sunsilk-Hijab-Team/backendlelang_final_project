@@ -4,12 +4,34 @@ const { Images, Users } = require('../../../models');
 const { Categories } = require('../../../models');
 const generateId = require('../../../helpers/productId');
 const { Op } = require("sequelize");
+const cloudinary = require("../../../middlewares/cloudUpload");
 class ProductController extends ApplicationController{
 
     handleAdd = async (req, res, next) => {
         try{
             const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
             const g = generateId.generate(1, 100);
+
+            //comfigure uploaded file to cloudinary
+            let url = [];
+
+            req.files.map( async file => {
+                const fileBase64 = file.buffer.toString('base64');
+                const files = `data:${file.mimetype};base64,${fileBase64}`;
+                const urls = await new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload(files, function(err, result){
+                        if(err){
+                            reject(err);
+                        } else {
+                            resolve(result.url);
+                        }
+                    });
+                });
+                url.push(urls);
+            });
+
+
+
 
             const id = 'PRD-' + count + g;
             const name = req.body.name;
@@ -20,7 +42,7 @@ class ProductController extends ApplicationController{
             const category = req.body.categories_id;
 
             //add Images
-            const image_url = req.body.image_url;
+            const image_url =  url;
 
             const product = await Products.create({
                 id: id,
@@ -34,14 +56,6 @@ class ProductController extends ApplicationController{
             });
 
             const image = await Images.bulkCreate([
-                {
-                    image_url: image_url,
-                    product_id: id
-                },
-                {
-                    image_url: image_url,
-                    product_id: id
-                },
                 {
                     image_url: image_url,
                     product_id: id
