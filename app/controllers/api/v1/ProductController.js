@@ -13,23 +13,21 @@ class ProductController extends ApplicationController{
             const g = generateId.generate(1, 100);
 
             //comfigure uploaded file to cloudinary
-            let url = [];
 
-            req.files.map( async file => {
-                const fileBase64 = file.buffer.toString('base64');
-                const files = `data:${file.mimetype};base64,${fileBase64}`;
-                const urls = await new Promise((resolve, reject) => {
-                    cloudinary.uploader.upload(files, function(err, result){
-                        if(err){
-                            reject(err);
-                        } else {
-                            resolve(result.url);
-                        }
-                    });
-                });
-                url.push(urls);
-            });
-
+                // req.files.map( async file => {
+                //     const urls = await new Promise((resolve, reject) => {
+                //         const fileBase64 = file.buffer.toString('base64');
+                //         const files = `data:${file.mimetype};base64,${fileBase64}`;
+                //         cloudinary.uploader.upload(files, function(err, result){
+                //             if(err){
+                //                 reject(err);
+                //             } else {
+                //                 resolve(result.url);
+                //             }
+                //         });
+                //     });
+                //     url.push(urls);
+                // });
 
 
 
@@ -40,9 +38,6 @@ class ProductController extends ApplicationController{
             const status = req.body.status;
             const published = req.body.published;
             const category = req.body.categories_id;
-
-            //add Images
-            const image_url =  url;
 
             const product = await Products.create({
                 id: id,
@@ -55,18 +50,29 @@ class ProductController extends ApplicationController{
                 categories_id: category
             });
 
-            const image = await Images.bulkCreate([
-                {
-                    image_url: image_url,
-                    product_id: id
-                }
-            ]);
+            let url = [];
+            for(const file of req.files){
+                const urls = await new Promise((resolve, reject) => {
+                    const fileBase64 = file.buffer.toString('base64');
+                    const filess = `data:${file.mimetype};base64,${fileBase64}`;
+                    cloudinary.uploader.upload(filess, async function(err, result){
+                        const images =   await Images.create({
+                                image_url: result.url,
+                                product_id: id,
+                            });
+                    resolve(images)
+
+                    });
+                })
+                url.push(urls);
+            }
+
 
             res.status(201).json({
                 status: 'Created Success',
                 product: {
                     product,
-                    image
+                    url
                 }
             });
 
