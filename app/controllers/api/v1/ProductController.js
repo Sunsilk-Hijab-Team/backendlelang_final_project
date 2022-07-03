@@ -3,12 +3,33 @@ const { Products } = require('../../../models');
 const { Images, Users } = require('../../../models');
 const { Categories } = require('../../../models');
 const generateId = require('../../../helpers/productId');
+const { Op } = require("sequelize");
+const cloudinary = require("../../../middlewares/cloudUpload");
 class ProductController extends ApplicationController{
 
     handleAdd = async (req, res, next) => {
         try{
             const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
             const g = generateId.generate(1, 100);
+
+            //comfigure uploaded file to cloudinary
+
+                // req.files.map( async file => {
+                //     const urls = await new Promise((resolve, reject) => {
+                //         const fileBase64 = file.buffer.toString('base64');
+                //         const files = `data:${file.mimetype};base64,${fileBase64}`;
+                //         cloudinary.uploader.upload(files, function(err, result){
+                //             if(err){
+                //                 reject(err);
+                //             } else {
+                //                 resolve(result.url);
+                //             }
+                //         });
+                //     });
+                //     url.push(urls);
+                // });
+
+
 
             const id = 'PRD-' + count + g;
             const name = req.body.name;
@@ -17,9 +38,6 @@ class ProductController extends ApplicationController{
             const status = req.body.status;
             const published = req.body.published;
             const category = req.body.categories_id;
-
-            //add Images
-            const image_url = req.body.image_url;
 
             const product = await Products.create({
                 id: id,
@@ -32,26 +50,29 @@ class ProductController extends ApplicationController{
                 categories_id: category
             });
 
-            const image = await Images.bulkCreate([
-                {
-                    image_url: image_url,
-                    product_id: id
-                },
-                {
-                    image_url: image_url,
-                    product_id: id
-                },
-                {
-                    image_url: image_url,
-                    product_id: id
-                }
-            ]);
+            let url = [];
+            for(const file of req.files){
+                const urls = await new Promise((resolve, reject) => {
+                    const fileBase64 = file.buffer.toString('base64');
+                    const filess = `data:${file.mimetype};base64,${fileBase64}`;
+                    cloudinary.uploader.upload(filess, async function(err, result){
+                        const images =   await Images.create({
+                                image_url: result.url,
+                                product_id: id,
+                            });
+                    resolve(images)
+
+                    });
+                })
+                url.push(urls);
+            }
+
 
             res.status(201).json({
                 status: 'Created Success',
                 product: {
                     product,
-                    image
+                    url
                 }
             });
 
@@ -296,7 +317,10 @@ class ProductController extends ApplicationController{
         try {
             const categories = await Categories.findOne({
                 where: {
-                    slug: req.query.slug
+                    slug: {
+                        [Op.iLike]: `%${req.query.slug}%`
+                    },
+                    published: true
                 },
                 include: [
                     {
@@ -332,6 +356,47 @@ class ProductController extends ApplicationController{
                 error: error.message,
                 message: 'Something went wrong'
             });
+
+        }
+    }
+
+    handleSearch = async (req, res, next) => {
+        try {
+            const result = await Products.findAll({
+                where: {
+                    name: {
+                        [Op.iLike]: `%${req.query.keyword}%`
+                    },
+                    status: 'tersedia',
+                    published: true
+                },
+                include: [
+                    {
+                        model: Categories, as: 'categories',
+                    },
+                    {
+                        model: Images, as: 'images'
+                    },
+                    {
+                        model: Users, as: 'users'
+                    }
+                ]
+            });
+
+            if(result == ""){
+                res.status(204).json({
+                    status: 'Success',
+                    message: 'No content'
+                });
+                return
+            }
+
+            res.status(200).json({
+                status: "Success",
+                result
+            })
+
+        } catch (error) {
 
         }
     }
