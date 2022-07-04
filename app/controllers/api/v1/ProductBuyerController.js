@@ -1,11 +1,11 @@
-const { products } = require('../../../models');
+const { Products } = require('../../../models');
 const ApplicationController = require('./ApplicationController');
 
 class ProductBuyerController extends ApplicationController{
 
     handleGetAll = async (req,res) => {
         try {
-            const product = await products.findAll();
+            const product = await Products.findAll();
             
             if(product == ""){
                 res.status(204).json()
@@ -32,7 +32,7 @@ class ProductBuyerController extends ApplicationController{
     
     handleGetById = async (req, res) => {
         try {
-            const product = await products.findOne({
+            const product = await Products.findOne({
                 where: {
                     id: req.params.id
                 }

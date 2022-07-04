@@ -19,12 +19,12 @@ module.exports = {
       },
       buyer_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'Users',
-            key: 'id',
-          }
-        }
+        // references:{
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       bid_price: {
         type: Sequelize.INTEGER

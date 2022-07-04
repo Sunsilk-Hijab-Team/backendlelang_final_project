@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 //import model users, product
-const { Orders } = require('../../../models');
+const { Orders, Products, Categories, Users } = require('../../../models');
 
 class OrderController extends ApplicationController{
 
@@ -8,20 +8,36 @@ class OrderController extends ApplicationController{
         try {
             const getOrders = await Orders.findAll({
             where: {
-                seller_id: req.user.id
-            }
+                    seller_id: req.user.id
+                },
+                include: [
+                    {
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            }
+                        ]
+                    },
+                    {
+                        model: Users, as: 'users_buyer',
+                    },
+                    {
+                        model: Users, as: 'users_seller',
+                    }
+                ]
             });
 
-            if(!getOrders){
+            if(getOrders == ""){
                 res.status(204).json({
-                    status: 'success',
+                    status: 'Success',
                     message: 'No content'
                 });
                 return;
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 orders: getOrders
             })
         } catch (error) {
@@ -34,7 +50,24 @@ class OrderController extends ApplicationController{
 
     handleOrderByid = async (req, res, next) => {
         try {
-            const getOrderById = await Orders.findByPk(req.params.id);
+            const getOrderById = await Orders.findByPk(req.params.id, {
+                include: [
+                    {
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            }
+                        ]
+                    },
+                    {
+                        model: Users, as: 'users_buyer',
+                    },
+                    {
+                        model: Users, as: 'users_seller',
+                    }
+                ]
+            });
 
             if(!getOrderById){
                 res.status(409).json({
@@ -44,9 +77,10 @@ class OrderController extends ApplicationController{
             }
 
             res.status(200).json({
-                status: 'success',
-                order: getOrderById
+                status: 'Success',
+                getOrderById
             })
+
         } catch (error) {
             res.status(500).json({
                 error: error.message,
