@@ -50,6 +50,8 @@ class ProductController extends ApplicationController{
                 categories_id: category
             });
 
+            if(req.files){
+
             let url = [];
             for(const file of req.files){
                 const urls = await new Promise((resolve, reject) => {
@@ -75,6 +77,9 @@ class ProductController extends ApplicationController{
                     url
                 }
             });
+
+            }
+
 
         } catch (error) {
             res.status(500).json({
