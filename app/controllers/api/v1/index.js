@@ -4,13 +4,12 @@
  */
 
 const AuthenticationController = require("./AuthenticationController");
+const ProductBuyerController = require("./ProductBuyerController")
 const CategoryController = require("./CategoryController");
 const ProductController = require('./ProductController');
 const OrderController = require("./OrderController");
 
 module.exports = {
   AuthenticationController,
-  CategoryController,
-  ProductController,
-  OrderController
+  ProductBuyerController
 };

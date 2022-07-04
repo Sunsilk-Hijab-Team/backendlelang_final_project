@@ -18,12 +18,12 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        // references:{
-        //   model: {
-        //     tableName: 'Users',
-        //     key: 'id',
-        //   }
-        // }
+        references:{
+          model: {
+            tableName: 'Users',
+            key: 'id',
+          }
+        },
       },
       status:{
         type: Sequelize.STRING
@@ -35,10 +35,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         // references:{
         //   model: {
-        //     tableName: 'Categories',
+        //     tableName: 'categories',
         //     key: 'id',
         //   }
         // }
+
       },
       createdAt: {
         allowNull: false,

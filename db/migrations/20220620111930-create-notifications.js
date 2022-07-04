@@ -22,12 +22,12 @@ module.exports = {
       },
       receiver_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: {
-        //     tableName: 'Users',
-        //     key: 'id',
-        //   }
-        // }
+        references: {
+          model: {
+            tableName: 'Users',
+            key: 'id',
+          }
+        }
       },
       transaction_date: {
         type: Sequelize.DATE
