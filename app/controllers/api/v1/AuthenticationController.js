@@ -1,25 +1,12 @@
 const ApplicationController = require("./ApplicationController");
 const authHelper = require('../../../helpers/AuthenticationHelper');
-const authorization = require("../../../middlewares/authorization");
 const jwt = require("jsonwebtoken");
 const { Users } = require('../../../models/index');
-const userModel = Users;
-class AuthenticationController extends ApplicationController{
+const cloudinary = require("../../../middlewares/cloudUpload");
 
-     // authorize process
-    // handleAuthorize = async (req, res, next) => {
-    //     try{
-    //         const token=req.headers.authorization.split(" ")[1];
-    //         const decodedToken=authHelper.verifyToken(token);
-    //         const user=await userModel.findOne({where:{id:decodedToken.id}});
-    //         req.user=user;
-    //         next();
-    //     }catch{
-    //         res.status(401).json({
-    //             message:"Unauthorized"
-    //         })
-    //     }
-    // }
+const userModel = Users;
+
+class AuthenticationController extends ApplicationController{
 
     handleRegister = async (req, res, next) => {
         try {
@@ -68,7 +55,7 @@ class AuthenticationController extends ApplicationController{
             const token = await authHelper.createToken(payload);
 
             res.status(201).json({
-                status: 'success',
+                status: 'Success',
                 user,
                 token
             })
@@ -119,7 +106,7 @@ class AuthenticationController extends ApplicationController{
             console.log(req.headers, '---');
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 user,
                 token
             })
@@ -134,11 +121,25 @@ class AuthenticationController extends ApplicationController{
 
     handleUpdate = async (req, res, next) => {
         try {
+
+            //comfigure uploaded file to cloudinary
+            const fileBase64 = req.file.buffer.toString('base64');
+            const file = `data:${req.file.mimetype};base64,${fileBase64}`;
+            const url = await new Promise((resolve, reject) => {
+                cloudinary.uploader.upload(file, function(err, result){
+                    if(err){
+                        reject(err);
+                    } else {
+                        resolve(result.url);
+                    }
+                });
+            });
+
             const name = req.body.full_name;
             const phone = req.body.phone;
             const city = req.body.city;
             const address = req.body.address;
-            const img = req.body.image_url;
+            const img = url
 
             const userUpdate = await userModel.update({
                 full_name: name,
@@ -151,12 +152,13 @@ class AuthenticationController extends ApplicationController{
             });
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 userUpdate
             })
 
         }catch(error){
             res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong'
             });
         }

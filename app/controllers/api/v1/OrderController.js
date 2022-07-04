@@ -1,79 +1,97 @@
 const ApplicationController = require('./ApplicationController');
-//import model users, product
-const { users, products, orders } = require('../../../models');
+//import model Users, product
+const { Users, Products, Orders, Categories } = require('../../../models');
 
 class OrderController extends ApplicationController{
-    // get all data order from tabel order join with table users & products where id user equal with user login
+    // get all data order from tabel order join with table Users & Products where id user equal with user login
     handleGetAllOrder = async (req, res, next) => {
-        try{
-            const user_id = req.user.id;
-            const order = await orders.findAll({
-                where: {
-                    user_id
+        // console.log("req user oiii : "+req.user.id+"----------");
+        try {
+            const getOrders = await Orders.findAll({
+            where: {
+                    seller_id: req.user.id
                 },
                 include: [
                     {
-                        model: users
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            }
+                        ]
                     },
                     {
-                        model: products
+                        model: Users, as: 'users_buyer',
+                    },
+                    {
+                        model: Users, as: 'users_seller',
                     }
                 ],
-                order: [
+                getOrders: [
                     ['createdAt', 'DESC']
                 ]
             });
-            if(!order){
+            // console.log("---- order coy --------"+getOrders+"--------");
+
+            if(getOrders == ""){
                 res.status(204).json({
-                    status: 'success',
+                    status: 'Success',
                     message: 'No content'
                 });
                 return;
             }
+
             res.status(200).json({
-                status: 'success',
-                order
+                status: 'Success',
+                Orders: getOrders
             })
-        }
-        catch(error){
+        } catch (error) {
             res.status(500).json({
                 error: error.message,
                 message: 'Something went wrong'
-            });
+            })
         }
     }
-    // get data order by id
-    handleGetOrderById = async (req, res, next) => {
-        try{
-            const user_id = req.user.id;
-            const idOrder= req.params.id;
-            const order = await orders.findOne({
-                where: {
-                    id: idOrder,
-                    user_id: user_id
+    // get order by id
+    handleOrderByid = async (req, res, next) => {
+        try {
+            // console.log(typeof(req.params.id));
+            const getOrderById = await Orders.findOne({
+                where:{
+                    id: req.params.id,
+                    seller_id: req.user.id
                 },
                 include: [
                     {
-                        model: users
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            }
+                        ]
                     },
                     {
-                        model: products
+                        model: Users, as: 'users_buyer',
+                    },
+                    {
+                        model: Users, as: 'users_seller',
                     }
                 ]
             });
-            if(!order){
+
+            if(!getOrderById){
                 res.status(404).json({
-                    status: 'Failed',
                     message: 'Data Not Found'
                 });
-                return;
+                return
             }
+
             res.status(200).json({
-                status: 'success',
-                order
+                status: 'Success',
+                getOrderById
             })
-        }
-        catch(error){
+
+        } catch (error) {
             res.status(500).json({
                 error: error.message,
                 message: 'Something went wrong'
@@ -85,8 +103,9 @@ class OrderController extends ApplicationController{
         try{
             const idOrder = req.params.id;
             const status = req.body.status;
-            const order = await orders.findOne({
+            const order = await Orders.findOne({
                 where: {
+                    seller_id: req.user.id,
                     id: idOrder
                 }
             });

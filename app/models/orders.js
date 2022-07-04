@@ -8,25 +8,29 @@ module.exports = (sequelize, DataTypes) => {
 
     static associate(models) {
       // have a relation many to one with users as buyer
-      // Orders.belongsTo(models.Users, {
-      //   foreignKey: 'buyer_id',
-      //   // as: 'users'
-      // });
+
+      Orders.belongsTo(models.Users, {
+        foreignKey: 'buyer_id',
+        as: 'users_buyer'
+      });
       // have a relation many to one with users as seller
-      // Orders.belongsTo(models.Users, {
-      //   foreignKey: 'seller_id',
-      //   // as: 'users'
-      // });
+
+      Orders.belongsTo(models.Users, {
+        foreignKey: 'seller_id',
+        as: 'users_seller'
+      });
       // have a relation many to one with products
-      // Orders.belongsTo(models.Products, {
-      //   foreignKey: 'product_id',
-      //   // as: 'products'
-      // });
+
+      Orders.belongsTo(models.Products, {
+        foreignKey: 'product_id',
+        as: 'products'
+      });
       // have a relation one to many with notifications
-      // Orders.hasMany(models.Notifications, {
-      //   foreignKey: 'order_id',
-      //   // as: 'notifications'
-      // });
+
+      Orders.hasMany(models.Notifications, {
+        foreignKey: 'order_id',
+        as: 'notifications_order'
+      });
     }
   }
   Orders.init({

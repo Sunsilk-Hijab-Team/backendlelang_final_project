@@ -11,6 +11,8 @@ const swaggerDocument=require("../docs/swagger.json");
 
 const authorization = require("../app/middlewares/authorization");
 
+const uploadFiles = require("../app/middlewares/multerUpload");
+
 const {
   ApplicationController,
   AuthenticationController,
@@ -27,7 +29,7 @@ const {
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
 appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
-appRouter.put("/api/v1/auth/update", authorization.checkToken, authenticationController.handleUpdate);
+appRouter.put("/api/v1/auth/update", authorization.checkToken, uploadFiles.single("image_url"), authenticationController.handleUpdate);
 appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
 
@@ -37,7 +39,7 @@ appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken,
 appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);
 appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, categoryController.handleGetById);
 
-appRouter.post("/api/v1/seller/product/add", authorization.checkToken, productController.handleAdd);
+appRouter.post("/api/v1/seller/product/add", authorization.checkToken, uploadFiles.array("image_url"), productController.handleAdd);
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
 appRouter.put("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
@@ -46,19 +48,14 @@ appRouter.put("/api/v1/seller/status/:id", authorization.checkToken, productCont
 appRouter.get("/api/v1/seller/productSell", authorization.checkToken, productController.handleGetStatusSell);
 appRouter.get("/api/v1/seller/productByCategory", authorization.checkToken, productController.handleGetByCategory);
 
-// appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAll);
-// appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
+appRouter.get("/api/v1/product/search", productController.handleSearch);
 
 appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAllOrder);
-appRouter.get("/api/v1/seller/order/getById/:id", authorization.checkToken, orderController.handleGetOrderById);
+appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
 appRouter.put("/api/v1/seller/order/update/:id", authorization.checkToken, orderController.handleUpdateStatusOrder);
 
 /** Mount GET / handler */
 // appRouter.get("/", controllers.main.index);
-// appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
-// appRouter.get("/api/v1/auth/logout", authenticationController.handleLogout);
-// appRouter.get("api/v1/seller/product/all", authenticationController.handleAuthorize(), ProductController.handleGetAll());
-
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

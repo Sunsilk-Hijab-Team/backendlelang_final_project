@@ -7,10 +7,10 @@ module.exports = (sequelize, DataTypes) => {
   class Images extends Model {
     static associate(models) {
       // have a relation many to one with products
-      // Images.belongsTo(models.Products, {
-      //   foreignKey: 'product_id',
-      //   // as: 'products'
-      // });
+      Images.belongsTo(models.Products, {
+        foreignKey: 'product_id',
+        as: 'products'
+      });
 
     }
   }
