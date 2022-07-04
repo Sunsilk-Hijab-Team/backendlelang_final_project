@@ -114,6 +114,7 @@ class AuthenticationController extends ApplicationController{
         }catch(error){
             console.log(error);
             res.status(500).json({
+                message: error.message,
                 message: 'Something went wrong'
             });
         }
@@ -123,38 +124,64 @@ class AuthenticationController extends ApplicationController{
         try {
 
             //comfigure uploaded file to cloudinary
-            const fileBase64 = req.file.buffer.toString('base64');
-            const file = `data:${req.file.mimetype};base64,${fileBase64}`;
-            const url = await new Promise((resolve, reject) => {
-                cloudinary.uploader.upload(file, function(err, result){
-                    if(err){
-                        reject(err);
-                    } else {
-                        resolve(result.url);
-                    }
+
+            if(req.file){
+
+                const fileBase64 = req.file.buffer.toString('base64');
+                const file = `data:${req.file.mimetype};base64,${fileBase64}`;
+                const url = await new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload(file, function(err, result){
+                        if(err){
+                            reject(err);
+                        } else {
+                            resolve(result.url);
+                        }
+                    });
                 });
-            });
 
-            const name = req.body.full_name;
-            const phone = req.body.phone;
-            const city = req.body.city;
-            const address = req.body.address;
-            const img = url
+                const name = req.body.full_name;
+                const phone = req.body.phone;
+                const city = req.body.city;
+                const address = req.body.address;
+                const img = url
 
-            const userUpdate = await userModel.update({
-                full_name: name,
-                phone:  phone,
-                city: city,
-                address: address,
-                image_url: img
-            }, {
-                where: { id: req.user.id, },
-            });
+                const userUpdate = await userModel.update({
+                    full_name: name,
+                    phone:  phone,
+                    city: city,
+                    address: address,
+                    image_url: img
+                }, {
+                    where: { id: req.user.id, },
+                });
 
-            res.status(200).json({
-                status: 'Success',
-                userUpdate
-            })
+                 res.status(200).json({
+                    status: 'Success',
+                    userUpdate
+                })
+
+            } else {
+
+                const name = req.body.full_name;
+                const phone = req.body.phone;
+                const city = req.body.city;
+                const address = req.body.address;
+
+                const userUpdate = await userModel.update({
+                    full_name: name,
+                    phone:  phone,
+                    city: city,
+                    address: address,
+                }, {
+                    where: { id: req.user.id, },
+                });
+
+                res.status(200).json({
+                    status: 'Success',
+                    userUpdate
+                })
+            }
+
 
         }catch(error){
             res.status(500).json({
