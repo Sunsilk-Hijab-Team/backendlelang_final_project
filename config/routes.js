@@ -19,12 +19,14 @@ const {
   CategoryController,
   ProductController,
   OrderController,
+  NotificationController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
  const categoryController = new CategoryController();
  const productController = new ProductController();
  const orderController = new OrderController();
+ const notificationController = new NotificationController();
 
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
@@ -53,6 +55,9 @@ appRouter.get("/api/v1/product/search", productController.handleSearch);
 appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAllOrder);
 appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
 appRouter.put("/api/v1/seller/order/update/:id", authorization.checkToken, orderController.handleUpdateStatusOrder);
+
+appRouter.get("/api/v1/notification/all", authorization.checkToken, notificationController.handleGetAllNotification);
+appRouter.get("/api/v1/notification/:id", authorization.checkToken, notificationController.handleGetNotificationById);
 
 /** Mount GET / handler */
 // appRouter.get("/", controllers.main.index);
