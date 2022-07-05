@@ -17,7 +17,7 @@ module.exports = {
         //   }
         // }
       },
-      status: {
+      read_status: {
         type: Sequelize.STRING
       },
       receiver_id: {
