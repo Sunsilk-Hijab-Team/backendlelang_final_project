@@ -122,8 +122,9 @@ class AuthenticationController extends ApplicationController{
     handleUpdate = async (req, res, next) => {
         try {
 
-            //comfigure uploaded file to cloudinary
+            //configure uploaded file to cloudinary
             const fileBase64 = req.file.buffer.toString('base64');
+            // console.log(fileBase64);
             const file = `data:${req.file.mimetype};base64,${fileBase64}`;
             const url = await new Promise((resolve, reject) => {
                 cloudinary.uploader.upload(file, function(err, result){
