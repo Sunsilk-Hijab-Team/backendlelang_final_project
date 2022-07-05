@@ -26,10 +26,12 @@ module.exports = {
         // }
       },
       status:{
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values:['available','sold','deleted']
       },
       published:{
-        type: Sequelize.BOOLEAN
+        type: Sequelize.ENUM,
+        values: [true, false]
       },
       categories_id: {
         type: Sequelize.INTEGER,
