@@ -48,12 +48,12 @@ appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticati
 appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
 
 appRouter.post("/api/v1/seller/category/add", checkCategory, runValidation, authorization.checkToken, categoryController.handleAdd);
-appRouter.put("/api/v1/seller/category/update/:id", authorization.checkToken, categoryController.handleUpdate);
+appRouter.put("/api/v1/seller/category/update/:id", checkCategory, runValidation, authorization.checkToken, categoryController.handleUpdate);
 appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken, categoryController.handleDelete);
 appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);
 appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, categoryController.handleGetById);
 
-appRouter.post("/api/v1/seller/product/add", authorization.checkToken, uploadFiles.array("image_url"), productController.handleAdd);
+appRouter.post("/api/v1/seller/product/add",  checkProductName, checkDescription, checkPrice, runValidation, authorization.checkToken, uploadFiles.array("image_url"), productController.handleAdd);
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
 appRouter.put("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
