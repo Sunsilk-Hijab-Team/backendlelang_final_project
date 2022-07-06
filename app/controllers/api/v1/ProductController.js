@@ -52,7 +52,7 @@ class ProductController extends ApplicationController{
 
             if(req.files){
 
-            let url = [];
+            let images = [];
             for(const file of req.files){
                 const urls = await new Promise((resolve, reject) => {
                     const fileBase64 = file.buffer.toString('base64');
@@ -66,7 +66,7 @@ class ProductController extends ApplicationController{
 
                     });
                 })
-                url.push(urls);
+                images.push(urls);
             }
 
 
@@ -74,7 +74,7 @@ class ProductController extends ApplicationController{
                 status: 'Created Success',
                 product: {
                     product,
-                    url
+                    images
                 }
             });
 

@@ -13,6 +13,18 @@ const authorization = require("../app/middlewares/authorization");
 
 const uploadFiles = require("../app/middlewares/multerUpload");
 
+const { runValidation,
+        checkName,
+        checkEmail,
+        checkPassword,
+        checkCity,
+        checkAddress,
+        checkCategory,
+        checkProductName,
+        checkDescription,
+        checkPrice
+      } = require('../app/middlewares/validation');
+
 const {
   ApplicationController,
   AuthenticationController,
@@ -29,13 +41,13 @@ const {
  const notificationController = new NotificationController();
 
 
-appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
-appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
+appRouter.post("/api/v1/auth/register", checkName, checkEmail, checkPassword, runValidation, authenticationController.handleRegister);
+appRouter.post("/api/v1/auth/login",  checkEmail, checkPassword, runValidation, authenticationController.handleLogin);
 appRouter.put("/api/v1/auth/update", authorization.checkToken, uploadFiles.single("image_url"), authenticationController.handleUpdate);
 appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
 
-appRouter.post("/api/v1/seller/category/add", authorization.checkToken, categoryController.handleAdd);
+appRouter.post("/api/v1/seller/category/add", checkCategory, runValidation, authorization.checkToken, categoryController.handleAdd);
 appRouter.put("/api/v1/seller/category/update/:id", authorization.checkToken, categoryController.handleUpdate);
 appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken, categoryController.handleDelete);
 appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);

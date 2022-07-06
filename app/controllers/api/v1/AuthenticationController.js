@@ -3,6 +3,7 @@ const authHelper = require('../../../helpers/AuthenticationHelper');
 const jwt = require("jsonwebtoken");
 const { Users } = require('../../../models/index');
 const cloudinary = require("../../../middlewares/cloudUpload");
+const { body, validationResult } = require('express-validator');
 
 const userModel = Users;
 
@@ -10,7 +11,6 @@ class AuthenticationController extends ApplicationController{
 
     handleRegister = async (req, res, next) => {
         try {
-            // console.log("-------"+req.body+"-----------------");
             const name = req.body.full_name;
             const email = req.body.email.toLowerCase();
             const password = await authHelper.encryptedPassword(req.body.password);
@@ -29,6 +29,7 @@ class AuthenticationController extends ApplicationController{
                  });
                 return;
             }
+
             const user = await Users.create({
                 full_name: name,
                 email: email,
@@ -61,8 +62,9 @@ class AuthenticationController extends ApplicationController{
             })
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
              res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong - Ini register routes'
             });
         }
