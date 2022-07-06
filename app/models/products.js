@@ -43,10 +43,11 @@ module.exports = (sequelize, DataTypes) => {
     base_price: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
+    published: DataTypes.STRING,
     categories_id: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: 'products'
+    modelName: 'Products'
   });
   return Products;
 };

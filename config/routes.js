@@ -1,5 +1,4 @@
 const express = require("express");
-const { ProductBuyerController } = require("../app/controllers/api/v1");
 const controllers = require("../app/controllers")
 const YAML = require('yamljs');
 
@@ -10,23 +9,25 @@ const swaggerUI=require("swagger-ui-express");
 // const swaggerDocument=YAML.load("../docs/swagger.yaml");
 const swaggerDocument=require("../docs/swagger.json");
 
-const productBuyer = new ProductBuyerController();
 const authorization = require("../app/middlewares/authorization");
 
 const uploadFiles = require("../app/middlewares/multerUpload");
 
 const {
-  ApplicationController,
   AuthenticationController,
   CategoryController,
   ProductController,
   OrderController,
+  ProductBuyerController,
+  OrderBuyerController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
  const categoryController = new CategoryController();
  const productController = new ProductController();
-const orderController = new OrderController();
+ const orderController = new OrderController();
+ const productBuyerController = new ProductBuyerController();
+ const orderBuyerController = new OrderBuyerController();
 
 
 appRouter.post("/api/v1/auth/register", authenticationController.handleRegister);
@@ -54,41 +55,12 @@ appRouter.get("/api/v1/product/search", productController.handleSearch);
 appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAll);
 appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
 
-
-/** Mount GET / handler */
-// appRouter.get("/", controllers.main.index);
-// appRouter.post("/api/v1/auth/login", authenticationController.handleLogin);
-// appRouter.get("/api/v1/auth/logout", authenticationController.handleLogout);
-// appRouter.get("api/v1/seller/product/all", authenticationController.handleAuthorize(), ProductController.handleGetAll());
-
-/**
- * TODO: Implement your own API
- *       implementations
- */
-// apiRouter.get("/api/v1/posts", controllers.api.v1.post.list);
-// apiRouter.post("/api/v1/posts", controllers.api.v1.post.create);
-// apiRouter.put(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.post.setPost,
-//   controllers.api.v1.post.update
-// );
-apiRouter.get(
-  '/api/v1/product/all', productBuyer.handleGetAll
-);
-apiRouter.get(
-  '/api/v1/buyer/product/:id', productBuyer.handleGetById
-)
-// apiRouter.delete(
-//   "/api/v1/posts/:id",
-//   controllers.api.v1.post.setPost,
-//   controllers.api.v1.post.destroy
-// );
-
-// apiRouter.get("/api/v1/errors", () => {
-//   throw new Error(
-//     "The Industrial Revolution and its consequences have been a disaster for the human race."
-//   );
-// });
+apiRouter.get('/api/v1/product/all', productBuyerController.handleGetAll);
+apiRouter.get('/api/v1/buyer/product/:id', productBuyerController.handleGetById)
+apiRouter.post('/api/v1/buyer/order/buy', authorization.checkToken, orderBuyerController.handleAddOrder)
+apiRouter.put('/api/v1/buyer/order/price-appeal/:id', authorization.checkToken, orderBuyerController.handleUpdateOrder)
+apiRouter.get('/api/v1/buyer/order/all', authorization.checkToken, orderBuyerController.handleGetAll)
+apiRouter.get('/api/v1/buyer/order/product/:id', authorization.checkToken, orderBuyerController.handleGetById)
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

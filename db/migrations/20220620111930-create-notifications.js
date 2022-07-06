@@ -17,7 +17,7 @@ module.exports = {
         //   }
         // }
       },
-      status: {
+      read_status: {
         type: Sequelize.STRING
       },
       receiver_id: {
@@ -41,7 +41,6 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });

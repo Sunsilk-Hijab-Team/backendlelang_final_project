@@ -30,16 +30,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM,
+        values: ['pending', 'accepted', 'rejected']
       },
       seller_id: {
         type: Sequelize.INTEGER,
-        references:{
-          model: {
-            tableName: 'Users',
-            key: 'id',
-          }
-        }
+        // references:{
+        //   model: {
+        //     tableName: 'Users',
+        //     key: 'id',
+        //   }
+        // }
       },
       createdAt: {
         allowNull: false,
@@ -50,7 +51,6 @@ module.exports = {
         type: Sequelize.DATE
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE
       }
     });

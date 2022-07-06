@@ -1,11 +1,29 @@
-const { Products } = require('../../../models');
+const { Products, Categories, Users, Images } = require('../../../models');
 const ApplicationController = require('./ApplicationController');
 
 class ProductBuyerController extends ApplicationController{
 
     handleGetAll = async (req,res) => {
         try {
-            const product = await Products.findAll();
+            const product = await Products.findAll({
+                where:{
+                    status: 'available'
+                },
+                order: [
+                    ['createdAt', 'DESC']
+                ],
+                include: [
+                    {
+                        model: Categories, as: 'categories',
+                    },
+                    {
+                        model: Users, as: 'users'
+                    },
+                    {
+                        model: Images, as: 'images'
+                    }
+                ]
+            });
             
             if(product == ""){
                 res.status(204).json()
@@ -35,7 +53,18 @@ class ProductBuyerController extends ApplicationController{
             const product = await Products.findOne({
                 where: {
                     id: req.params.id
-                }
+                },
+                include: [
+                    {
+                        model: Categories, as: 'categories',
+                    },
+                    {
+                        model: Users, as: 'users'
+                    },
+                    {
+                        model: Images, as: 'images'
+                    }
+                ]
             });
 
             if (product === null) {
