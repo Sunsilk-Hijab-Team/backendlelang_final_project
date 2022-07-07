@@ -23,7 +23,7 @@ module.exports = {
         //     tableName: 'Users',
         //     key: 'id',
         //   }
-        // }
+        // },
       },
       status:{
         type: Sequelize.ENUM,
@@ -37,10 +37,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         // references:{
         //   model: {
-        //     tableName: 'Categories',
+        //     tableName: 'categories',
         //     key: 'id',
         //   }
         // }
+
       },
       createdAt: {
         allowNull: false,

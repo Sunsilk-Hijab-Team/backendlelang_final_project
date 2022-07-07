@@ -5,13 +5,12 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon bin/www",
-    "test": "jest",
     "develop": "nodemon -q bin/www",
-    "db:create": "./node_modules/.bin/sequelize-cli db:create",
-    "db:drop": "./node_modules/.bin/sequelize-cli db:drop",
-    "db:migrate": "./node_modules/.bin/sequelize-cli db:migrate",
-    "db:rollback": "./node_modules/.bin/sequelize-cli db:migrate:undo",
-    "db:seed": "./node_modules/.bin/sequelize-cli db:seed:all"
+    "db:create": "sequelize-cli db:create",
+    "db:drop": "sequelize-cli db:drop",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:rollback": "sequelize-cli db:migrate:undo",
+    "db:seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -37,5 +36,19 @@
   "devDependencies": {
     "jest": "^28.1.1",
     "nodemon": "^2.0.15"
-  }
+  },
+  "description": "Aplikasi e-commerce lelang online",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sunsilk-Hijab-Team/backendlelang_final_project.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/Sunsilk-Hijab-Team/backendlelang_final_project/issues"
+  },
+  "homepage": "https://github.com/Sunsilk-Hijab-Team/backendlelang_final_project#readme"
 }
