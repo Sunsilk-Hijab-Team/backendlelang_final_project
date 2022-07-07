@@ -58,6 +58,9 @@ appRouter.put("/api/v1/seller/order/update/:id", authorization.checkToken, order
 
 appRouter.get("/api/v1/notification/all", authorization.checkToken, notificationController.handleGetAllNotification);
 appRouter.get("/api/v1/notification/:id", authorization.checkToken, notificationController.handleGetNotificationById);
+appRouter.put("/api/v1/notification/:id", authorization.checkToken, notificationController.handleUpdateNotificationReadStatus);
+
+
 
 /** Mount GET / handler */
 // appRouter.get("/", controllers.main.index);

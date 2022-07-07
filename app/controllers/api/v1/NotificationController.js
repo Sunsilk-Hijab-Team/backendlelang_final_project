@@ -98,6 +98,34 @@ class NotificationController extends ApplicationController{
             })
         }
     }
+    // handle update notification read status where id notification=params id
+    handleUpdateNotificationReadStatus = async (req, res, next) => {
+        try {
+            const updateNotificationReadStatus = await Notifications.update({
+                read_status: "read"
+            }, {
+                where: {
+                    id: req.params.id
+                }
+            });
+            if(updateNotificationReadStatus == ""){
+                res.status(204).json({
+                    status: 'Success',
+                    message: 'No content'
+                });
+                return;
+            }
+            res.status(200).json({
+                status: 'Success',
+                Notification: updateNotificationReadStatus
+            })
+        } catch (error) {
+            res.status(500).json({
+                error: error.message,
+                message: 'Something went wrong'
+            })
+        }
+    }
 }
 
 module.exports = NotificationController;

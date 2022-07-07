@@ -7,7 +7,35 @@
 
 const app = require("../app")
 const port = process.env.PORT || 8000;
+const cors =require("cors");
+const http = require("http");
 
+const {Server}=require("socket.io");
+const server = http.createServer(app);
+
+const allowedOrigins = 
+[   'http://localhost:3000',
+    'http://deploydomain.com'
+];
+
+const io=new Server(server,{
+    cors:{
+        origin: allowedOrigins,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    }
+});
+
+io.on("connection",(socket)=>{
+    // // check socket connection then send notification data to client where receiver_id is same with user_id
+    // socket.on("sendNotification",(data)=>{
+    //     console.log(data);
+    //     io.emit("receiveNotification",data);
+    // });
+
+})
+
+
+app.use (cors());
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`)
 })
