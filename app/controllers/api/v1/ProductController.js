@@ -325,11 +325,13 @@ class ProductController extends ApplicationController{
                     slug: {
                         [Op.iLike]: `%${req.query.slug}%`
                     },
-                    published: true
                 },
                 include: [
                     {
                         model: Products, as: 'products',
+                        where: {
+                            published: true
+                        },
                         include: [
                             {
                                 model: Users, as: 'users'
@@ -343,12 +345,13 @@ class ProductController extends ApplicationController{
             })
 
             if(categories == null){
-                res.status(409).json({
-                    status: 'Error',
-                    message: 'Invalid params category'
+                 res.status(204).json({
+                    status: 'Success',
+                    message: 'No content'
                 });
                 return;
             }
+
 
             res.status(200).json({
                 status: 'success',
@@ -359,7 +362,7 @@ class ProductController extends ApplicationController{
 
             res.status(500).json({
                 error: error.message,
-                message: 'Something went wrong'
+                message: 'Something went wrong - slg'
             });
 
         }

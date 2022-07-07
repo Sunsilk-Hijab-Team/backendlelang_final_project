@@ -22,7 +22,9 @@ const { runValidation,
         checkCategory,
         checkProductName,
         checkDescription,
-        checkPrice
+        checkPrice,
+        checkSearch,
+        checkSlug
       } = require('../app/middlewares/validation');
 
 const {
@@ -53,16 +55,16 @@ appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken,
 appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);
 appRouter.get("/api/v1/seller/category/getById/:id", authorization.checkToken, categoryController.handleGetById);
 
-appRouter.post("/api/v1/seller/product/add",  checkProductName, checkDescription, checkPrice, runValidation, authorization.checkToken, uploadFiles.array("image_url"), productController.handleAdd);
+appRouter.post("/api/v1/seller/product/add",  authorization.checkToken, uploadFiles.array("image_url"), productController.handleAdd);
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
 appRouter.put("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
 appRouter.get("/api/v1/seller/product/:id", authorization.checkToken, productController.hadleGetById);
 appRouter.put("/api/v1/seller/status/:id", authorization.checkToken, productController.handleUpdateStatus);
 appRouter.get("/api/v1/seller/productSell", authorization.checkToken, productController.handleGetStatusSell);
-appRouter.get("/api/v1/seller/productByCategory", authorization.checkToken, productController.handleGetByCategory);
+appRouter.get("/api/v1/seller/productByCategory", checkSlug, runValidation, authorization.checkToken, productController.handleGetByCategory);
 
-appRouter.get("/api/v1/product/search", productController.handleSearch);
+appRouter.get("/api/v1/product/search", checkSearch, runValidation, productController.handleSearch);
 
 appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAllOrder);
 appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);

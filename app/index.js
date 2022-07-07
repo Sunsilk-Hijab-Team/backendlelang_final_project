@@ -17,7 +17,7 @@ const viewsDir = path.join(__dirname, "./views");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(bodyParser.text());
 // parse application/json
 app.use(bodyParser.json())
 

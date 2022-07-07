@@ -1,10 +1,11 @@
 const express = require('express');
+
 const { check, body, validationResult, checkSchema } = require('express-validator');
 
 
     runValidation = (req, res, next) => {
 
-        const error = validationResult(req);
+        const error = validationResult(req.body);
 
         if (!error.isEmpty()) {
             return res.status(422).json({
@@ -58,23 +59,35 @@ const { check, body, validationResult, checkSchema } = require('express-validato
     ]
 
     checkProductName = [
-        check('name')
+        body('name')
         .notEmpty()
         .withMessage('Product name cannot be empty')
     ]
 
     checkDescription = [
-        check('description')
+        body('description')
         .notEmpty()
         .withMessage('Description cannot be empty')
     ]
 
     checkPrice = [
-        check('base_price')
+        body('base_price')
         .isNumeric()
         .withMessage('Price must be a number')
         .notEmpty()
         .withMessage('Price cannot be empty')
+    ]
+
+    checkSearch = [
+        check('keyword')
+        .notEmpty()
+        .withMessage('Keyword cannot be empty')
+    ]
+
+    checkSlug = [
+        check('slug')
+        .notEmpty()
+        .withMessage('Category cannot be empty')
     ]
 
 
@@ -106,5 +119,7 @@ module.exports = {  runValidation,
                     checkCategory,
                     checkProductName,
                     checkDescription,
-                    checkPrice
+                    checkPrice,
+                    checkSearch,
+                    checkSlug
                 };
