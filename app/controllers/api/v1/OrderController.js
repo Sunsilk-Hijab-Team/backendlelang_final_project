@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 //import model Users, product
-const { Users, Products, Orders, Categories } = require('../../../models');
+const { Users, Products, Orders, Categories, Notifications } = require('../../../models');
 
 class OrderController extends ApplicationController{
     // get all data order from tabel order join with table Users & Products where id user equal with user login
@@ -118,6 +118,15 @@ class OrderController extends ApplicationController{
             }
             order.status = status;
             await order.save();
+            // after order save insert new data into notification table
+            const notificationData={
+                orderId: order.id,
+                read_status: 'unread',
+                receiverId: order.buyer_id,
+                transactionDate: order.updatedAt,
+            }
+            const notification = await Notifications.create(notificationData);
+
             res.status(200).json({
                 status: 'success',
                 message: 'Update status order success'
