@@ -14,11 +14,6 @@ class AuthenticationController extends ApplicationController{
             const email = req.body.email.toLowerCase();
             const password = await authHelper.encryptedPassword(req.body.password);
 
-            // const phone = req.body.phone;
-            // const city = req.body.city;
-            // const address = req.body.address;
-            // const img = req.body.image_url;
-
             let existingUser = await Users.findOne({ where: { email: email } });
 
 
@@ -87,6 +82,7 @@ class AuthenticationController extends ApplicationController{
 
             if((!isPasswordValid)) {
                 res.status(409).json({
+                    status: 'Error',
                     message: 'Password is incorrect'
                 });
                 return;
