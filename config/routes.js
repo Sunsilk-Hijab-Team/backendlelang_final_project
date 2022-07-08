@@ -1,5 +1,5 @@
 const express = require("express");
-const controllers = require("../app/controllers");
+const controllers = require("../app/controllers")
 const YAML = require('yamljs');
 
 const appRouter = express.Router();
@@ -28,12 +28,13 @@ const { runValidation,
       } = require('../app/middlewares/validation');
 
 const {
-  ApplicationController,
   AuthenticationController,
   CategoryController,
   ProductController,
   OrderController,
   NotificationController,
+  ProductBuyerController,
+  OrderBuyerController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
@@ -41,7 +42,8 @@ const {
  const productController = new ProductController();
  const orderController = new OrderController();
  const notificationController = new NotificationController();
-
+ const productBuyerController = new ProductBuyerController();
+ const orderBuyerController = new OrderBuyerController();
 
 appRouter.post("/api/v1/auth/register", checkName, checkEmail, checkPassword, runValidation, authenticationController.handleRegister);
 appRouter.post("/api/v1/auth/login",  checkEmail, checkPassword, runValidation, authenticationController.handleLogin);
@@ -72,9 +74,16 @@ appRouter.put("/api/v1/seller/order/update/:id", authorization.checkToken, order
 
 appRouter.get("/api/v1/notification/all", authorization.checkToken, notificationController.handleGetAllNotification);
 appRouter.get("/api/v1/notification/:id", authorization.checkToken, notificationController.handleGetNotificationById);
+appRouter.put("/api/v1/notification/:id", authorization.checkToken, notificationController.handleUpdateNotificationReadStatus);
 
-/** Mount GET / handler */
-// appRouter.get("/", controllers.main.index);
+appRouter.get("/api/v1/product/search", productController.handleSearch);
+apiRouter.get('/api/v1/product/all', productBuyerController.handleGetAll);
+
+apiRouter.get('/api/v1/buyer/product/:id', productBuyerController.handleGetById)
+apiRouter.post('/api/v1/buyer/order/buy', authorization.checkToken, orderBuyerController.handleAddOrder)
+apiRouter.put('/api/v1/buyer/order/price-appeal/:id', authorization.checkToken, orderBuyerController.handleUpdateOrder)
+apiRouter.get('/api/v1/buyer/order/all', authorization.checkToken, orderBuyerController.handleGetAll)
+apiRouter.get('/api/v1/buyer/order/product/:id', authorization.checkToken, orderBuyerController.handleGetById)
 
 apiRouter.use(controllers.api.main.onLost);
 apiRouter.use(controllers.api.main.onError);

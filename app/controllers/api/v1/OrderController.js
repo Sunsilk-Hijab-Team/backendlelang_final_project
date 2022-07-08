@@ -120,13 +120,19 @@ class OrderController extends ApplicationController{
             await order.save();
             // after order save insert new data into notification table
             const notificationData={
-                orderId: order.id,
+                order_id: order.id,
                 read_status: 'unread',
-                receiverId: order.buyer_id,
-                transactionDate: order.updatedAt,
+                receiver_id: order.buyer_id,
+                transaction_date: order.updatedAt,
             }
             const notification = await Notifications.create(notificationData);
-
+            // send new notification data to buyer user using socket
+            const buyerDataNotification = {
+                notification: notification,
+                user_id: order.buyer_id
+            }
+            this.io.emit('new-notification', buyerDataNotification);
+            
             res.status(200).json({
                 status: 'success',
                 message: 'Update status order success'

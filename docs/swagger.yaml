@@ -1668,19 +1668,11 @@ components:
               example: Jam Tangan Casio
             description:
               type: string
-<<<<<<< HEAD
               example:  Jam tangan ini didesain sederhana dengan materi resin yang ringan. Tampilan feminin yang simpel dapat digunakan sehari-hari. 
             base_price:
               type: integer
               example: 250000
             user:
-=======
-              example:  Jam tangan ini didesain sederhana dengan materi resin yang ringan. Tampilan feminin yang simpel dapat digunakan sehari-hari.
-            base_price:
-              type: integer
-              example: 250000
-            user_id:
->>>>>>> 09b2fc138810a5f5755a1861bfb427b0d51a754a
               type: object
               properties:
                 id:

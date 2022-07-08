@@ -5,19 +5,19 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon bin/www",
-    "test": "jest",
     "develop": "nodemon -q bin/www",
-    "db:create": "./node_modules/.bin/sequelize-cli db:create",
-    "db:drop": "./node_modules/.bin/sequelize-cli db:drop",
-    "db:migrate": "./node_modules/.bin/sequelize-cli db:migrate",
-    "db:rollback": "./node_modules/.bin/sequelize-cli db:migrate:undo",
-    "db:seed": "./node_modules/.bin/sequelize-cli db:seed:all"
+    "db:create": "sequelize-cli db:create",
+    "db:drop": "sequelize-cli db:drop",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:rollback": "sequelize-cli db:migrate:undo",
+    "db:seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "cloudinary": "^1.30.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.6",
     "express": "^4.17.3",
@@ -29,6 +29,7 @@
     "pg": "^8.7.3",
     "sequelize": "^6.18.0",
     "sequelize-cli": "^6.4.1",
+    "socket.io": "^4.5.1",
     "supertest": "^6.2.3",
     "swagger-ui-express": "^4.4.0",
     "yamljs": "^0.3.0"
@@ -36,5 +37,19 @@
   "devDependencies": {
     "jest": "^28.1.1",
     "nodemon": "^2.0.15"
-  }
+  },
+  "description": "Aplikasi e-commerce lelang online",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sunsilk-Hijab-Team/backendlelang_final_project.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/Sunsilk-Hijab-Team/backendlelang_final_project/issues"
+  },
+  "homepage": "https://github.com/Sunsilk-Hijab-Team/backendlelang_final_project#readme"
 }

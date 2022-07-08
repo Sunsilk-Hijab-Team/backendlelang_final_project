@@ -40,6 +40,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   Products.init({
     user_id: DataTypes.INTEGER,
+    status: DataTypes.STRING,
+    // published: DataTypes.ENUM,
     categories_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -51,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     deletedAt: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'Products',
+    modelName: 'Products'
   });
   return Products;
 };

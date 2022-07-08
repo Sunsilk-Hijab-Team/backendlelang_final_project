@@ -23,24 +23,25 @@ module.exports = {
         //     tableName: 'Users',
         //     key: 'id',
         //   }
-        // }
+        // },
       },
       status:{
         type: Sequelize.ENUM,
         values:['available','sold','deleted']
       },
-      published:{
-        type: Sequelize.ENUM,
-        values: [true, false]
-      },
+      // published:{
+      //   type: Sequelize.ENUM,
+      //   values: ['true', 'false']
+      // },
       categories_id: {
         type: Sequelize.INTEGER,
         // references:{
         //   model: {
-        //     tableName: 'Categories',
+        //     tableName: 'categories',
         //     key: 'id',
         //   }
         // }
+
       },
       createdAt: {
         allowNull: false,
