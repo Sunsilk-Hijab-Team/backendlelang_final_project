@@ -1,6 +1,7 @@
 const ProductController = require('./ProductController');
-const { Users, sequelize, Produtcs, Categories } = require('../../../models');
+const { Users, sequelize, Products, Categories, Images } = require('../../../models');
 const { queryInterface } = sequelize;
+const generateId = require('../../../helpers/productId');
 
 
 beforeAll( async () => {
@@ -12,44 +13,77 @@ afterAll( async () => {
 
 describe('ProductController', () => {
 
-    // describe('#handleAdd', () => {
+    describe('#handleAdd', () => {
 
-    //     it('Should return 201 code and message', async () => {
+        it('Should return 201 code and message', async () => {
 
-    //         const product = {
-    //             id: 1,
-    //             name: 'Jam Tangan',
-    //             description: 'Lorem ipsum dolor sit amet',
-    //             base_price: '1000000',
-    //             user_id: 1,
-    //             status: 'Tersedia',
-    //             category_id: 1,
-    //             deletedAt: null
-    //         }
+            // const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
+            // const g = generateId.generate(1, 100);
+            // const id = 'PRD-' + count + g;
 
-    //         const mockRequest = { body: product }
+            const product = new Products({
+                id: 1,
+                name: 'Jam Tangan',
+                description: 'Lorem ipsum dolor sit amet',
+                base_price: '1000000',
+                user_id: 1,
+                status: 'Tersedia',
+                category_id: 1,
+                deletedAt: null
+            })
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+            // const file =
+            //     {
+            //         fieldname: 'image_url',
+            //         originalname: '14.png',
+            //         encoding: '7bit',
+            //         mimetype: 'image/png',
+            //         buffer: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 08 70 00 00 08 70 08 06 00 00 00 4f cc 5b 69 00 00 00 01 73 52 47 42 00 ae ce 1c e9 00 00 00 09 ... 27946 more bytes>',
+            //         size: 27996
+            //     }
+                //,
+                // {
+                //     fieldname: 'image_url',
+                //     originalname: '15.png',
+                //     encoding: '7bit',
+                //     mimetype: 'image/png',
+                //     buffer: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 08 70 00 00 08 70 08 06 00 00 00 4f cc 5b 69 00 00 00 01 73 52 47 42 00 ae ce 1c e9 00 00 00 09 ... 473332 more bytes>',
+                //     size: 473382
+                // }
 
-    //         const mockNext = jest.fn()
+            // const fileBase64 = file.buffer.toString('base64');
+            // const filess = `data:${file.mimetype};base64,${fileBase64}`;
 
-    //         const productController = new ProductController();
 
-    //         await productController.handleAdd(mockRequest, mockResponse, mockNext)
+            const mockRequest = { body: product }
 
-    //         expect(mockResponse.status).toHaveBeenCalled(201)
+            const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+            }
 
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'Product added successfully',
-    //         })
+             const mockModel = {
+                create: jest.fn().mockReturnValue(product)
+            }
 
-    //     });
+            const mockNext = jest.fn()
 
-    // });
+            const productController = new ProductController({
+                 productModel: mockModel
+            });
+
+            await productController.handleAdd(mockRequest, mockResponse, mockNext)
+
+            expect(mockResponse.status).toBeCalledWith(201)
+            expect(mockResponse.json).toBeDefined()
+            // expect(mockResponse.json).toHaveBeenCalledWith({
+            //     status: 'Success',
+            //     product
+            // })
+
+        });
+
+    });
 
     // describe('#handleUpdate', () => {
 
@@ -205,7 +239,7 @@ describe('ProductController', () => {
 
         it('Should return 200 code and message', async () => {
 
-            const product =  {
+            const Product = new Products  ({
                 id: 1,
                 name: 'Jam Tangan Rolex',
                 description: 'Lorem ipsum dolor sit amet',
@@ -217,7 +251,27 @@ describe('ProductController', () => {
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 deletedAt: null
-            }
+            })
+
+            const product = await Products.findAll({
+                where: {
+                    user_id: 1,
+                },
+                order_by: [
+                    ['createdAt', 'DESC']
+                ],
+                include: [
+                        {
+                            model: Categories, as: 'categories',
+                        },
+                        {
+                            model: Users, as: 'users'
+                        },
+                        {
+                            model: Images, as: 'images'
+                        }
+                    ]
+            });
 
             const mockRequest = {   }
 
@@ -231,11 +285,11 @@ describe('ProductController', () => {
             await productController.handleGetAll(mockRequest, mockResponse)
 
             expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeDefined()
-            // expect(mockResponse.json).toHaveBeenCalledWith({
-            //     status: 'Succsess',
-            //         product
-            // })
+            // expect(mockResponse.json).toBeDefined()
+            expect(mockResponse.json).toHaveBeenCalledWith({
+                status: 'Success',
+                product
+            })
 
         });
 
@@ -257,7 +311,7 @@ describe('ProductController', () => {
             expect(mockResponse.status).toHaveBeenCalledWith(204)
 
             expect(mockResponse.json).toHaveBeenCalledWith({
-                status: 'SUCCESS',
+                status: 'Success',
                 message: 'No data found',
                 data: {
 
@@ -268,113 +322,113 @@ describe('ProductController', () => {
     });
 
 
-    describe('#handleGetById', () => {
+    // describe('#handleGetById', () => {
 
-        it('Should return 200 code and message', async () => {
-            const product =  {
-                id: 1,
-                name: 'Jam Tangan Rolex',
-                description: 'Lorem ipsum dolor sit amet',
-                base_price: '100000000',
-                user_id: 1,
-                status: 'Terjual',
-                category_id: 1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                deletedAt: null
-            }
+    //     it('Should return 200 code and message', async () => {
+    //         const product =  {
+    //             id: 1,
+    //             name: 'Jam Tangan Rolex',
+    //             description: 'Lorem ipsum dolor sit amet',
+    //             base_price: '100000000',
+    //             user_id: 1,
+    //             status: 'Terjual',
+    //             category_id: 1,
+    //             createdAt: new Date(),
+    //             updatedAt: new Date(),
+    //             deletedAt: null
+    //         }
 
-            const mockRequest = {
-                params: {
-                    id: product.id
-                }
-             }
+    //         const mockRequest = {
+    //             params: {
+    //                 id: product.id
+    //             }
+    //          }
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+    //         const mockResponse = {
+    //             status: jest.fn().mockReturnThis(),
+    //             json: jest.fn().mockReturnThis()
+    //         }
 
-            const mockNext= json.fn();
+    //         const mockNext= json.fn();
 
-            const productController = new ProductController();
+    //         const productController = new ProductController();
 
-            await productController.handleGetById(mockRequest, mockResponse, mockNext);
+    //         await productController.handleGetById(mockRequest, mockResponse, mockNext);
 
-            expect(mockResponse.status).toHaveBeenCalledWith(200)
-            expect(mockResponse.json).toHaveBeenCalledWith({
-                status: 'SUCCESS',
-                message: 'Product retrieved successfully',
-                data: {
-                    product
-                }
-            });
-        })
+    //         expect(mockResponse.status).toHaveBeenCalledWith(200)
+    //         expect(mockResponse.json).toHaveBeenCalledWith({
+    //             status: 'SUCCESS',
+    //             message: 'Product retrieved successfully',
+    //             data: {
+    //                 product
+    //             }
+    //         });
+    //     })
 
-        it('Should return 204 code and message', async () => {
+    //     it('Should return 204 code and message', async () => {
 
-            const product = {
-                id: 2,
-            }
+    //         const product = {
+    //             id: 2,
+    //         }
 
-            const mockRequest = {
-                params: {
-                    id: product.id
-                }
-            }
+    //         const mockRequest = {
+    //             params: {
+    //                 id: product.id
+    //             }
+    //         }
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+    //         const mockResponse = {
+    //             status: jest.fn().mockReturnThis(),
+    //             json: jest.fn().mockReturnThis()
+    //         }
 
-            const mockNext = jest.fn()
+    //         const mockNext = jest.fn()
 
-            const productController = new ProductController();
+    //         const productController = new ProductController();
 
-            await productController.handleGetById(mockRequest, mockResponse, mockNext)
+    //         await productController.handleGetById(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toHaveBeenCalledWith(204)
+    //         expect(mockResponse.status).toHaveBeenCalledWith(204)
 
-            expect(mockResponse.json).toHaveBeenCalledWith({
-                status: 'SUCCESS',
-                message: 'No data found',
-                data: {
+    //         expect(mockResponse.json).toHaveBeenCalledWith({
+    //             status: 'SUCCESS',
+    //             message: 'No data found',
+    //             data: {
 
-                }
-            })
+    //             }
+    //         })
 
-        })
+    //     })
 
-        it('Should return 422 code ( Invalid params id ) and message', async () => {
+    //     it('Should return 422 code ( Invalid params id ) and message', async () => {
 
-                const mockRequest = {
-                    params: {
+    //             const mockRequest = {
+    //                 params: {
 
-                    }
-                 }
+    //                 }
+    //              }
 
-                const mockResponse = {
-                    status: jest.fn().mockReturnThis(),
-                    json: jest.fn().mockReturnThis()
-                }
+    //             const mockResponse = {
+    //                 status: jest.fn().mockReturnThis(),
+    //                 json: jest.fn().mockReturnThis()
+    //             }
 
-                const mockNext = jest.fn()
+    //             const mockNext = jest.fn()
 
-                const productController = new ProductController();
+    //             const productController = new ProductController();
 
-                await productController.handleGetById(mockRequest, mockResponse, mockNext)
+    //             await productController.handleGetById(mockRequest, mockResponse, mockNext)
 
-                expect(mockResponse.status).toHaveBeenCalledWith(422)
+    //             expect(mockResponse.status).toHaveBeenCalledWith(422)
 
-                expect(mockResponse.json).toHaveBeenCalledWith({
-                    status: 'ERROR',
-                    message: 'Invalid params id',
-                })
+    //             expect(mockResponse.json).toHaveBeenCalledWith({
+    //                 status: 'ERROR',
+    //                 message: 'Invalid params id',
+    //             })
 
-            })
+    //         })
 
-    });
+    // });
 
     // describe('#handleUpdateProductStatus', () => {
 

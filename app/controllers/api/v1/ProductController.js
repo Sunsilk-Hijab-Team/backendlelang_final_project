@@ -30,6 +30,8 @@ class ProductController extends ApplicationController{
                 categories_id: category
             });
 
+            // console.log(req.files);
+
             if(req.files){
 
             let images = [];
