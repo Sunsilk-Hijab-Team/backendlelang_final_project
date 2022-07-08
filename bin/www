@@ -13,25 +13,25 @@ const http = require("http");
 const {Server}=require("socket.io");
 const server = http.createServer(app);
 
-const allowedOrigins = 
-[   'http://localhost:3000',
-    'http://deploydomain.com'
-];
+const allowedOrigins = 'http://localhost:3000';
 
 const io=new Server(server,{
     cors:{
         origin: allowedOrigins,
+        credentials:true,
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     }
 });
 
 io.on("connection",(socket)=>{
-    // // check socket connection then send notification data to client where receiver_id is same with user_id
-    // socket.on("sendNotification",(data)=>{
-    //     console.log(data);
-    //     io.emit("receiveNotification",data);
-    // });
-
+    // send notification data to buyer user using socket
+    socket.on("new-notification",(data)=>{
+        socket.broadcast.emit("new-notification",data);
+    });
+    // send notification data to seller user using socket
+    socket.on("new-notification-seller",(data)=>{
+        socket.broadcast.emit("new-notification-seller",data);
+    });
 })
 
 

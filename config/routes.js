@@ -52,8 +52,6 @@ appRouter.put("/api/v1/seller/status/:id", authorization.checkToken, productCont
 appRouter.get("/api/v1/seller/productSell", authorization.checkToken, productController.handleGetStatusSell);
 appRouter.get("/api/v1/seller/productByCategory", authorization.checkToken, productController.handleGetByCategory);
 
-appRouter.get("/api/v1/product/search", productController.handleSearch);
-
 appRouter.get("/api/v1/seller/order/all", authorization.checkToken, orderController.handleGetAllOrder);
 appRouter.get("/api/v1/seller/order/:id", authorization.checkToken, orderController.handleOrderByid);
 appRouter.put("/api/v1/seller/order/update/:id", authorization.checkToken, orderController.handleUpdateStatusOrder);
@@ -62,7 +60,9 @@ appRouter.get("/api/v1/notification/all", authorization.checkToken, notification
 appRouter.get("/api/v1/notification/:id", authorization.checkToken, notificationController.handleGetNotificationById);
 appRouter.put("/api/v1/notification/:id", authorization.checkToken, notificationController.handleUpdateNotificationReadStatus);
 
+appRouter.get("/api/v1/product/search", productController.handleSearch);
 apiRouter.get('/api/v1/product/all', productBuyerController.handleGetAll);
+
 apiRouter.get('/api/v1/buyer/product/:id', productBuyerController.handleGetById)
 apiRouter.post('/api/v1/buyer/order/buy', authorization.checkToken, orderBuyerController.handleAddOrder)
 apiRouter.put('/api/v1/buyer/order/price-appeal/:id', authorization.checkToken, orderBuyerController.handleUpdateOrder)

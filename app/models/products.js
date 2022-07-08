@@ -1,8 +1,5 @@
 'use strict';
-<<<<<<< HEAD
 // const {Users, Categories, Orders, Images} = require('../models');
-=======
->>>>>>> jerrel
 const {
   Model
 } = require('sequelize');
@@ -43,23 +40,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Products.init({
     user_id: DataTypes.INTEGER,
-<<<<<<< HEAD
-    categories_id: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
-    deletedAt: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Products',
-=======
     status: DataTypes.STRING,
-    published: DataTypes.STRING,
+    // published: DataTypes.ENUM,
     categories_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Products'
->>>>>>> jerrel
   });
   return Products;
 };

@@ -126,8 +126,12 @@ class OrderController extends ApplicationController{
                 transaction_date: order.updatedAt,
             }
             const notification = await Notifications.create(notificationData);
-            // send notification to client socket
-            io.emit("receiveNotification",notification);
+            // send new notification data to buyer user using socket
+            const buyerDataNotification = {
+                notification: notification,
+                user_id: order.buyer_id
+            }
+            this.io.emit('new-notification', buyerDataNotification);
             
             res.status(200).json({
                 status: 'success',
