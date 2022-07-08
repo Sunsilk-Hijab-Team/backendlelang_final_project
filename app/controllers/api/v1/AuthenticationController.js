@@ -3,7 +3,6 @@ const authHelper = require('../../../helpers/AuthenticationHelper');
 const jwt = require("jsonwebtoken");
 const { Users } = require('../../../models/index');
 const cloudinary = require("../../../middlewares/cloudUpload");
-const { body, validationResult } = require('express-validator');
 
 const userModel = Users;
 
@@ -25,6 +24,7 @@ class AuthenticationController extends ApplicationController{
 
             if (existingUser) {
                 res.status(409).json({
+                    status: 'Error',
                     message: 'Email already exists'
                  });
                 return;
@@ -33,17 +33,14 @@ class AuthenticationController extends ApplicationController{
             const user = await Users.create({
                 full_name: name,
                 email: email,
-                password: password,
-                // phone: phone,
-                // city: city,
-                // address: address,
-                // image_url: img,
+                password: password
             })
             // .catch(err => {
             //     console.log(err);
             // })
 
             const payload = {
+                id: user.id,
                 full_name: name,
                 email: email,
                 password: password,
@@ -53,6 +50,7 @@ class AuthenticationController extends ApplicationController{
                 image_url: null,
 
             }
+
             const token = await authHelper.createToken(payload);
 
             res.status(201).json({
@@ -78,8 +76,9 @@ class AuthenticationController extends ApplicationController{
             const user = await Users.findOne({ where: { email } });
 
             if (!user) {
-                res.status(401).json({
-                    message: 'Email is incorrect'
+                res.status(409).json({
+                    status: 'Error',
+                    message: 'Invalid Email or Password'
                 });
                 return;
             }
@@ -87,7 +86,7 @@ class AuthenticationController extends ApplicationController{
             const isPasswordValid = await authHelper.comparePassword(password, user.password);
 
             if((!isPasswordValid)) {
-                res.status(401).json({
+                res.status(409).json({
                     message: 'Password is incorrect'
                 });
                 return;
@@ -105,7 +104,7 @@ class AuthenticationController extends ApplicationController{
 
             const token = await authHelper.createToken(payload);
 
-            console.log(req.headers, '---');
+            // console.log(req.headers, '---');
 
             res.status(200).json({
                 status: 'Success',
@@ -196,10 +195,6 @@ class AuthenticationController extends ApplicationController{
     handleGetCurrentUser = async (req, res, next) => {
 
         try {
-            // const checkToken = req.headers.authorization;
-            // const token = checkToken.split("Bearer ")[1];
-            // const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
-
             const user = await Users.findByPk(req.user.id);
 
             if(!user) {
@@ -210,7 +205,7 @@ class AuthenticationController extends ApplicationController{
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 user,
             })
         } catch (error) {

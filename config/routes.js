@@ -49,7 +49,9 @@ appRouter.put("/api/v1/auth/update", authorization.checkToken, uploadFiles.singl
 appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
 appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
 
-appRouter.post("/api/v1/seller/category/add", checkCategory, runValidation, authorization.checkToken, categoryController.handleAdd);
+appRouter.post("/api/v1/seller/category/add", checkProductName,
+        checkDescription,
+        checkPrice,  checkCategory, runValidation, runValidation, authorization.checkToken, categoryController.handleAdd);
 appRouter.put("/api/v1/seller/category/update/:id", checkCategory, runValidation, authorization.checkToken, categoryController.handleUpdate);
 appRouter.delete("/api/v1/seller/category/delete/:id", authorization.checkToken, categoryController.handleDelete);
 appRouter.get("/api/v1/seller/category/all", authorization.checkToken, categoryController.handleList);

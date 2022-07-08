@@ -2,285 +2,285 @@ const OrderBuyerController = require('./OrderBuyerController')
 const { orders } = require('../../../models')
 
 describe('OrderBuyerController', () => {
-    
-    describe('#handleAddOrder', () => {
-        it('should return 201 status code and data order', async () => {
 
-            const order = new orders({
-                id: 1,
-                product_id: 1,
-                buyer_id: 1,
-                bid_price: 200000,
-                status: "menunggu",
-                seller_id: 1,
-                deletedAt: null,
-            }) 
+//     describe('#handleAddOrder', () => {
+//         it('should return 201 status code and data order', async () => {
 
-            const mockOrderModel = {
-                create: jest.fn().mockReturnValue(order),
-            }
+//             const order = new orders({
+//                 id: 1,
+//                 product_id: 1,
+//                 buyer_id: 1,
+//                 bid_price: 200000,
+//                 status: "menunggu",
+//                 seller_id: 1,
+//                 deletedAt: null,
+//             })
 
-            const mockRequest = {
-                body: {
-                    bid_price: 200000
-                }
-            };
+//             const mockOrderModel = {
+//                 create: jest.fn().mockReturnValue(order),
+//             }
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             const mockRequest = {
+//                 body: {
+//                     bid_price: 200000
+//                 }
+//             };
 
-            const mockNext = jest.fn()
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockNext = jest.fn()
 
-            await orderBuyerController.handleAddOrder(mockRequest, mockResponse, mockNext)
+//             const orderBuyerController = new OrderBuyerController();
 
-            expect(mockOrderModel.create).toHaveBeenCalledWith({order});
-            expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'Success',
-                data: {
-                    order
-                }
-            })
+//             await orderBuyerController.handleAddOrder(mockRequest, mockResponse, mockNext)
 
-        })
-        it('should return 400 status code and error', async () => {
+//             expect(mockOrderModel.create).toHaveBeenCalledWith({order});
+//             expect(mockResponse.status).toBeCalledWith(200)
+//             expect(mockResponse.json).toBeCalledWith({
+//                 status: 'Success',
+//                 data: {
+//                     order
+//                 }
+//             })
 
-            const mockRequest = {
-                body: {
-                    bid_price: 200000
-                }
-            };
+//         })
+//         it('should return 400 status code and error', async () => {
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             const mockRequest = {
+//                 body: {
+//                     bid_price: 200000
+//                 }
+//             };
 
-            const mockNext = jest.fn()
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockNext = jest.fn()
 
-            await orderBuyerController.handleAddOrder(mockRequest, mockResponse, mockNext)
+//             const orderBuyerController = new OrderBuyerController();
 
-            expect(mockResponse.status).toBeCalledWith(400)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'ERROR',
-                message: 'Bad Request'
-            })
+//             await orderBuyerController.handleAddOrder(mockRequest, mockResponse, mockNext)
 
-        })
-    })
-    describe('#handleUpdateOrder', () => {
-        it('should return 201 status code and data order', async () => {
+//             expect(mockResponse.status).toBeCalledWith(400)
+//             expect(mockResponse.json).toBeCalledWith({
+//                 status: 'ERROR',
+//                 message: 'Bad Request'
+//             })
 
-            const order = new orders({
-                id: 1,
-                product_id: 1,
-                buyer_id: 1,
-                bid_price: 200000,
-                status: "menunggu",
-                seller_id: 1,
-                deletedAt: null,
-            }
-) 
-            const mockOrderModel = {
-                findByPk: jest.fn().mockReturnValue(order)
-            }
+//         })
+//     })
+//     describe('#handleUpdateOrder', () => {
+//         it('should return 201 status code and data order', async () => {
 
-            const mockRequest = {
-                params: {
-                    id: 1
-                },
-                body: {
-                    bid_price: 200000
-                }
-            };
+//             const order = new orders({
+//                 id: 1,
+//                 product_id: 1,
+//                 buyer_id: 1,
+//                 bid_price: 200000,
+//                 status: "menunggu",
+//                 seller_id: 1,
+//                 deletedAt: null,
+//             }
+// )
+//             const mockOrderModel = {
+//                 findByPk: jest.fn().mockReturnValue(order)
+//             }
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             const mockRequest = {
+//                 params: {
+//                     id: 1
+//                 },
+//                 body: {
+//                     bid_price: 200000
+//                 }
+//             };
 
-            const mockNext = jest.fn()
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockNext = jest.fn()
 
-            await orderBuyerController.handleUpdateOrder(mockRequest, mockResponse, mockNext)
+//             const orderBuyerController = new OrderBuyerController();
 
-            expect(mockOrderModel.findByPk).toHaveBeenCalledWith(mockRequest.params.id)
-            expect(mockResponse.status).toHaveBeenCalledWith(200)
-            expect(mockResponse.json).toHaveBeenCalledWith({
-                status: 'Success',
-                data: {
-                    order
-                }
-            })
+//             await orderBuyerController.handleUpdateOrder(mockRequest, mockResponse, mockNext)
 
-        })
-        it('should return 400 status code and error', async () => {
+//             expect(mockOrderModel.findByPk).toHaveBeenCalledWith(mockRequest.params.id)
+//             expect(mockResponse.status).toHaveBeenCalledWith(200)
+//             expect(mockResponse.json).toHaveBeenCalledWith({
+//                 status: 'Success',
+//                 data: {
+//                     order
+//                 }
+//             })
 
-            const mockRequest = {
-                params: {
-                    id: 1
-                },
-                body: {
-                    bid_price: 200000
-                }
-            };
+//         })
+//         it('should return 400 status code and error', async () => {
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
-            
-            const mockNext = jest.fn()
+//             const mockRequest = {
+//                 params: {
+//                     id: 1
+//                 },
+//                 body: {
+//                     bid_price: 200000
+//                 }
+//             };
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            await orderBuyerController.handleUpdateOrder(mockRequest, mockResponse, mockNext)
+//             const mockNext = jest.fn()
 
-            expect(mockResponse.status).toBeCalledWith(400)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'ERROR',
-                message: 'Bad Request'
-            })
+//             const orderBuyerController = new OrderBuyerController();
 
-        })
-    })
-    describe('#handleGetAll', () => {
-        it('should return 200 status code and data order', async () => {
+//             await orderBuyerController.handleUpdateOrder(mockRequest, mockResponse, mockNext)
 
-            const order = new orders({
-                id: 1,
-                product_id: 1,
-                buyer_id: 1,
-                bid_price: 200000,
-                status: "menunggu",
-                seller_id: 1,
-                deletedAt: null
-            }) 
+//             expect(mockResponse.status).toBeCalledWith(400)
+//             expect(mockResponse.json).toBeCalledWith({
+//                 status: 'ERROR',
+//                 message: 'Bad Request'
+//             })
 
-            const mockOrderModel = {
-                findAll : jest.fn().mockReturnValue(order),
-            }
+//         })
+//     })
+//     describe('#handleGetAll', () => {
+//         it('should return 200 status code and data order', async () => {
 
-            const mockRequest = {};
+//             const order = new orders({
+//                 id: 1,
+//                 product_id: 1,
+//                 buyer_id: 1,
+//                 bid_price: 200000,
+//                 status: "menunggu",
+//                 seller_id: 1,
+//                 deletedAt: null
+//             })
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
-            
-            const mockNext = jest.fn()
+//             const mockOrderModel = {
+//                 findAll : jest.fn().mockReturnValue(order),
+//             }
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockRequest = {};
 
-            await orderBuyerController.handleGetAll(mockRequest, mockResponse, mockNext)
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            expect(mockOrderModel.findAll).toHaveBeenCalled();
-            expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'Success',
-                data: {
-                    order
-                }
-            })
-        })
-        it('should return 204 status code and error', async () => {
-            const mockRequest = {};
+//             const mockNext = jest.fn()
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                message: jest.fn().mockReturnThis()
-            }
+//             const orderBuyerController = new OrderBuyerController();
 
-            const mockNext = jest.fn()
+//             await orderBuyerController.handleGetAll(mockRequest, mockResponse, mockNext)
 
-            const orderBuyerController = new OrderBuyerController();
+//             expect(mockOrderModel.findAll).toHaveBeenCalled();
+//             expect(mockResponse.status).toBeCalledWith(200)
+//             expect(mockResponse.json).toBeCalledWith({
+//                 status: 'Success',
+//                 data: {
+//                     order
+//                 }
+//             })
+//         })
+//         it('should return 204 status code and error', async () => {
+//             const mockRequest = {};
 
-            await orderBuyerController.handleGetAll(mockRequest, mockResponse,mockNext)
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 message: jest.fn().mockReturnThis()
+//             }
 
-            expect(mockResponse.status).toBeCalledWith(204)
-            expect(mockResponse.message).toBeCalledWith({
-                status: "No Content"
-            })
-        })
-    })
-    describe('#handleGetOrderById', () => {
-        it('should return 201 status code and data order', async () => {
+//             const mockNext = jest.fn()
 
-            const order = new orders({
-                id: 1,
-                product_id: 1,
-                buyer_id: 1,
-                bid_price: 200000,
-                status: "menunggu",
-                seller_id: 1,
-                deletedAt: null
-            }) 
+//             const orderBuyerController = new OrderBuyerController();
 
-            const mockOrderModel = {
-                findByPk: jest.fn().mockReturnValue(order)
-            }
+//             await orderBuyerController.handleGetAll(mockRequest, mockResponse,mockNext)
 
-            const mockRequest = {
-                params: {
-                    id: 1,
-                }
-            };
+//             expect(mockResponse.status).toBeCalledWith(204)
+//             expect(mockResponse.message).toBeCalledWith({
+//                 status: "No Content"
+//             })
+//         })
+//     })
+//     describe('#handleGetOrderById', () => {
+//         it('should return 201 status code and data order', async () => {
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             const order = new orders({
+//                 id: 1,
+//                 product_id: 1,
+//                 buyer_id: 1,
+//                 bid_price: 200000,
+//                 status: "menunggu",
+//                 seller_id: 1,
+//                 deletedAt: null
+//             })
 
-            const mockNext = jest.fn()
+//             const mockOrderModel = {
+//                 findByPk: jest.fn().mockReturnValue(order)
+//             }
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockRequest = {
+//                 params: {
+//                     id: 1,
+//                 }
+//             };
 
-            await orderBuyerController.handleGetOrderById(mockRequest, mockResponse,mockNext)
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            expect(mockOrderModel.findByPk).toHaveBeenCalledWith(mockRequest.params.id)
-            expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'Success',
-                data: {
-                    order
-                }
-            })
+//             const mockNext = jest.fn()
 
-        })
-        it('should return 422 status code and error', async () => {
+//             const orderBuyerController = new OrderBuyerController();
 
-            const mockRequest = {
-                params: {
-                    id: 1,
-                }
-            };
+//             await orderBuyerController.handleGetOrderById(mockRequest, mockResponse,mockNext)
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             expect(mockOrderModel.findByPk).toHaveBeenCalledWith(mockRequest.params.id)
+//             expect(mockResponse.status).toBeCalledWith(200)
+//             expect(mockResponse.json).toBeCalledWith({
+//                 status: 'Success',
+//                 data: {
+//                     order
+//                 }
+//             })
 
-            const mockNext = jest.fn()
+//         })
+//         it('should return 422 status code and error', async () => {
 
-            const orderBuyerController = new OrderBuyerController();
+//             const mockRequest = {
+//                 params: {
+//                     id: 1,
+//                 }
+//             };
 
-            await orderBuyerController.handleGetOrderById(mockRequest, mockResponse,mockNext)
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            expect(mockResponse.status).toBeCalledWith(422)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'ERROR',
-                message: 'Invalid params id'
-            })
-            
-        })
-    })
-    
+//             const mockNext = jest.fn()
+
+//             const orderBuyerController = new OrderBuyerController();
+
+//             await orderBuyerController.handleGetOrderById(mockRequest, mockResponse,mockNext)
+
+//             expect(mockResponse.status).toBeCalledWith(422)
+//             expect(mockResponse.json).toBeCalledWith({
+//                 status: 'ERROR',
+//                 message: 'Invalid params id'
+//             })
+
+//         })
+//     })
+
 
 })

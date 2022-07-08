@@ -11,26 +11,6 @@ class ProductController extends ApplicationController{
         try{
             const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
             const g = generateId.generate(1, 100);
-
-            //comfigure uploaded file to cloudinary
-
-                // req.files.map( async file => {
-                //     const urls = await new Promise((resolve, reject) => {
-                //         const fileBase64 = file.buffer.toString('base64');
-                //         const files = `data:${file.mimetype};base64,${fileBase64}`;
-                //         cloudinary.uploader.upload(files, function(err, result){
-                //             if(err){
-                //                 reject(err);
-                //             } else {
-                //                 resolve(result.url);
-                //             }
-                //         });
-                //     });
-                //     url.push(urls);
-                // });
-
-
-
             const id = 'PRD-' + count + g;
             const name = req.body.name;
             const description = req.body.description;
@@ -351,7 +331,6 @@ class ProductController extends ApplicationController{
                 });
                 return;
             }
-
 
             res.status(200).json({
                 status: 'success',
