@@ -35,7 +35,7 @@ class OrderBuyerController extends ApplicationController{
 
         } catch (error) {
             res.status(500).json({
-                error: error.message,
+                status: 'ERROR',
                 message: 'Something went wrong'
             });
         }
@@ -66,7 +66,7 @@ class OrderBuyerController extends ApplicationController{
 
         } catch (err) {
             res.status(400).json({
-                status: 'Error',
+                status: 'ERROR',
                 message: 'Bad Request'
             })
         }
@@ -102,7 +102,7 @@ class OrderBuyerController extends ApplicationController{
                 ]
             });
             
-            if(order == ""){
+            if(order == "" || order === null){
                 res.status(204).json()
             }
             else{
@@ -117,8 +117,7 @@ class OrderBuyerController extends ApplicationController{
         } catch (err) {
             res.status(500).json({
                 error: {
-                    error:err.message,
-                    name: "Error",
+                    status: "ERROR",
                     message: "Something wrong"
                 }
         })
@@ -145,7 +144,7 @@ class OrderBuyerController extends ApplicationController{
                 ]
             });
 
-            if (order === null) {
+            if (order == "" || order === null) {
                 res.status(204).json()
             }
             else{
@@ -160,7 +159,7 @@ class OrderBuyerController extends ApplicationController{
         } catch (err) {
             res.status(422).json({
                 error: {
-                  status: "Error",
+                  status: "ERROR",
                   message: 'Invalid params id'
                 }
             })
