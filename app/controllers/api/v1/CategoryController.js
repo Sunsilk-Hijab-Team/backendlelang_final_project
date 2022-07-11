@@ -26,7 +26,7 @@ class CategoryController extends ApplicationController{
             // });
 
             res.status(201).json({
-                status: 'created',
+                status: 'Created',
                 category
             })
 
@@ -52,8 +52,16 @@ class CategoryController extends ApplicationController{
                 }
             })
 
+             if(updateCategory == 0){
+                res.status(409).json({
+                    status: "Error",
+                    message: 'Invalid params id'
+                });
+                return
+            }
+
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 updateCategory
             })
 
@@ -69,9 +77,9 @@ class CategoryController extends ApplicationController{
         try {
             const category = await Categories.findAll();
 
-            if(!category){
+            if(category == ""){
                 res.status(204).json({
-                    status: 'success',
+                    status: 'Success',
                     message: 'No content',
                     categories: category
                 })
@@ -79,7 +87,7 @@ class CategoryController extends ApplicationController{
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 categories: category
             })
 
@@ -95,15 +103,16 @@ class CategoryController extends ApplicationController{
         try {
             const category = await Categories.findByPk(req.params.id);
 
-            if(!category){
+            if(category == null){
                 res.status(409).json({
+                    status: "Error",
                     message: 'Invalid params id'
                 });
                 return
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 category
             });
 
@@ -124,7 +133,7 @@ class CategoryController extends ApplicationController{
             });
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 category
             });
 

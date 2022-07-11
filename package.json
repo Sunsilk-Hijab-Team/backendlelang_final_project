@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon bin/www",
+    "test": "jest",
     "develop": "nodemon -q bin/www",
     "db:create": "sequelize-cli db:create",
     "db:drop": "sequelize-cli db:drop",
@@ -22,6 +23,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.3",
     "express-router": "^0.0.1",
+    "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",

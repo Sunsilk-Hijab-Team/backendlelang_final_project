@@ -10,39 +10,32 @@ class AuthenticationController extends ApplicationController{
 
     handleRegister = async (req, res, next) => {
         try {
-            // console.log("-------"+req.body+"-----------------");
             const name = req.body.full_name;
             const email = req.body.email.toLowerCase();
             const password = await authHelper.encryptedPassword(req.body.password);
-
-            // const phone = req.body.phone;
-            // const city = req.body.city;
-            // const address = req.body.address;
-            // const img = req.body.image_url;
 
             let existingUser = await Users.findOne({ where: { email: email } });
 
 
             if (existingUser) {
                 res.status(409).json({
+                    status: 'Error',
                     message: 'Email already exists'
                  });
                 return;
             }
+
             const user = await Users.create({
                 full_name: name,
                 email: email,
-                password: password,
-                // phone: phone,
-                // city: city,
-                // address: address,
-                // image_url: img,
+                password: password
             })
             // .catch(err => {
             //     console.log(err);
             // })
 
             const payload = {
+                id: user.id,
                 full_name: name,
                 email: email,
                 password: password,
@@ -52,6 +45,7 @@ class AuthenticationController extends ApplicationController{
                 image_url: null,
 
             }
+
             const token = await authHelper.createToken(payload);
 
             res.status(201).json({
@@ -61,8 +55,8 @@ class AuthenticationController extends ApplicationController{
             })
 
         } catch (error) {
-            console.log(error);
              res.status(500).json({
+                error: error.message,
                 message: 'Something went wrong - Ini register routes'
             });
         }
@@ -70,22 +64,28 @@ class AuthenticationController extends ApplicationController{
 
     handleLogin = async (req, res, next) => {
         try{
+            console.log(req.body, '-reqbody');
             const email = req.body.email.toLowerCase();
             const password = req.body.password;
-
+            // const apakek = await Users.findAll();
+            // console.log(apakek, '-apakek');
             const user = await Users.findOne({ where: { email } });
-
+            // console.log(user, 'user--');
             if (!user) {
-                res.status(401).json({
-                    message: 'Email is incorrect'
+                res.status(409).json({
+                    status: 'Error',
+                    message: 'Invalid Email or Password'
                 });
                 return;
             }
 
             const isPasswordValid = await authHelper.comparePassword(password, user.password);
 
+            // console.log(isPasswordValid, '----> isPasswordValid');
+
             if((!isPasswordValid)) {
-                res.status(401).json({
+                res.status(409).json({
+                    status: 'Error',
                     message: 'Password is incorrect'
                 });
                 return;
@@ -103,7 +103,7 @@ class AuthenticationController extends ApplicationController{
 
             const token = await authHelper.createToken(payload);
 
-            console.log(req.headers, '---');
+            // console.log(req.headers, '---');
 
             res.status(200).json({
                 status: 'Success',
@@ -114,6 +114,7 @@ class AuthenticationController extends ApplicationController{
         }catch(error){
             console.log(error);
             res.status(500).json({
+                message: error.message,
                 message: 'Something went wrong'
             });
         }
@@ -122,40 +123,65 @@ class AuthenticationController extends ApplicationController{
     handleUpdate = async (req, res, next) => {
         try {
 
-            //configure uploaded file to cloudinary
-            const fileBase64 = req.file.buffer.toString('base64');
-            // console.log(fileBase64);
-            const file = `data:${req.file.mimetype};base64,${fileBase64}`;
-            const url = await new Promise((resolve, reject) => {
-                cloudinary.uploader.upload(file, function(err, result){
-                    if(err){
-                        reject(err);
-                    } else {
-                        resolve(result.url);
-                    }
+            //comfigure uploaded file to cloudinary
+
+            if(req.file){
+
+                const fileBase64 = req.file.buffer.toString('base64');
+                const file = `data:${req.file.mimetype};base64,${fileBase64}`;
+                const url = await new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload(file, function(err, result){
+                        if(err){
+                            reject(err);
+                        } else {
+                            resolve(result.url);
+                        }
+                    });
                 });
-            });
 
-            const name = req.body.full_name;
-            const phone = req.body.phone;
-            const city = req.body.city;
-            const address = req.body.address;
-            const img = url
+                const name = req.body.full_name;
+                const phone = req.body.phone;
+                const city = req.body.city;
+                const address = req.body.address;
+                const img = url
 
-            const userUpdate = await userModel.update({
-                full_name: name,
-                phone:  phone,
-                city: city,
-                address: address,
-                image_url: img
-            }, {
-                where: { id: req.user.id, },
-            });
+                const userUpdate = await userModel.update({
+                    full_name: name,
+                    phone:  phone,
+                    city: city,
+                    address: address,
+                    image_url: img
+                }, {
+                    where: { id: req.user.id, },
+                });
 
-            res.status(200).json({
-                status: 'Success',
-                userUpdate
-            })
+                 res.status(200).json({
+                    status: 'Success',
+                    userUpdate
+                })
+
+            } else {
+
+                const name = req.body.full_name;
+                const phone = req.body.phone;
+                const city = req.body.city;
+                const address = req.body.address;
+
+                const userUpdate = await userModel.update({
+                    full_name: name,
+                    phone:  phone,
+                    city: city,
+                    address: address,
+                }, {
+                    where: { id: req.user.id, },
+                });
+
+                res.status(200).json({
+                    status: 'Success',
+                    userUpdate
+                })
+            }
+
 
         }catch(error){
             res.status(500).json({
@@ -168,10 +194,6 @@ class AuthenticationController extends ApplicationController{
     handleGetCurrentUser = async (req, res, next) => {
 
         try {
-            // const checkToken = req.headers.authorization;
-            // const token = checkToken.split("Bearer ")[1];
-            // const payload = jwt.verify(token, process.env.JWT_SIGNATURE_KEY);
-
             const user = await Users.findByPk(req.user.id);
 
             if(!user) {
@@ -182,7 +204,7 @@ class AuthenticationController extends ApplicationController{
             }
 
             res.status(200).json({
-                status: 'success',
+                status: 'Success',
                 user,
             })
         } catch (error) {

@@ -21,7 +21,7 @@ const cors =require("cors");
 app.use (cors());
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(bodyParser.text());
 // parse application/json
 app.use(bodyParser.json())
 

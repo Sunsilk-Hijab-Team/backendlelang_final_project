@@ -1,5 +1,5 @@
 const OrderController = require('./OrderController');
-const { orders, sequelize } = require('../../../models');
+const { Orders, sequelize } = require('../../../models');
 const { queryInterface } = sequelize;
 
 
@@ -8,7 +8,7 @@ beforeAll( async () => {
 })
 
 afterAll( async () => {
-     await queryInterface.bulkDelete('orders', null, {});
+     await queryInterface.bulkDelete('Orders', null, {});
 })
 
 describe('OrderController', () => {

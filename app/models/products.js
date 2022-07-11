@@ -43,6 +43,14 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     // published: DataTypes.ENUM,
     categories_id: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    description: DataTypes.STRING,
+    base_price: DataTypes.BIGINT,
+    status: DataTypes.STRING,
+    published: DataTypes.BOOLEAN,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Products'
