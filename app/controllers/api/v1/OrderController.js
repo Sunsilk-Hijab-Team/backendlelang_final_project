@@ -132,7 +132,7 @@ class OrderController extends ApplicationController{
                 user_id: order.buyer_id
             }
             this.io.emit('new-notification', buyerDataNotification);
-            
+
             res.status(200).json({
                 status: 'success',
                 message: 'Update status order success'
@@ -145,6 +145,6 @@ class OrderController extends ApplicationController{
             });
         }
     }
-    // 
+    //
 }
 module.exports = OrderController;

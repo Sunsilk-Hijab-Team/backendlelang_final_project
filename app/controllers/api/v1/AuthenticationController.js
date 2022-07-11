@@ -55,7 +55,6 @@ class AuthenticationController extends ApplicationController{
             })
 
         } catch (error) {
-            // console.log(error);
              res.status(500).json({
                 error: error.message,
                 message: 'Something went wrong - Ini register routes'
@@ -65,11 +64,13 @@ class AuthenticationController extends ApplicationController{
 
     handleLogin = async (req, res, next) => {
         try{
+            console.log(req.body, '-reqbody');
             const email = req.body.email.toLowerCase();
             const password = req.body.password;
-
+            // const apakek = await Users.findAll();
+            // console.log(apakek, '-apakek');
             const user = await Users.findOne({ where: { email } });
-
+            // console.log(user, 'user--');
             if (!user) {
                 res.status(409).json({
                     status: 'Error',
@@ -79,6 +80,8 @@ class AuthenticationController extends ApplicationController{
             }
 
             const isPasswordValid = await authHelper.comparePassword(password, user.password);
+
+            // console.log(isPasswordValid, '----> isPasswordValid');
 
             if((!isPasswordValid)) {
                 res.status(409).json({

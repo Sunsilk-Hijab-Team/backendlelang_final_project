@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const SALT = process.env.SALT || 10;
-const { users } = require('../models');
+const { Users } = require('../models');
 
 function encryptedPassword(password)
 {
     return new Promise((resolve, reject) => {
         bcrypt.hash(password, 10, (err, hash) => {
+            console.log(password, '-<<-password', hash, '--hash');
             if(err) {
                 reject(err);
             } else {
@@ -15,13 +16,17 @@ function encryptedPassword(password)
         });
     });
 }
+
 // console.log (encryptedPassword(password));
 function comparePassword(password, hash){
+    // console.log(password, hash, '--ininih');
+    // console.log(typeof password, typeof hash, '--typeof');
     return new Promise((resolve, reject) => {
         bcrypt.compare(password, hash, (err, result) => {
             if(err) {
                 reject(err);
             } else {
+                // console.log(result, '---> result');
                 resolve(result);
             }
         });
