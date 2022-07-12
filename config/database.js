@@ -7,8 +7,9 @@
 const {
   DB_USERNAME = "avmceybcqbfkvu",
   DB_PASSWORD = "f97e51dab27d5b4cca8e0be868b37a0a43776bf33d15820022eb5a1cc05f444b",
-  DB_HOST = "ec2-3-223-169-166.compute-1.amazonaws.com",
+  DB_HOST = "127.0.0.1",
   DB_NAME = "d7ion06unri46j",
+  DB_PORT = "5432"
 } = process.env;
 
 module.exports = {
