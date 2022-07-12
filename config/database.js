@@ -11,6 +11,8 @@ const {
   DB_NAME = "db_lelangonline"
 } = process.env;
 
+console.log("process.env.DB_USERNAME", process.env.DB_USERNAME);
+
 module.exports = {
   development: {
     username: DB_USERNAME,
