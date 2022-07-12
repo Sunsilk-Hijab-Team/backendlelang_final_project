@@ -258,7 +258,7 @@ class ProductController extends ApplicationController{
 
             const product = await Products.findAll({
                 where: {
-                    status: 'terjual',
+                    status: 'sold',
                     user_id: req.user.id
                 },
                 order_by: [
@@ -356,7 +356,7 @@ class ProductController extends ApplicationController{
                     name: {
                         [Op.iLike]: `%${req.query.keyword}%`
                     },
-                    status: 'tersedia',
+                    status: 'available',
                     published: true
                 },
                 include: [

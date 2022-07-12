@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon bin/www",
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest",
     "develop": "nodemon -q bin/www",
     "db:create": "sequelize-cli db:create",
     "db:drop": "sequelize-cli db:drop",
@@ -36,6 +36,7 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "jest": "^28.1.1",
     "nodemon": "^2.0.15"
   },
