@@ -1,14 +1,11 @@
 'use strict';
+// call all model needed for relation
+// const { Products } = require('../models');
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Categories extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       // have a relation many to one with products
       Categories.hasMany(models.Products, {
@@ -26,8 +23,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Categories',
-    timestamps: true,
-    paranoid: true
   });
   return Categories;
 };

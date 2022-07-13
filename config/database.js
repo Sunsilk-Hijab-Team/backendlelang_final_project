@@ -6,8 +6,8 @@
 /** Destruct environment variable to get database configuration */
 const {
   DB_USERNAME = "postgres",
-  DB_PASSWORD = "postgres",
-  DB_HOST = "localhost",
+  DB_PASSWORD = "070401",
+  DB_HOST = "127.0.0.1",
   DB_NAME = "db_lelangonline",
 } = process.env;
 

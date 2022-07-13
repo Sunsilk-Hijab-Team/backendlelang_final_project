@@ -12,17 +12,12 @@ const bodyParser = require('body-parser');
 
 require("dotenv").config();
 
-// const swaggerUI = require("swagger-ui-express");
-// const swaggerDocument = require("../docs/swagger.json");
-
 const publicDir = path.join(__dirname, "../public");
 const viewsDir = path.join(__dirname, "./views");
 const app = express();
 
-
-
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(bodyParser.text());
 // parse application/json
 app.use(bodyParser.json())
 
@@ -41,5 +36,6 @@ app.use(express.static(publicDir));
 
 /** Install Router */
 app.use(router);
+
 
 module.exports = app;

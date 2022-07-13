@@ -1,4 +1,5 @@
 'use strict';
+// const {Users, Categories, Orders, Images} = require('../models');
 const {
   Model
 } = require('sequelize');
@@ -38,13 +39,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Products.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    base_price: DataTypes.STRING,
     user_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
-    published: DataTypes.STRING,
+    // published: DataTypes.ENUM,
     categories_id: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    description: DataTypes.STRING,
+    base_price: DataTypes.BIGINT,
+    status: DataTypes.STRING,
+    published: DataTypes.BOOLEAN,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Products'

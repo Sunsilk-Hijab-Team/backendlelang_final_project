@@ -29,10 +29,10 @@ module.exports = {
         type: Sequelize.ENUM,
         values:['available','sold','deleted']
       },
-      published:{
-        type: Sequelize.ENUM,
-        values: ['true','false']
-      },
+      // published:{
+      //   type: Sequelize.ENUM,
+      //   values: ['true', 'false']
+      // },
       categories_id: {
         type: Sequelize.INTEGER,
         // references:{
@@ -42,6 +42,10 @@ module.exports = {
         //   }
         // }
 
+      },
+      published: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,

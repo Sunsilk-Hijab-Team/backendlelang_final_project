@@ -11,26 +11,6 @@ class ProductController extends ApplicationController{
         try{
             const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
             const g = generateId.generate(1, 100);
-
-            //comfigure uploaded file to cloudinary
-
-                // req.files.map( async file => {
-                //     const urls = await new Promise((resolve, reject) => {
-                //         const fileBase64 = file.buffer.toString('base64');
-                //         const files = `data:${file.mimetype};base64,${fileBase64}`;
-                //         cloudinary.uploader.upload(files, function(err, result){
-                //             if(err){
-                //                 reject(err);
-                //             } else {
-                //                 resolve(result.url);
-                //             }
-                //         });
-                //     });
-                //     url.push(urls);
-                // });
-
-
-
             const id = 'PRD-' + count + g;
             const name = req.body.name;
             const description = req.body.description;
@@ -50,7 +30,11 @@ class ProductController extends ApplicationController{
                 categories_id: category
             });
 
-            let url = [];
+            // console.log(req.files);
+
+            if(req.files){
+
+            let images = [];
             for(const file of req.files){
                 const urls = await new Promise((resolve, reject) => {
                     const fileBase64 = file.buffer.toString('base64');
@@ -64,7 +48,7 @@ class ProductController extends ApplicationController{
 
                     });
                 })
-                url.push(urls);
+                images.push(urls);
             }
 
 
@@ -72,9 +56,12 @@ class ProductController extends ApplicationController{
                 status: 'Created Success',
                 product: {
                     product,
-                    url
+                    images
                 }
             });
+
+            }
+
 
         } catch (error) {
             res.status(500).json({
@@ -271,7 +258,7 @@ class ProductController extends ApplicationController{
 
             const product = await Products.findAll({
                 where: {
-                    status: 'terjual',
+                    status: 'sold',
                     user_id: req.user.id
                 },
                 order_by: [
@@ -320,11 +307,13 @@ class ProductController extends ApplicationController{
                     slug: {
                         [Op.iLike]: `%${req.query.slug}%`
                     },
-                    published: true
                 },
                 include: [
                     {
                         model: Products, as: 'products',
+                        where: {
+                            published: true
+                        },
                         include: [
                             {
                                 model: Users, as: 'users'
@@ -338,9 +327,9 @@ class ProductController extends ApplicationController{
             })
 
             if(categories == null){
-                res.status(409).json({
-                    status: 'Error',
-                    message: 'Invalid params category'
+                 res.status(204).json({
+                    status: 'Success',
+                    message: 'No content'
                 });
                 return;
             }
@@ -354,7 +343,7 @@ class ProductController extends ApplicationController{
 
             res.status(500).json({
                 error: error.message,
-                message: 'Something went wrong'
+                message: 'Something went wrong - slg'
             });
 
         }
@@ -367,7 +356,7 @@ class ProductController extends ApplicationController{
                     name: {
                         [Op.iLike]: `%${req.query.keyword}%`
                     },
-                    status: 'tersedia',
+                    status: 'available',
                     published: true
                 },
                 include: [
