@@ -49,7 +49,7 @@ appRouter.post("/api/v1/auth/register", checkName, checkEmail, checkPassword, ru
 appRouter.post("/api/v1/auth/login",  checkEmail, checkPassword, runValidation, authenticationController.handleLogin);
 appRouter.put("/api/v1/auth/update", authorization.checkToken, uploadFiles.single("image_url"), authenticationController.handleUpdate);
 appRouter.get("/api/v1/auth/user/whoami", authorization.checkToken, authenticationController.handleGetCurrentUser);
-appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
+// appRouter.get("/api/v1/auth/user/logout", authorization.checkToken, authenticationController.handleLogout);
 
 appRouter.post("/api/v1/seller/category/add", authorization.checkToken, categoryController.handleAdd);
 appRouter.put("/api/v1/seller/category/update/:id", checkCategory, runValidation, authorization.checkToken, categoryController.handleUpdate);

@@ -64,13 +64,10 @@ class AuthenticationController extends ApplicationController{
 
     handleLogin = async (req, res, next) => {
         try{
-            console.log(req.body, '-reqbody');
+            // console.log(req.body, '-reqbody');
             const email = req.body.email.toLowerCase();
             const password = req.body.password;
-            // const apakek = await Users.findAll();
-            // console.log(apakek, '-apakek');
             const user = await Users.findOne({ where: { email } });
-            // console.log(user, 'user--');
             if (!user) {
                 res.status(409).json({
                     status: 'Error',
@@ -80,8 +77,6 @@ class AuthenticationController extends ApplicationController{
             }
 
             const isPasswordValid = await authHelper.comparePassword(password, user.password);
-
-            // console.log(isPasswordValid, '----> isPasswordValid');
 
             if((!isPasswordValid)) {
                 res.status(409).json({
@@ -103,8 +98,6 @@ class AuthenticationController extends ApplicationController{
 
             const token = await authHelper.createToken(payload);
 
-            // console.log(req.headers, '---');
-
             res.status(200).json({
                 status: 'Success',
                 user,
@@ -124,7 +117,6 @@ class AuthenticationController extends ApplicationController{
         try {
 
             //comfigure uploaded file to cloudinary
-
             if(req.file){
 
                 const fileBase64 = req.file.buffer.toString('base64');
@@ -214,14 +206,14 @@ class AuthenticationController extends ApplicationController{
         }
     }
     // handle logout
-    handleLogout = async (req, res, next) => {
-        // empty session user
-        req.session.user = null;
-        res.status(200).json({
-            status: 'success',
-            message: 'Logout success'
-        })
-    }
+    // handleLogout = async (req, res, next) => {
+    //     // empty session user
+    //     req.session.user = null;
+    //     res.status(200).json({
+    //         status: 'success',
+    //         message: 'Logout success'
+    //     })
+    // }
 
 }
 
