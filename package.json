@@ -1,10 +1,10 @@
 {
-  "name": "binar-sme-chapter-06-topic-01-design-pattern-mvc",
+  "name": "backendlelang_final_project",
   "version": "1.0.0",
   "main": "app/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon bin/www",
+    "start": "node bin/www",
     "test": "cross-env NODE_ENV=test jest",
     "develop": "nodemon -q bin/www",
     "db:create": "sequelize-cli db:create",
