@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node bin/www",
     "test": "cross-env NODE_ENV=test jest",
-    "develop": "nodemon -q bin/www",
+    "develop": "node -q bin/www",
     "db:create": "sequelize-cli db:create",
     "db:drop": "sequelize-cli db:drop",
     "db:migrate": "sequelize-cli db:migrate",
