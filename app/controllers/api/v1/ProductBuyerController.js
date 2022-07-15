@@ -25,7 +25,7 @@ class ProductBuyerController extends ApplicationController{
                 ]
             });
             
-            if(product == ""){
+            if(product == "" || product == null){
                 res.status(204).json()
             }
             else{
@@ -40,7 +40,7 @@ class ProductBuyerController extends ApplicationController{
         } catch (err) {
             res.status(500).json({
                 error: {
-                    name: "Error",
+                    status: "Error",
                     message: "Something wrong"
                 }
         })
@@ -67,7 +67,7 @@ class ProductBuyerController extends ApplicationController{
                 ]
             });
 
-            if (product === null) {
+            if (product === null || product == "") {
                 res.status(204).json()
             }
             else{

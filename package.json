@@ -11,8 +11,7 @@
     "db:drop": "sequelize-cli db:drop",
     "db:migrate": "sequelize-cli db:migrate",
     "db:rollback": "sequelize-cli db:migrate:undo",
-    "db:seed": "sequelize-cli db:seed:all",
-    "test": "jest"
+    "db:seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

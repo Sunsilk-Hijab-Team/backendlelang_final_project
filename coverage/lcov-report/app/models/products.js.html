@@ -25,11 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-<<<<<<< HEAD
-                <span class='fraction'>53/53</span>
-=======
                 <span class='fraction'>59/59</span>
->>>>>>> 9cec5c04556b25328b04c404f8cf331239fd591f
             </div>
         
             
@@ -50,11 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-<<<<<<< HEAD
-                <span class='fraction'>53/53</span>
-=======
                 <span class='fraction'>59/59</span>
->>>>>>> 9cec5c04556b25328b04c404f8cf331239fd591f
             </div>
         
             
@@ -123,9 +115,6 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<<<<<<< HEAD
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-=======
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
@@ -133,61 +122,10 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
->>>>>>> 9cec5c04556b25328b04c404f8cf331239fd591f
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<<<<<<< HEAD
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
-=======
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -243,7 +181,6 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
 // const {Users, Categories, Orders, Images} = require('../models');
->>>>>>> 9cec5c04556b25328b04c404f8cf331239fd591f
 const {
   Model
 } = require('sequelize');
@@ -285,10 +222,6 @@ module.exports = (sequelize, DataTypes) =&gt; {
   Products.init({
     user_id: DataTypes.INTEGER,
     status: DataTypes.STRING,
-<<<<<<< HEAD
-    published: DataTypes.STRING,
-    categories_id: DataTypes.INTEGER,
-=======
     // published: DataTypes.ENUM,
     categories_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
@@ -299,7 +232,6 @@ module.exports = (sequelize, DataTypes) =&gt; {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
     deletedAt: DataTypes.DATE
->>>>>>> 9cec5c04556b25328b04c404f8cf331239fd591f
   }, {
     sequelize,
     modelName: 'Products'
@@ -312,11 +244,7 @@ module.exports = (sequelize, DataTypes) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-<<<<<<< HEAD
-                at Mon Jul 11 2022 20:24:41 GMT+0700 (Western Indonesia Time)
-=======
-                at Tue Jul 12 2022 22:55:23 GMT+0700 (Western Indonesia Time)
->>>>>>> 9cec5c04556b25328b04c404f8cf331239fd591f
+                at Thu Jul 14 2022 20:33:27 GMT+0700 (Western Indonesia Time)
             </div>
         <script src="../../prettify.js"></script>
         <script>

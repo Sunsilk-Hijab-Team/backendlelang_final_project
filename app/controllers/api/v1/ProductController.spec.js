@@ -1,614 +1,614 @@
-const ProductController = require('./ProductController');
-const { Users, sequelize, Products, Categories, Images } = require('../../../models');
-const { queryInterface } = sequelize;
-const generateId = require('../../../helpers/productId');
-
-
-beforeAll( async () => {
-})
-
-afterAll( async () => {
-    await queryInterface.bulkDelete('Products', null, {});
-})
-
-describe('ProductController', () => {
-
-    describe('#handleAdd', () => {
-
-        it('Should return 201 code and message', async () => {
-
-            // const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
-            // const g = generateId.generate(1, 100);
-            // const id = 'PRD-' + count + g;
-
-            const product = new Products({
-                id: 1,
-                name: 'Jam Tangan',
-                description: 'Lorem ipsum dolor sit amet',
-                base_price: '1000000',
-                user_id: 1,
-                status: 'Tersedia',
-                published: true,
-                category_id: 1,
-                deletedAt: null
-            })
+// const ProductController = require('./ProductController');
+// const { Users, sequelize, Products, Categories, Images } = require('../../../models');
+// const { queryInterface } = sequelize;
+// const generateId = require('../../../helpers/productId');
+
+
+// beforeAll( async () => {
+// })
+
+// afterAll( async () => {
+//     await queryInterface.bulkDelete('Products', null, {});
+// })
+
+// describe('ProductController', () => {
+
+//     describe('#handleAdd', () => {
+
+//         it('Should return 201 code and message', async () => {
+
+//             // const { count, row } = await Products.findAndCountAll({ where: { deletedAt: null } });
+//             // const g = generateId.generate(1, 100);
+//             // const id = 'PRD-' + count + g;
+
+//             const product = new Products({
+//                 id: 1,
+//                 name: 'Jam Tangan',
+//                 description: 'Lorem ipsum dolor sit amet',
+//                 base_price: '1000000',
+//                 user_id: 1,
+//                 status: 'Tersedia',
+//                 published: true,
+//                 category_id: 1,
+//                 deletedAt: null
+//             })
 
-            // const file =
-            //     {
-            //         fieldname: 'image_url',
-            //         originalname: '14.png',
-            //         encoding: '7bit',
-            //         mimetype: 'image/png',
-            //         buffer: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 08 70 00 00 08 70 08 06 00 00 00 4f cc 5b 69 00 00 00 01 73 52 47 42 00 ae ce 1c e9 00 00 00 09 ... 27946 more bytes>',
-            //         size: 27996
-            //     }
-                //,
-                // {
-                //     fieldname: 'image_url',
-                //     originalname: '15.png',
-                //     encoding: '7bit',
-                //     mimetype: 'image/png',
-                //     buffer: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 08 70 00 00 08 70 08 06 00 00 00 4f cc 5b 69 00 00 00 01 73 52 47 42 00 ae ce 1c e9 00 00 00 09 ... 473332 more bytes>',
-                //     size: 473382
-                // }
-
-            // const fileBase64 = file.buffer.toString('base64');
-            // const filess = `data:${file.mimetype};base64,${fileBase64}`;
+//             // const file =
+//             //     {
+//             //         fieldname: 'image_url',
+//             //         originalname: '14.png',
+//             //         encoding: '7bit',
+//             //         mimetype: 'image/png',
+//             //         buffer: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 08 70 00 00 08 70 08 06 00 00 00 4f cc 5b 69 00 00 00 01 73 52 47 42 00 ae ce 1c e9 00 00 00 09 ... 27946 more bytes>',
+//             //         size: 27996
+//             //     }
+//                 //,
+//                 // {
+//                 //     fieldname: 'image_url',
+//                 //     originalname: '15.png',
+//                 //     encoding: '7bit',
+//                 //     mimetype: 'image/png',
+//                 //     buffer: '<Buffer 89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52 00 00 08 70 00 00 08 70 08 06 00 00 00 4f cc 5b 69 00 00 00 01 73 52 47 42 00 ae ce 1c e9 00 00 00 09 ... 473332 more bytes>',
+//                 //     size: 473382
+//                 // }
+
+//             // const fileBase64 = file.buffer.toString('base64');
+//             // const filess = `data:${file.mimetype};base64,${fileBase64}`;
 
-
-            const mockRequest = { body: product }
-
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+
+//             const mockRequest = { body: product }
+
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-             const mockModel = {
-                create: jest.fn().mockReturnValue(product)
-            }
+//              const mockModel = {
+//                 create: jest.fn().mockReturnValue(product)
+//             }
 
-            const mockNext = jest.fn()
+//             const mockNext = jest.fn()
 
-            const productController = new ProductController({
-                 productModel: mockModel
-            });
+//             const productController = new ProductController({
+//                  productModel: mockModel
+//             });
 
-            await productController.handleAdd(mockRequest, mockResponse, mockNext)
+//             await productController.handleAdd(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(201)
-            expect(mockResponse.json).toBeDefined()
-            // expect(mockResponse.json).toHaveBeenCalledWith({
-            //     status: 'Success',
-            //     product
-            // })
+//             expect(mockResponse.status).toBeCalledWith(201)
+//             expect(mockResponse.json).toBeDefined()
+//             // expect(mockResponse.json).toHaveBeenCalledWith({
+//             //     status: 'Success',
+//             //     product
+//             // })
 
-        });
+//         });
 
-    });
+//     });
 
-    // describe('#handleUpdate', () => {
+//     // describe('#handleUpdate', () => {
 
-    //         it('Should return 200 code and message', async () => {
+//     //         it('Should return 200 code and message', async () => {
 
-    //             const product = {
-    //             id: 1,
-    //             name: 'Jam Tangan Rolex',
-    //             description: 'Lorem ipsum dolor sit amet',
-    //             base_price: '100000000',
-    //             user_id: 1,
-    //             status: 'Terjual',
-    //             category_id: 1,
-    //             createdAt: new Date(),
-    //             updatedAt: new Date(),
-    //             deletedAt: null
-    //         }
+//     //             const product = {
+//     //             id: 1,
+//     //             name: 'Jam Tangan Rolex',
+//     //             description: 'Lorem ipsum dolor sit amet',
+//     //             base_price: '100000000',
+//     //             user_id: 1,
+//     //             status: 'Terjual',
+//     //             category_id: 1,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             deletedAt: null
+//     //         }
 
-    //         const mockRequest = {
+//     //         const mockRequest = {
 
-    //             params: {
-    //                 id: product.id
-    //             },
+//     //             params: {
+//     //                 id: product.id
+//     //             },
 
-    //             body: product
-    //         }
+//     //             body: product
+//     //         }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleUpdate(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleUpdate(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(200)
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(200)
 
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'Product updated successfully',
-    //         })
+//     //         expect(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'SUCCESS',
+//     //             message: 'Product updated successfully',
+//     //         })
 
-    //     })
+//     //     })
 
-    //     it('Should return 422 code ( Invalid params id ) and message', async () => {
+//     //     it('Should return 422 code ( Invalid params id ) and message', async () => {
 
-    //         const product = {
-    //             name: 'Jam Tangan Rolex',
-    //             description: 'Lorem ipsum dolor sit amet',
-    //             base_price: '100000000',
-    //             user_id: 1,
-    //             status: 'Terjual',
-    //             category_id: 1,
-    //             createdAt: new Date(),
-    //             updatedAt: new Date(),
-    //             deletedAt: null
-    //         }
+//     //         const product = {
+//     //             name: 'Jam Tangan Rolex',
+//     //             description: 'Lorem ipsum dolor sit amet',
+//     //             base_price: '100000000',
+//     //             user_id: 1,
+//     //             status: 'Terjual',
+//     //             category_id: 1,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             deletedAt: null
+//     //         }
 
-    //         const mockRequest = {
-    //             params: {
+//     //         const mockRequest = {
+//     //             params: {
 
-    //             },
+//     //             },
 
-    //             body: product
-    //         }
+//     //             body: product
+//     //         }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleUpdate(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleUpdate(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(422)
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(422)
 
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'ERROR',
-    //             message: 'Invalid params id',
-    //         })
+//     //         expect(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'ERROR',
+//     //             message: 'Invalid params id',
+//     //         })
 
-    //     });
+//     //     });
 
-    // });
+//     // });
 
-    // describe('#handleDelete', () => {
+//     // describe('#handleDelete', () => {
 
-    //     it('Should return 200 code and message', async () => {
+//     //     it('Should return 200 code and message', async () => {
 
-    //             const product = {
-    //                 id: 1,
-    //             }
+//     //             const product = {
+//     //                 id: 1,
+//     //             }
 
-    //             const mockRequest = {
-    //                 params: {
-    //                     id: product.id
-    //                 }
-    //             }
+//     //             const mockRequest = {
+//     //                 params: {
+//     //                     id: product.id
+//     //                 }
+//     //             }
 
-    //             const mockResponse = {
-    //                 status: jest.fn().mockReturnThis(),
-    //                 json: jest.fn().mockReturnThis()
-    //             }
+//     //             const mockResponse = {
+//     //                 status: jest.fn().mockReturnThis(),
+//     //                 json: jest.fn().mockReturnThis()
+//     //             }
 
-    //             const mockNext = jest.fn()
+//     //             const mockNext = jest.fn()
 
-    //             const productController = new ProductController();
+//     //             const productController = new ProductController();
 
-    //             await productController.handleDelete(mockRequest, mockResponse, mockNext)
+//     //             await productController.handleDelete(mockRequest, mockResponse, mockNext)
 
-    //             expect(mockResponse.status).toHaveBeenCalledWith(200)
-    //             expect(mockResponse.json).toHaveBeenCalledWith({
-    //                 status: 'SUCCESS',
-    //                 message: 'Product deleted successfully',
-    //             })
-    //     });
+//     //             expect(mockResponse.status).toHaveBeenCalledWith(200)
+//     //             expect(mockResponse.json).toHaveBeenCalledWith({
+//     //                 status: 'SUCCESS',
+//     //                 message: 'Product deleted successfully',
+//     //             })
+//     //     });
 
-    //     it('Should return 422 code ( Invalid params id ) and message', async () => {
+//     //     it('Should return 422 code ( Invalid params id ) and message', async () => {
 
-    //         const mockRequest = {
-    //             params: {
+//     //         const mockRequest = {
+//     //             params: {
 
-    //             }
-    //         }
+//     //             }
+//     //         }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleDelete(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleDelete(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(422)
-    //         expect(mockResponse.josn).toHaveBeenCalledWith({
-    //             status: 'ERROR',
-    //             message: 'Invalid params id',
-    //         });
-    //     })
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(422)
+//     //         expect(mockResponse.josn).toHaveBeenCalledWith({
+//     //             status: 'ERROR',
+//     //             message: 'Invalid params id',
+//     //         });
+//     //     })
 
-    // });
+//     // });
 
-    describe('#handleGetAll', () => {
+//     describe('#handleGetAll', () => {
 
-        it('Should return 200 code and message', async () => {
+//         it('Should return 200 code and message', async () => {
 
-            const Product = new Products  ({
-                id: 1,
-                name: 'Jam Tangan Rolex',
-                description: 'Lorem ipsum dolor sit amet',
-                base_price: '100000000',
-                user_id: 1,
-                status: 'terjual',
-                published: true,
-                category_id: 1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                deletedAt: null
-            })
+//             const Product = new Products  ({
+//                 id: 1,
+//                 name: 'Jam Tangan Rolex',
+//                 description: 'Lorem ipsum dolor sit amet',
+//                 base_price: '100000000',
+//                 user_id: 1,
+//                 status: 'terjual',
+//                 published: true,
+//                 category_id: 1,
+//                 createdAt: new Date(),
+//                 updatedAt: new Date(),
+//                 deletedAt: null
+//             })
 
-            const product = await Products.findAll( );
+//             const product = await Products.findAll( );
 
-            const mockRequest = {   }
+//             const mockRequest = {   }
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            const productController = new ProductController();
+//             const productController = new ProductController();
 
-            await productController.handleGetAll(mockRequest, mockResponse)
+//             await productController.handleGetAll(mockRequest, mockResponse)
 
-            expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeDefined()
-            // expect(mockResponse.json).toHaveBeenCalledWith({
-            //     status: 'Success',
-            //     product
-            // })
+//             expect(mockResponse.status).toBeCalledWith(200)
+//             expect(mockResponse.json).toBeDefined()
+//             // expect(mockResponse.json).toHaveBeenCalledWith({
+//             //     status: 'Success',
+//             //     product
+//             // })
 
-        });
+//         });
 
-        it('Should return 204 code and messages', () => {
+//         it('Should return 204 code and messages', () => {
 
-            const mockRequest = {   }
+//             const mockRequest = {   }
 
-            const mockResponse = {
-                status: jest.fn().mockReturnThis(),
-                json: jest.fn().mockReturnThis()
-            }
+//             const mockResponse = {
+//                 status: jest.fn().mockReturnThis(),
+//                 json: jest.fn().mockReturnThis()
+//             }
 
-            const mockNext = jest.fn()
+//             const mockNext = jest.fn()
 
-            const productController = new ProductController();
+//             const productController = new ProductController();
 
-            productController.handleGetAll(mockRequest, mockResponse, mockNext)
+//             productController.handleGetAll(mockRequest, mockResponse, mockNext)
 
-            expect(mockResponse.status).toBeCalledWith(204)
-              expect(mockResponse.json).toBeDefined()
-            // expect(mockResponse.json).toHaveBeenCalledWith({
-            //     status: 'Success',
-            //     message: 'No data found',
-            //     data: {
+//             expect(mockResponse.status).toBeCalledWith(204)
+//               expect(mockResponse.json).toBeDefined()
+//             // expect(mockResponse.json).toHaveBeenCalledWith({
+//             //     status: 'Success',
+//             //     message: 'No data found',
+//             //     data: {
 
-            //     }
-            // })
-        })
+//             //     }
+//             // })
+//         })
 
-    });
+//     });
 
 
-    // describe('#handleGetById', () => {
+//     // describe('#handleGetById', () => {
 
-    //     it('Should return 200 code and message', async () => {
-    //         const product =  {
-    //             id: 1,
-    //             name: 'Jam Tangan Rolex',
-    //             description: 'Lorem ipsum dolor sit amet',
-    //             base_price: '100000000',
-    //             user_id: 1,
-    //             status: 'Terjual',
-    //             category_id: 1,
-    //             createdAt: new Date(),
-    //             updatedAt: new Date(),
-    //             deletedAt: null
-    //         }
+//     //     it('Should return 200 code and message', async () => {
+//     //         const product =  {
+//     //             id: 1,
+//     //             name: 'Jam Tangan Rolex',
+//     //             description: 'Lorem ipsum dolor sit amet',
+//     //             base_price: '100000000',
+//     //             user_id: 1,
+//     //             status: 'Terjual',
+//     //             category_id: 1,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             deletedAt: null
+//     //         }
 
-    //         const mockRequest = {
-    //             params: {
-    //                 id: product.id
-    //             }
-    //          }
+//     //         const mockRequest = {
+//     //             params: {
+//     //                 id: product.id
+//     //             }
+//     //          }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext= json.fn();
+//     //         const mockNext= json.fn();
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleGetById(mockRequest, mockResponse, mockNext);
+//     //         await productController.handleGetById(mockRequest, mockResponse, mockNext);
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(200)
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'Product retrieved successfully',
-    //             data: {
-    //                 product
-    //             }
-    //         });
-    //     })
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(200)
+//     //         expect(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'SUCCESS',
+//     //             message: 'Product retrieved successfully',
+//     //             data: {
+//     //                 product
+//     //             }
+//     //         });
+//     //     })
 
-    //     it('Should return 204 code and message', async () => {
+//     //     it('Should return 204 code and message', async () => {
 
-    //         const product = {
-    //             id: 2,
-    //         }
+//     //         const product = {
+//     //             id: 2,
+//     //         }
 
-    //         const mockRequest = {
-    //             params: {
-    //                 id: product.id
-    //             }
-    //         }
+//     //         const mockRequest = {
+//     //             params: {
+//     //                 id: product.id
+//     //             }
+//     //         }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleGetById(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleGetById(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(204)
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(204)
 
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'No data found',
-    //             data: {
+//     //         expect(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'SUCCESS',
+//     //             message: 'No data found',
+//     //             data: {
 
-    //             }
-    //         })
+//     //             }
+//     //         })
 
-    //     })
+//     //     })
 
-    //     it('Should return 422 code ( Invalid params id ) and message', async () => {
+//     //     it('Should return 422 code ( Invalid params id ) and message', async () => {
 
-    //             const mockRequest = {
-    //                 params: {
+//     //             const mockRequest = {
+//     //                 params: {
 
-    //                 }
-    //              }
+//     //                 }
+//     //              }
 
-    //             const mockResponse = {
-    //                 status: jest.fn().mockReturnThis(),
-    //                 json: jest.fn().mockReturnThis()
-    //             }
+//     //             const mockResponse = {
+//     //                 status: jest.fn().mockReturnThis(),
+//     //                 json: jest.fn().mockReturnThis()
+//     //             }
 
-    //             const mockNext = jest.fn()
+//     //             const mockNext = jest.fn()
 
-    //             const productController = new ProductController();
+//     //             const productController = new ProductController();
 
-    //             await productController.handleGetById(mockRequest, mockResponse, mockNext)
+//     //             await productController.handleGetById(mockRequest, mockResponse, mockNext)
 
-    //             expect(mockResponse.status).toHaveBeenCalledWith(422)
+//     //             expect(mockResponse.status).toHaveBeenCalledWith(422)
 
-    //             expect(mockResponse.json).toHaveBeenCalledWith({
-    //                 status: 'ERROR',
-    //                 message: 'Invalid params id',
-    //             })
+//     //             expect(mockResponse.json).toHaveBeenCalledWith({
+//     //                 status: 'ERROR',
+//     //                 message: 'Invalid params id',
+//     //             })
 
-    //         })
+//     //         })
 
-    // });
+//     // });
 
-    // describe('#handleUpdateProductStatus', () => {
+//     // describe('#handleUpdateProductStatus', () => {
 
-    //     it('Shoult return 200 code and message', async () => {
+//     //     it('Shoult return 200 code and message', async () => {
 
-    //         const product = {
-    //             id: 1,
-    //             status: 'terjual'
-    //         }
+//     //         const product = {
+//     //             id: 1,
+//     //             status: 'terjual'
+//     //         }
 
-    //         const mockRequest = {
-    //             params: {
-    //                 id: product.id
-    //             }
-    //         }
+//     //         const mockRequest = {
+//     //             params: {
+//     //                 id: product.id
+//     //             }
+//     //         }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleUpdateProductStatus(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleUpdateProductStatus(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(200)
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(200)
 
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'Product status updated successfully',
-    //             data: [
-    //                 1
-    //             ]
-    //         })
-    //     })
+//     //         expect(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'SUCCESS',
+//     //             message: 'Product status updated successfully',
+//     //             data: [
+//     //                 1
+//     //             ]
+//     //         })
+//     //     })
 
-    //     it('Should return 422 code ( Invalid params id ) and message', async () => {
+//     //     it('Should return 422 code ( Invalid params id ) and message', async () => {
 
-    //         const mockRequest = {
-    //             params: {
+//     //         const mockRequest = {
+//     //             params: {
 
-    //             }
-    //         }
+//     //             }
+//     //         }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleUpdateProductStatus(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleUpdateProductStatus(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(422)
-    //         expexct(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'ERROR',
-    //             message: 'Invalid params id',
-    //         })
-    //     })
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(422)
+//     //         expexct(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'ERROR',
+//     //             message: 'Invalid params id',
+//     //         })
+//     //     })
 
-    // });
+//     // });
 
-    // describe('#handleGetByStatus', () => {
+//     // describe('#handleGetByStatus', () => {
 
-    //     it('Should return 200 code and message', async () => {
+//     //     it('Should return 200 code and message', async () => {
 
-    //         const product = {
-    //             id: 1,
-    //             name: 'Jam Tangan Rolex',
-    //             description: 'Lorem ipsum dolor sit amet',
-    //             base_price: '100000000',
-    //             user_id: 1,
-    //             status: 'Terjual',
-    //             category_id: 1,
-    //             createdAt: new Date(),
-    //             updatedAt: new Date(),
-    //             deletedAt: null
-    //         }
+//     //         const product = {
+//     //             id: 1,
+//     //             name: 'Jam Tangan Rolex',
+//     //             description: 'Lorem ipsum dolor sit amet',
+//     //             base_price: '100000000',
+//     //             user_id: 1,
+//     //             status: 'Terjual',
+//     //             category_id: 1,
+//     //             createdAt: new Date(),
+//     //             updatedAt: new Date(),
+//     //             deletedAt: null
+//     //         }
 
-    //         const mockRequest = {  }
+//     //         const mockRequest = {  }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController(productModel);
+//     //         const productController = new ProductController(productModel);
 
-    //         await productController.handleGetByStatus(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleGetByStatus(mockRequest, mockResponse, mockNext)
 
-    //          const expectedResponse = await productModel.findAll({
-    //             where:{
-    //                 status: 'terjual',
-    //                 user_id: 1
-    //             }
-    //         })
+//     //          const expectedResponse = await productModel.findAll({
+//     //             where:{
+//     //                 status: 'terjual',
+//     //                 user_id: 1
+//     //             }
+//     //         })
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(200)
-    //         expect(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'Product retrieved successfully',
-    //             data: expectedResponse
-    //         })
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(200)
+//     //         expect(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'SUCCESS',
+//     //             message: 'Product retrieved successfully',
+//     //             data: expectedResponse
+//     //         })
 
-    //     });
+//     //     });
 
-    //     it('Should return 204 code and message', async () => {
+//     //     it('Should return 204 code and message', async () => {
 
-    //         const mockRequest = {   }
+//     //         const mockRequest = {   }
 
-    //         const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //         }
+//     //         const mockResponse = {
+//     //             status: jest.fn().mockReturnThis(),
+//     //             json: jest.fn().mockReturnThis()
+//     //         }
 
-    //         const mockNext = jest.fn()
+//     //         const mockNext = jest.fn()
 
-    //         const productController = new ProductController();
+//     //         const productController = new ProductController();
 
-    //         await productController.handleGetByStatus(mockRequest, mockResponse, mockNext)
+//     //         await productController.handleGetByStatus(mockRequest, mockResponse, mockNext)
 
-    //         expect(mockResponse.status).toHaveBeenCalledWith(204)
-    //         expected(mockResponse.json).toHaveBeenCalledWith({
-    //             status: 'SUCCESS',
-    //             message: 'No data found',
-    //         });
+//     //         expect(mockResponse.status).toHaveBeenCalledWith(204)
+//     //         expected(mockResponse.json).toHaveBeenCalledWith({
+//     //             status: 'SUCCESS',
+//     //             message: 'No data found',
+//     //         });
 
-    //     })
+//     //     })
 
-    // });
+//     // });
 
-    // describe('#handleGetByCategory', () => {
+//     // describe('#handleGetByCategory', () => {
 
-    //     it('Should return 200 code and message', async () => {
+//     //     it('Should return 200 code and message', async () => {
 
-    //             const category = {
-    //                 id: 1,
-    //                 name: 'Jam Tangan',
-    //                 slug: 'jam-tangan',
-    //             }
+//     //             const category = {
+//     //                 id: 1,
+//     //                 name: 'Jam Tangan',
+//     //                 slug: 'jam-tangan',
+//     //             }
 
-    //             const product = {
-    //                 id: 1,
-    //                 name: 'Jam Tangan Rolex',
-    //                 description: 'Lorem ipsum dolor sit amet',
-    //                 base_price: '100000000',
-    //                 user_id: 1,
-    //                 status: 'Belum Terjual',
-    //                 category_id: 1,
-    //                 createdAt: new Date(),
-    //                 updatedAt: new Date(),
-    //                 deletedAt: null
-    //             }
+//     //             const product = {
+//     //                 id: 1,
+//     //                 name: 'Jam Tangan Rolex',
+//     //                 description: 'Lorem ipsum dolor sit amet',
+//     //                 base_price: '100000000',
+//     //                 user_id: 1,
+//     //                 status: 'Belum Terjual',
+//     //                 category_id: 1,
+//     //                 createdAt: new Date(),
+//     //                 updatedAt: new Date(),
+//     //                 deletedAt: null
+//     //             }
 
-    //             const mockRequest = {
-    //                 params: {
-    //                     slug: category.slug
-    //                 }
-    //             }
+//     //             const mockRequest = {
+//     //                 params: {
+//     //                     slug: category.slug
+//     //                 }
+//     //             }
 
-    //             const mockResponse = {
-    //                 status: jest.fn().mockReturnThis(),
-    //                 json: jest.fn().mockReturnThis()
-    //             }
+//     //             const mockResponse = {
+//     //                 status: jest.fn().mockReturnThis(),
+//     //                 json: jest.fn().mockReturnThis()
+//     //             }
 
-    //             const mockNext = jest.fn()
+//     //             const mockNext = jest.fn()
 
-    //             const productController = new ProductController();
+//     //             const productController = new ProductController();
 
-    //             await productController.handleGetByCategory(mockRequest, mockResponse, mockNext)
+//     //             await productController.handleGetByCategory(mockRequest, mockResponse, mockNext)
 
-    //             const categoryData = await categoryModel.findAll({
-    //                 where: {
-    //                     slug: mockRequest.params
-    //                 }
-    //             })
+//     //             const categoryData = await categoryModel.findAll({
+//     //                 where: {
+//     //                     slug: mockRequest.params
+//     //                 }
+//     //             })
 
-    //             const expectedResponse = await productModel.findAll({
-    //                 where:{
-    //                     category_id: categoryData.id
-    //                 }
-    //             })
+//     //             const expectedResponse = await productModel.findAll({
+//     //                 where:{
+//     //                     category_id: categoryData.id
+//     //                 }
+//     //             })
 
-    //             expect(mockResponse.status).toHaveBeenCalledWith(200)
-    //             expect(mockResponse.json).toHaveBeenCalledWith({
-    //                 status: 'SUCCESS',
-    //                 message: 'Product retrieved successfully',
-    //                 data: expectedResponse
-    //             })
-    //     })
-    // })
+//     //             expect(mockResponse.status).toHaveBeenCalledWith(200)
+//     //             expect(mockResponse.json).toHaveBeenCalledWith({
+//     //                 status: 'SUCCESS',
+//     //                 message: 'Product retrieved successfully',
+//     //                 data: expectedResponse
+//     //             })
+//     //     })
+//     // })
 
 
-});
+// });
