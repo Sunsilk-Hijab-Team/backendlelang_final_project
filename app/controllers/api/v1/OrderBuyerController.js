@@ -29,7 +29,7 @@ class OrderBuyerController extends ApplicationController{
                 user_id: order.buyer_id
             }
             // send notification data to user who is seller with socket
-            this.io.emit('new-notification-seller', sellerDataNotification);
+            // this.io.emit('new-notification-seller', sellerDataNotification);
 
             res.status(201).json({
                 status: 'Created Success',
