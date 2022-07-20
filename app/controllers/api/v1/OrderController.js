@@ -131,7 +131,7 @@ class OrderController extends ApplicationController{
                 notification: notification,
                 user_id: order.buyer_id
             }
-            this.io.emit('new-notification', buyerDataNotification);
+            // this.io.emit('new-notification', buyerDataNotification);
 
             res.status(200).json({
                 status: 'success',

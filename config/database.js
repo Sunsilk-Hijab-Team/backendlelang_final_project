@@ -6,7 +6,7 @@
 /** Destruct environment variable to get database configuration */
 const {
   DB_USERNAME = "postgres",
-  DB_PASSWORD = "070401",
+  DB_PASSWORD = "123",
   DB_HOST = "127.0.0.1",
   DB_NAME = "db_lelangonline",
 } = process.env;
@@ -27,10 +27,15 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: `${DB_NAME}_production`,
-    host: DB_HOST,
+    use_env_variable: "DATABASE_URL",
     dialect: "postgres",
+    protocol: "postgres",
+    ssl: true,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
   },
 };
