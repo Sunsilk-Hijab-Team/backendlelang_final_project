@@ -76,7 +76,9 @@ class CategoryController extends ApplicationController{
     handleList = async (req, res, next) => {
         try {
             const category = await Categories.findAll({
-                order_by: ['id', 'DESC']
+                order: [
+                    ['id', 'DESC']
+                ]
             });
 
             if(category == ""){
