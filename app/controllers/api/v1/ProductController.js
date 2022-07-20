@@ -77,7 +77,7 @@ class ProductController extends ApplicationController{
                 where: {
                     user_id: req.user.id,
                 },
-                order_by: [
+                order: [
                     ['createdAt', 'DESC']
                 ],
                 include: [
@@ -261,7 +261,7 @@ class ProductController extends ApplicationController{
                     status: 'sold',
                     user_id: req.user.id
                 },
-                order_by: [
+                order: [
                     ['createdAt', 'DESC']
                 ],
                 include: [
