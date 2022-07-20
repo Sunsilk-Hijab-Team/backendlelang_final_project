@@ -1,18 +1,30 @@
 const OrderController = require('./OrderController');
-const { Orders, sequelize } = require('../../../models');
+const { sequelize, Orders, Products, Users } = require('../../../models');
 const { queryInterface } = sequelize;
-
+const authHelper = require('../../../helpers/AuthenticationHelper');
 
 beforeAll( async () => {
-    // await queryInterface.bulkInsert('Orders', [
-    //     {
-    //             product_id: 'PRD-113wjIO7LOoD8',
-    //             buyer_id: 2,
-    //             bid_price: 90000000,
-    //             status: 'pending',
-    //             seller_id: 1
-    //     }
-    // ], {});
+    await queryInterface.bulkInsert('Users', [
+            {
+                full_name: 'Muhammad Aldi',
+                email: 'aldi@gmail.com',
+                password: await authHelper.encryptedPassword('12345678')
+            }
+        ], {});
+
+        await queryInterface.bulkInsert('Products', [
+            {
+                id: "PRD-113wjIO7LOoD8",
+                name: "Jam Rolex",
+                description: "Jam Rolex ORI",
+                base_price: 1500000,
+                user_id: 1,
+                status: "available",
+                published: true,
+                categories_id: 1,
+                deletedAt: null
+            }
+        ], {});
 })
 
 afterAll( async () => {
@@ -21,73 +33,98 @@ afterAll( async () => {
 
 describe('OrderController', () => {
 
-    // describe('#handleGetAll', () => {
-    //     it('should return status code 200 and return a order object', async () => {
+    describe('#handleGetAll', () => {
+        it('should return status code 200 and return a order object', async () => {
 
-    //         const orders = new Orders({
-    //             product_id: 'PRD-113wjIO7LOoD8',
-    //             buyer_id: 2,
-    //             bid_price: 90000000,
-    //             status: 'pending',
-    //             seller_id: 1
-    //         })
+            // const orders = new Orders({
+            //     product_id: 'PRD-113wjIO7LOoD8',
+            //     buyer_id: 2,
+            //     bid_price: 90000000,
+            //     status: 'pending',
+            //     seller_id: 1
+            // })
 
-    //         const mockRequest = {
-    //             body: orders
-    //          }
+            const getOrders = await Orders.findAll({
+            where: {
+                    seller_id: req.user.id
+                },
+                include: [
+                    {
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            }
+                        ]
+                    },
+                    {
+                        model: Users, as: 'users_buyer',
+                    },
+                    {
+                        model: Users, as: 'users_seller',
+                    }
+                ],
+                getOrders: [
+                    ['createdAt', 'DESC']
+                ]
+            });
 
-    //          const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //          }
+            const mockRequest = {
+                body: orders
+             }
 
-    //           const mockModel = {
-    //             create: jest.fn().mockReturnValue(orders)
-    //         }
+             const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+             }
 
-    //         // const mockNext = jest.fn()
+              const mockModel = {
+                create: jest.fn().mockReturnValue(orders)
+            }
 
-    //         const orderController = new OrderController({
-    //             Orders: mockModel
-    //         })
+            // const mockNext = jest.fn()
 
-    //         await orderController.handleGetAllOrder(mockRequest, mockResponse)
+            const orderController = new OrderController({
+                Orders: mockModel
+            })
 
-    //         expect(mockResponse.status).toBeCalledWith(200)
-    //         expect(mockResponse.json).toBeDefined()
-    //         // expect(mockResponse.json).toBeCalledWith({
-    //         //     status: 'Success',
-    //         //     data: mockRequest.body
-    //         // })
+            await orderController.handleGetAllOrder(mockRequest, mockResponse)
 
-    //      });
+            expect(mockResponse.status).toBeCalledWith(200)
+            expect(mockResponse.json).toBeDefined()
+            // expect(mockResponse.json).toBeCalledWith({
+            //     status: 'Success',
+            //     data: mockRequest.body
+            // })
 
-    //      it('should return status 204 code and message', async () => {
+         });
 
-    //         const mockRequest = {
-    //             body: {}
-    //          }
+         it('should return status 204 code and message', async () => {
 
-    //          const mockResponse = {
-    //             status: jest.fn().mockReturnThis(),
-    //             json: jest.fn().mockReturnThis()
-    //          }
+            const mockRequest = {
+                body: { }
+             }
 
-    //         const mockNext = jest.fn()
+             const mockResponse = {
+                status: jest.fn().mockReturnThis(),
+                json: jest.fn().mockReturnThis()
+             }
 
-    //         const orderController = new OrderController()
+            const mockNext = jest.fn()
 
-    //         await orderController.handleAdd(mockRequest, mockResponse, mockNext)
+            const orderController = new OrderController()
 
-    //         expect(mockResponse.status).toBeCalledWith(204)
-    //         expect(mockResponse.json).toBeCalledWith({
-    //             status: 'success',
-    //             message: 'Data not found'
-    //         })
+            await orderController.handleGetAllOrder(mockRequest, mockResponse, mockNext)
 
-    //      })
+            expect(mockResponse.status).toBeCalledWith(204)
+            expect(mockResponse.json).toBeCalledWith({
+                status: 'Success',
+                message: 'No content'
+            })
 
-    // });
+         })
+
+    });
 
     describe('#handleGetById', () => {
 

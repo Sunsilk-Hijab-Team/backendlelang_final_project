@@ -24,7 +24,7 @@ class ProductBuyerController extends ApplicationController{
                     }
                 ]
             });
-            
+
             if(product == ""){
                 res.status(204).json()
             }
@@ -36,7 +36,7 @@ class ProductBuyerController extends ApplicationController{
                     }
                 })
             }
-            
+
         } catch (err) {
             res.status(500).json({
                 error: {
@@ -45,9 +45,9 @@ class ProductBuyerController extends ApplicationController{
                 }
         })
         }
-        
+
     }
-    
+
     handleGetById = async (req, res) => {
         try {
             const product = await Products.findOne({
@@ -78,7 +78,7 @@ class ProductBuyerController extends ApplicationController{
                     }
                 })
             }
-    
+
         } catch (err) {
             res.status(422).json({
                 error: {
@@ -86,11 +86,11 @@ class ProductBuyerController extends ApplicationController{
                   message: 'Invalid params id'
                 }
             })
-            
+
         }
     }
 }
 
 module.exports = ProductBuyerController;
-    
+
 

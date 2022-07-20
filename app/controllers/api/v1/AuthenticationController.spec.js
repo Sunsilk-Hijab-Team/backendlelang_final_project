@@ -325,22 +325,25 @@ describe('AuthenticationController', () => {
     describe('#handleWhoami', () => {
 
         it('Should return 200 code and return user data', async () => {
-            const user = new Users ({
-                id: 1,
-                full_name: 'Muhammad Agung Hercules',
-                email: 'muhammadagung@gmail.com',
-                image_url: 'https://www.cloud.com/image_profile.png',
-                city: 'Bandung',
-                address: 'Lorem ipsum dolor sit amet',
-                phone: '085788888888',
-            });
+            // const user = new Users ({
+            //     id: 1,
+            //     full_name: 'Muhammad Agung Hercules',
+            //     email: 'muhammadagung@gmail.com',
+            //     image_url: 'https://www.cloud.com/image_profile.png',
+            //     city: 'Bandung',
+            //     address: 'Lorem ipsum dolor sit amet',
+            //     phone: '085788888888',
+            // });
 
             const mockRequest = {
-                user: {
-                    id: user.id
-                }
+                // user: {
+                //     id: user.id
+                // }
             }
 
+            const id = 2;
+
+            const user = await Users.findByPk(id);
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
                 json: jest.fn().mockReturnThis(),
@@ -360,9 +363,8 @@ describe('AuthenticationController', () => {
 
             expect(mockResponse.status).toBeCalledWith(200)
             expect(mockResponse.json).toBeDefined()
-
             // expect(mockResponse.json).toHaveBeenCalledWith({
-            //     status: 'SUCCESS',
+            //     status: 'Success',
             //     user
             // })
 

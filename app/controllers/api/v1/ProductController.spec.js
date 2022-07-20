@@ -21,7 +21,16 @@ describe('ProductController', () => {
             // const g = generateId.generate(1, 100);
             // const id = 'PRD-' + count + g;
 
-            const product = new Products({
+                const id =  1;
+                const name =  'Jam Tangan';
+                const description =  'Lorem ipsum dolor sit amet';
+                const base_price =  '1000000';
+                const user_id =  1;
+                const status =  'Tersedia';
+                const published =  true;
+                const category_id =  1;
+
+            const product = await  Products.create({
                 id: 1,
                 name: 'Jam Tangan',
                 description: 'Lorem ipsum dolor sit amet',
@@ -30,7 +39,6 @@ describe('ProductController', () => {
                 status: 'Tersedia',
                 published: true,
                 category_id: 1,
-                deletedAt: null
             })
 
             // const file =
