@@ -1,0 +1,5 @@
+yang search, req.query nembaknya dimana berarti
+waktu order kenapa id seller ngambil dari req.body
+order buyer gbisa karena notif error this.emit // udah
+
+PRD-622GgJ5NLTkMu
