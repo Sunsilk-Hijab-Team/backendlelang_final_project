@@ -12,6 +12,7 @@ function encryptedPassword(password)
                 reject(err);
             } else {
                 resolve(hash);
+                console.log(hash, '--resolve');
             }
         });
     });
@@ -23,10 +24,12 @@ function comparePassword(password, hash){
     // console.log(typeof password, typeof hash, '--typeof');
     return new Promise((resolve, reject) => {
         bcrypt.compare(password, hash, (err, result) => {
+            console.log(password, 'pasw-compare');
+            console.log(hash, 'hash-compare');
             if(err) {
                 reject(err);
             } else {
-                // console.log(result, '---> result');
+                console.log(result, '---> result-compare');
                 resolve(result);
             }
         });

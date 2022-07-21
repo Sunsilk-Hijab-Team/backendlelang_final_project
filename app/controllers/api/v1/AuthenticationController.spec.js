@@ -125,7 +125,7 @@ describe('AuthenticationController', () => {
         it('Should return 200 code and return access token', async () => {
 
             const email = 'muhammadtopan@gmail.com'
-            const password = '12345678';
+            const password = '12345678'
 
             // const User = new Users ({
             //     email: 'muhammadabdul@gmail.com',
@@ -154,11 +154,11 @@ describe('AuthenticationController', () => {
 
             const user =  await Users.findOne({ where: { email: email } });
 
-            console.log(user.password, 'pswd-usr');
+            // console.log(user.password, 'pswd-usr');
 
             const isPasswordValid = await authHelper.comparePassword(password, user.password);
 
-            console.log(user.password, '--passwordCheck--');
+            // console.log(user.password, '--passwordCheck--');
 
             const payload = {
                 id: user.id,
@@ -173,7 +173,7 @@ describe('AuthenticationController', () => {
             const token = await authHelper.createToken(payload);
 
             expect(mockResponse.status).toHaveBeenCalledWith(200);
-                     expect(mockResponse.json).toBeDefined()
+            expect(mockResponse.json).toBeDefined()
             // expect(mockResponse.json).toHaveBeenCalledWith({
             //     status: 'Success',
             //     user,
@@ -325,22 +325,25 @@ describe('AuthenticationController', () => {
     describe('#handleWhoami', () => {
 
         it('Should return 200 code and return user data', async () => {
-            const user = new Users ({
-                id: 1,
-                full_name: 'Muhammad Agung Hercules',
-                email: 'muhammadagung@gmail.com',
-                image_url: 'https://www.cloud.com/image_profile.png',
-                city: 'Bandung',
-                address: 'Lorem ipsum dolor sit amet',
-                phone: '085788888888',
-            });
+            // const user = new Users ({
+            //     id: 1,
+            //     full_name: 'Muhammad Agung Hercules',
+            //     email: 'muhammadagung@gmail.com',
+            //     image_url: 'https://www.cloud.com/image_profile.png',
+            //     city: 'Bandung',
+            //     address: 'Lorem ipsum dolor sit amet',
+            //     phone: '085788888888',
+            // });
 
             const mockRequest = {
-                user: {
-                    id: user.id
-                }
+                // user: {
+                //     id: user.id
+                // }
             }
 
+            const id = 2;
+
+            const user = await Users.findByPk(id);
             const mockResponse = {
                 status: jest.fn().mockReturnThis(),
                 json: jest.fn().mockReturnThis(),
@@ -360,9 +363,8 @@ describe('AuthenticationController', () => {
 
             expect(mockResponse.status).toBeCalledWith(200)
             expect(mockResponse.json).toBeDefined()
-
             // expect(mockResponse.json).toHaveBeenCalledWith({
-            //     status: 'SUCCESS',
+            //     status: 'Success',
             //     user
             // })
 

@@ -1,14 +1,34 @@
 const OrderController = require('./OrderController');
-const { Orders, sequelize } = require('../../../models');
+const { sequelize, Orders, Products, Users } = require('../../../models');
 const { queryInterface } = sequelize;
-
+const authHelper = require('../../../helpers/AuthenticationHelper');
 
 beforeAll( async () => {
+    await queryInterface.bulkInsert('Users', [
+            {
+                full_name: 'Muhammad Aldi',
+                email: 'aldi@gmail.com',
+                password: await authHelper.encryptedPassword('12345678')
+            }
+        ], {});
 
+        await queryInterface.bulkInsert('Products', [
+            {
+                id: "PRD-113wjIO7LOoD8",
+                name: "Jam Rolex",
+                description: "Jam Rolex ORI",
+                base_price: 1500000,
+                user_id: 1,
+                status: "available",
+                published: true,
+                categories_id: 1,
+                deletedAt: null
+            }
+        ], {});
 })
 
 afterAll( async () => {
-     await queryInterface.bulkDelete('Orders', null, {});
+    //  await queryInterface.bulkDelete('Orders', null, {});
 })
 
 describe('OrderController', () => {
@@ -16,16 +36,38 @@ describe('OrderController', () => {
     describe('#handleGetAll', () => {
         it('should return status code 200 and return a order object', async () => {
 
-            const orders = {
-                product_id: 1,
-                buyer_id: 2,
-                bid_price: 90000000,
-                status: 'Menunggu Konfirmasi',
-                seller_id: 1,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                deletedAt: null
-            }
+            // const orders = new Orders({
+            //     product_id: 'PRD-113wjIO7LOoD8',
+            //     buyer_id: 2,
+            //     bid_price: 90000000,
+            //     status: 'pending',
+            //     seller_id: 1
+            // })
+
+            const getOrders = await Orders.findAll({
+            where: {
+                    seller_id: req.user.id
+                },
+                include: [
+                    {
+                        model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            }
+                        ]
+                    },
+                    {
+                        model: Users, as: 'users_buyer',
+                    },
+                    {
+                        model: Users, as: 'users_seller',
+                    }
+                ],
+                getOrders: [
+                    ['createdAt', 'DESC']
+                ]
+            });
 
             const mockRequest = {
                 body: orders
@@ -36,24 +78,31 @@ describe('OrderController', () => {
                 json: jest.fn().mockReturnThis()
              }
 
-            const mockNext = jest.fn()
+              const mockModel = {
+                create: jest.fn().mockReturnValue(orders)
+            }
 
-            const orderController = new OrderController()
+            // const mockNext = jest.fn()
 
-            await orderController.handleAdd(mockRequest, mockResponse, mockNext)
+            const orderController = new OrderController({
+                Orders: mockModel
+            })
+
+            await orderController.handleGetAllOrder(mockRequest, mockResponse)
 
             expect(mockResponse.status).toBeCalledWith(200)
-            expect(mockResponse.json).toBeCalledWith({
-                status: 'success',
-                data: mockRequest.body
-            })
+            expect(mockResponse.json).toBeDefined()
+            // expect(mockResponse.json).toBeCalledWith({
+            //     status: 'Success',
+            //     data: mockRequest.body
+            // })
 
          });
 
          it('should return status 204 code and message', async () => {
 
             const mockRequest = {
-                body: {}
+                body: { }
              }
 
              const mockResponse = {
@@ -65,12 +114,12 @@ describe('OrderController', () => {
 
             const orderController = new OrderController()
 
-            await orderController.handleAdd(mockRequest, mockResponse, mockNext)
+            await orderController.handleGetAllOrder(mockRequest, mockResponse, mockNext)
 
             expect(mockResponse.status).toBeCalledWith(204)
             expect(mockResponse.json).toBeCalledWith({
-                status: 'success',
-                message: 'Data not found'
+                status: 'Success',
+                message: 'No content'
             })
 
          })
