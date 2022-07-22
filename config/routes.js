@@ -62,11 +62,12 @@ appRouter.get("/api/v1/category/all", categoryController.handleList);
 appRouter.post("/api/v1/seller/product/add",  authorization.checkToken, uploadFiles.array("image_url"), productController.handleAdd);
 appRouter.get("/api/v1/seller/product/all", authorization.checkToken, productController.handleGetAll);
 appRouter.delete("/api/v1/seller/product/delete/:id", authorization.checkToken, productController.handleDelete);
-appRouter.put("/api/v1/seller/product/update/:id", authorization.checkToken, productController.handleUpdate);
+appRouter.put("/api/v1/seller/product/update/:id", authorization.checkToken, uploadFiles.array("image_url"), productController.handleUpdate);
 appRouter.get("/api/v1/seller/product/:id", authorization.checkToken, productController.hadleGetById);
 appRouter.put("/api/v1/seller/status/:id", authorization.checkToken, productController.handleUpdateStatus);
 appRouter.get("/api/v1/seller/productSell", authorization.checkToken, productController.handleGetStatusSell);
 appRouter.get("/api/v1/seller/productByCategory", checkSlug, runValidation, authorization.checkToken, productController.handleGetByCategory);
+appRouter.delete("/api/v1/seller/product/image/delete/:id", authorization.checkToken, productController.handleDeleteImage);
 
 appRouter.get("/api/v1/seller/productByCategory", checkSlug, runValidation, productController.handleGetByCategory);
 appRouter.get("/api/v1/product/search", checkSearch, runValidation, productController.handleSearch);
