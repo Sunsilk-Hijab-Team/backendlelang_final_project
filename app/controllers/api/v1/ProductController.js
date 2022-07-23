@@ -179,7 +179,7 @@ class ProductController extends ApplicationController{
                             cloudinary.uploader.upload(filess, async function(err, result){
                                 const images =   await Images.create({
                                         image_url: result.url,
-                                        product_id: id,
+                                        product_id: req.params.id,
                                     });
                             resolve(images)
 
