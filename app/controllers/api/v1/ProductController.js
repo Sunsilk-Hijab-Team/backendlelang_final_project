@@ -410,7 +410,7 @@ class ProductController extends ApplicationController{
         }
     }
 
-    handleDeleteImage = async () => {
+    handleDeleteImage = async (req, res) => {
         try {
             const image = await Images.destroy({
                 where: {
