@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 //import model Users, product
-const { Users, Orders, Notifications, Products} = require('../../../models');
+const { Users, Orders, Notifications, Products, Images} = require('../../../models');
 
 class NotificationController extends ApplicationController{
     // get all data notification where user login
