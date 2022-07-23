@@ -45,6 +45,8 @@ const {
  const productBuyerController = new ProductBuyerController();
  const orderBuyerController = new OrderBuyerController();
 
+// routes while get / redirect to view index
+appRouter.get("/", controllers.main.index);
 appRouter.post("/api/v1/auth/register", checkName, checkEmail, checkPassword, runValidation, authenticationController.handleRegister);
 appRouter.post("/api/v1/auth/login",  checkEmail, checkPassword, runValidation, authenticationController.handleLogin);
 appRouter.put("/api/v1/auth/update", authorization.checkToken, uploadFiles.single("image_url"), authenticationController.handleUpdate);

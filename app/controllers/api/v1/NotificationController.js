@@ -24,6 +24,11 @@ class NotificationController extends ApplicationController{
                             },
                             {
                                 model: Products, as: 'products',
+                                include: [
+                                    {
+                                        model: Images, as: 'images'
+                                    }
+                                ]
                             }
                         ]
 
