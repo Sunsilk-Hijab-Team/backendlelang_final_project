@@ -427,7 +427,7 @@ class ProductController extends ApplicationController{
             }
 
             res.status(200).json({
-                status: 'Delete Success',
+                status: 'Deleted Success',
                 image
             })
 
