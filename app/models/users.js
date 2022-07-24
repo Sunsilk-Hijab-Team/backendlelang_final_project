@@ -30,6 +30,18 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'receiver_id',
         as: 'notifications'
       });
+
+      // have a relation one to many with favorites
+      Users.hasMany(models.Favorites, {
+        foreignKey: 'buyer_id',
+        as: 'favorite_buyer'
+      });
+
+      // have a relation one to many with favorites
+      Users.hasMany(models.Favorites, {
+        foreignKey: 'seller_id',
+        as: 'favorite_seller'
+      });
     }
   }
   Users.init({
