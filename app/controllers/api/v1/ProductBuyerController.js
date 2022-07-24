@@ -7,7 +7,8 @@ class ProductBuyerController extends ApplicationController{
         try {
             const product = await Products.findAll({
                 where:{
-                    status: 'available'
+                    status: 'available',
+                    published: true
                 },
                 order: [
                     ['createdAt', 'DESC']

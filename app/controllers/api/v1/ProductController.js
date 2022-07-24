@@ -169,6 +169,26 @@ class ProductController extends ApplicationController{
                     }
                 });
 
+                if(req.files){
+
+                    let images = [];
+                    for(const file of req.files){
+                        const urls = await new Promise((resolve, reject) => {
+                            const fileBase64 = file.buffer.toString('base64');
+                            const filess = `data:${file.mimetype};base64,${fileBase64}`;
+                            cloudinary.uploader.upload(filess, async function(err, result){
+                                const images =   await Images.create({
+                                        image_url: result.url,
+                                        product_id: req.params.id,
+                                    });
+                            resolve(images)
+
+                            });
+                        })
+                        images.push(urls);
+                    }
+                }
+
             res.status(200).json({
                 status: 'Update Success',
                 product
@@ -387,6 +407,35 @@ class ProductController extends ApplicationController{
 
         } catch (error) {
 
+        }
+    }
+
+    handleDeleteImage = async (req, res) => {
+        try {
+            const image = await Images.destroy({
+                where: {
+                    id: req.params.id
+                }
+            });
+
+            if(!image){
+                res.status(409).json({
+                    status: 'Error',
+                    message: 'Invalid params id'
+                });
+                return;
+            }
+
+            res.status(200).json({
+                status: 'Deleted Success',
+                image
+            })
+
+        } catch (error) {
+            res.status(500).json({
+                error: error.message,
+                message: 'Something went wrong'
+            });
         }
     }
 
