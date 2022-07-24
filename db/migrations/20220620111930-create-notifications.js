@@ -32,6 +32,9 @@ module.exports = {
       transaction_date: {
         type: Sequelize.DATE
       },
+      notif_message:{
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

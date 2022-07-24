@@ -129,6 +129,7 @@ class OrderController extends ApplicationController{
                 order_id: order.id,
                 read_status: 'unread',
                 receiver_id: order.buyer_id,
+                notif_message: 'Tawaranmu telah di'+status,
                 transaction_date: order.updatedAt,
             }
             const notification = await Notifications.create(notificationData);

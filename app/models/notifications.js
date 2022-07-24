@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     read_status: DataTypes.STRING,
     receiver_id: DataTypes.INTEGER,
     transaction_date: DataTypes.DATE,
+    notif_message: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
     deletedAt: DataTypes.DATE
