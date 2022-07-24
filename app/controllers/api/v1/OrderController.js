@@ -1,6 +1,6 @@
 const ApplicationController = require('./ApplicationController');
 //import model Users, product
-const { Users, Products, Orders, Categories, Notifications } = require('../../../models');
+const { Users, Products, Orders, Categories, Notifications, Images } = require('../../../models');
 
 class OrderController extends ApplicationController{
     // get all data order from tabel order join with table Users & Products where id user equal with user login
