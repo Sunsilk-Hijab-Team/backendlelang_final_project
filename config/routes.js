@@ -85,6 +85,13 @@ appRouter.put("/api/v1/notification/:id", authorization.checkToken, notification
 appRouter.get("/api/v1/product/search", productController.handleSearch);
 apiRouter.get('/api/v1/product/all', productBuyerController.handleGetAll);
 
+// // add favourite
+// apiRouter.post('/api/v1/product/favourite/add', authorization.checkToken, productBuyerController.handleAddFavourite);
+// // get favourite
+// apiRouter.get('/api/v1/product/favourite/all', authorization.checkToken, productBuyerController.handleGetAllFavourite);
+// // delete favourite
+// apiRouter.delete('/api/v1/product/favourite/delete/:id', authorization.checkToken, productBuyerController.handleDeleteFavourite);
+
 apiRouter.get('/api/v1/buyer/product/:id', productBuyerController.handleGetById)
 
 apiRouter.post('/api/v1/buyer/order/buy', authorization.checkToken, orderBuyerController.handleAddOrder)
