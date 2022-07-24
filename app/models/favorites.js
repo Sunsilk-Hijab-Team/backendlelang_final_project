@@ -32,10 +32,15 @@ module.exports = (sequelize, DataTypes) => {
   Favorites.init({
     id_product: DataTypes.STRING,
     buyer_id: DataTypes.INTEGER,
-    seller_id: DataTypes.INTEGER
+    seller_id: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE,
+    updatedAt: DataTypes.DATE,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Favorites',
+    paranoid: true,
+    timestamps: true,
   });
   return Favorites;
 };
