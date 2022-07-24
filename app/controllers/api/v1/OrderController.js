@@ -17,6 +17,9 @@ class OrderController extends ApplicationController{
                         include: [
                             {
                                 model: Categories, as: 'categories'
+                            },
+                            {
+                                model: Images, as: 'images'
                             }
                         ]
                     },
@@ -67,6 +70,9 @@ class OrderController extends ApplicationController{
                         include: [
                             {
                                 model: Categories, as: 'categories'
+                            },
+                            {
+                                model: Images, as: 'images'
                             }
                         ]
                     },
