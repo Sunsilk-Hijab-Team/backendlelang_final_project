@@ -11,7 +11,7 @@ module.exports = {
       id_product: {
         type: Sequelize.STRING
       },
-      user_id: {
+      buyer_id: {
         type: Sequelize.INTEGER
       },
       seller_id: {

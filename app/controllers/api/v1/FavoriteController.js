@@ -4,10 +4,16 @@ const { Users, Products, Categories, Images, Favorites } = require('../../../mod
 class FavoriteController extends ApplicationController {
     // handleGetAllFavorite by user id login
     handleGetAllFavorite = async (req, res, next) => {
+        // try {
+        //     console.log("oiiiii", req.user)
+        // }catch(error){
+        //     console.log(error)
+        // }
         try {
-            const getFavorites = await Users.findAll({
+            // console.log("oiiiii"+req.user.id);
+            const getFavorites = await Favorites.findAll({
                 where: {
-                    id: req.user.id
+                    buyer_id: req.user.id
                 },
                 include: [
                     {
