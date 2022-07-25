@@ -142,6 +142,14 @@ class OrderBuyerController extends ApplicationController{
                 include: [
                     {
                         model: Products, as: 'products',
+                        include: [
+                            {
+                                model: Categories, as: 'categories'
+                            },
+                            {
+                                model: Images, as: 'images'
+                            }
+                        ]
                     },
                     {
                         model: Users, as: 'users_buyer'
