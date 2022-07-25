@@ -35,6 +35,7 @@ const {
   NotificationController,
   ProductBuyerController,
   OrderBuyerController,
+  FavoriteController,
  } = require("../app/controllers/api/v1");
 
  const authenticationController = new AuthenticationController();
@@ -44,6 +45,7 @@ const {
  const notificationController = new NotificationController();
  const productBuyerController = new ProductBuyerController();
  const orderBuyerController = new OrderBuyerController();
+ const favoriteController = new FavoriteController();
 
 // routes while get / redirect to view index
 appRouter.get("/", controllers.main.index);
@@ -84,6 +86,13 @@ appRouter.put("/api/v1/notification/:id", authorization.checkToken, notification
 
 appRouter.get("/api/v1/product/search", productController.handleSearch);
 apiRouter.get('/api/v1/product/all', productBuyerController.handleGetAll);
+
+// add favorite
+apiRouter.post('/api/v1/product/favorite/add', authorization.checkToken, favoriteController.handleAddFavorite);
+// get favorite
+apiRouter.get('/api/v1/product/favorite/all', authorization.checkToken, favoriteController.handleGetAllFavorite);
+// delete favorite
+apiRouter.delete('/api/v1/product/favorite/delete/:id', authorization.checkToken, favoriteController.handleDeleteFavorite);
 
 apiRouter.get('/api/v1/buyer/product/:id', productBuyerController.handleGetById)
 

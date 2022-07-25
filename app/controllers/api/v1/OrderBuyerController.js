@@ -22,6 +22,7 @@ class OrderBuyerController extends ApplicationController{
                 order_id: order.id,
                 read_status: 'unread',
                 receiver_id: order.seller_id,
+                notif_message: 'Penawaran Produk',
                 transaction_date: order.createdAt,
             })
             const sellerDataNotification = {

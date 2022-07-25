@@ -36,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'categories'
       });
 
+      // have a relation one to many with favorites
+      Products.hasMany(models.Favorites, {
+        foreignKey: 'id_product',
+        as: 'favorites'
+      });
     }
   }
   Products.init({

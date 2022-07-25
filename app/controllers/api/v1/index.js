@@ -10,6 +10,7 @@ const OrderController = require("./OrderController");
 const NotificationController = require("./NotificationController");
 const ProductBuyerController = require("./ProductBuyerController");
 const OrderBuyerController = require("./OrderBuyerController");
+const FavoriteController = require("./FavoriteController");
 
 module.exports = {
   AuthenticationController,
@@ -18,5 +19,6 @@ module.exports = {
   OrderController,
   NotificationController,
   ProductBuyerController,
-  OrderBuyerController
+  OrderBuyerController,
+  FavoriteController
 };
